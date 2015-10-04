@@ -25,8 +25,14 @@ import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
 
 object CatalystsPlugin extends AutoPlugin {
   override def requires = plugins.JvmPlugin
+  override def trigger = allRequirements
 
- type VersionsType = Map[String, String]
+   object autoImport extends CatalystsBase {
+  }
+}
+
+trait CatalystsBase {
+  type VersionsType = Map[String, String]
   type LibrariesType = Map[String, (String, String, String)]
 
   // Licences
