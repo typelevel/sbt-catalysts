@@ -73,7 +73,7 @@ trait CatalystsBase {
     s.map(s => Seq(libraryDependencies += vl._2(s)._2 %%% vl._2(s)._3  % vl._1(vl._2(s)._1)  % "test")).flatten
   }
 
-  // Common and shared setting 
+  // Common and shared setting
   lazy val noPublishSettings = Seq(
     publish := (),
     publishLocal := (),
@@ -118,7 +118,8 @@ trait CatalystsBase {
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",
-    "-unchecked"
+    "-unchecked",
+    "-Xlint"
   )
 
   lazy val scalacLanguageOptions = Seq(
@@ -130,7 +131,6 @@ trait CatalystsBase {
 
   lazy val scalacStrictOptions = Seq(
     "-Xfatal-warnings",
-    "-Xlint",
     "-Yinline-warnings",
     "-Yno-adapted-args",
     "-Ywarn-dead-code",
@@ -209,7 +209,9 @@ trait CatalystsBase {
           Seq("-Ywarn-unused-import")
       }
     },
-    scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
+    //use this when activator moved to 13.9
+   // scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
+    scalacOptions in (Compile, console) ~= {_.filterNot("-Ywarn-unused-import" == _)},
     scalacOptions in (Test, console) <<= (scalacOptions in (Compile, console))
   )
 
@@ -225,25 +227,25 @@ trait CatalystsBase {
 
   /**
    * Creates a module definition based on a Scala.js CrossProject
-   * 
+   *
    * The standard Scala.js CrossProject contains the real JVM and JS project
-   * and can be used as a dependcy of another CrossProject. But it not an 
+   * and can be used as a dependcy of another CrossProject. But it not an
    * sbt Project, and cannot be used as one.
-   * 
+   *
    * So we introduce the concept of a Module, that is essentialy a CrossProject
    * with the difference that the variable name is the directory name with the 
    * suffix "M". This allows us to create a real project based on the dirctory name
    * that is an aggregate project for the underlying JS and JVM projects.
-   * 
+   *
    * Usage;
-   * 
+   *
    * In build.sbt, create two helper methods:
-   * 
+   *
    *   lazy val module = mkModuleFactory(gh.proj, mkConfig(rootSettings, commonJvmSettings, commonJsSettings))
    *   lazy val prj = mkPrjFactory(rootSettings)
-   * 
+   *
    * For each sub-project (here core is used as an example)
-   * 
+   *
    *   lazy val core    = prj(coreM)
    *   lazy val coreJVM = coreM.jvm
    *   lazy val coreJS  = coreM.js
@@ -253,7 +255,7 @@ trait CatalystsBase {
    */
   def mkModule(proj: String, projConfig: CrossProject ⇒ CrossProject, id: String,
       crossType: CrossType = CrossType.Pure ): CrossProject = {
-    
+
     val cpId = id.stripSuffix("M")
 
     CrossProject(cpId, new File(cpId), crossType)
@@ -342,4 +344,3 @@ trait CatalystsBase {
        git.remoteRepo := gh.repo,
        includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
 }
-
