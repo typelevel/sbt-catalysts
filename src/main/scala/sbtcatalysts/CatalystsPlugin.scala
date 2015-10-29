@@ -34,6 +34,12 @@ object CatalystsPlugin extends AutoPlugin {
 trait CatalystsBase {
   type VersionsType = Map[String, String]
   type LibrariesType = Map[String, (String, String, String)]
+  type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
+
+  case class Versions(vers: VersionsType, libs: LibrariesType, plugs: ScalacPluginType) {
+    def vLibs  = (vers, libs)
+    def vPlugs = (vers, plugs)
+  }
 
   // Licences
   val apache = ("Apache License", url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -41,7 +47,6 @@ trait CatalystsBase {
 
   // Github settings and related settings usually found in a Github README
   case class GitHubSettings(org: String, proj: String, publishOrg: String, license: (String, URL)) {
-
     def home = s"https://github.com/$org/$proj"
     def repo = s"git@github.com:$org/$proj.git"
     def api  = s"https://$org.github.io/$proj/api/"
@@ -60,18 +65,21 @@ trait CatalystsBase {
     )
   }
 
-  // These three addLib methods need DRYing
-  def addLibs(vl: (VersionsType, LibrariesType), s: String*) = {
-    s.map(s => Seq(libraryDependencies += vl._2(s)._2 %%% vl._2(s)._3  % vl._1(vl._2(s)._1) )).flatten
-  }
+  def addLibs(v: Versions, s: String*) =
+    s.map(s => Seq(libraryDependencies +=
+        v.libs(s)._2 %%% v.libs(s)._3  % v.vers(v.libs(s)._1) )).flatten
 
-  def addCompileLibs(vl: (VersionsType, LibrariesType), s: String*) = {
-    s.map(s => Seq(libraryDependencies += vl._2(s)._2 %%% vl._2(s)._3  % vl._1(vl._2(s)._1)  % "compile")).flatten
-  }
+  def addCompileLibs(v: Versions, s: String*) = addLibsScoped(v, "compile", s:_*)
 
-  def addTestLibs(vl: (VersionsType, LibrariesType), s: String*) = {
-    s.map(s => Seq(libraryDependencies += vl._2(s)._2 %%% vl._2(s)._3  % vl._1(vl._2(s)._1)  % "test")).flatten
-  }
+  def addTestLibs(v: Versions, s: String*) = addLibsScoped(v, "test", s:_*)
+
+  def addLibsScoped(v: Versions, scope: String, s: String*) =
+    s.map(s => Seq(libraryDependencies +=
+        v.libs(s)._2 %%% v.libs(s)._3  % v.vers(v.libs(s)._1) % scope)).flatten
+
+  def addCompilerPlugins(v: Versions, s: String*) =
+    s.map(s => Seq(libraryDependencies +=
+        compilerPlugin(v.plugs(s)._2 %% v.plugs(s)._3  % v.vers(v.plugs(s)._1) cross v.plugs(s)._4 ))).flatten
 
   // Common and shared setting
   lazy val noPublishSettings = Seq(
@@ -93,26 +101,25 @@ trait CatalystsBase {
       }
     }
 
-  def scalaMacrosParadise(version: String): Seq[Setting[_]] = Seq(
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided",
-    libraryDependencies += compilerPlugin("org.scalamacros" %% "paradise" % version cross CrossVersion.full)
-  )
-
-  def scalaMacroDependencies(version: String): Seq[Setting[_]] = Seq(
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided",
-    libraryDependencies ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        // if scala 2.11+ is used, quasiquotes are merged into scala-reflect
-        case Some((2, scalaMajor)) if scalaMajor >= 11 => Seq()
-        // in Scala 2.10, quasiquotes are provided by macro paradise
-        case Some((2, 10)) =>
-          Seq(
-            compilerPlugin("org.scalamacros" %% "paradise" % version cross CrossVersion.full),
-                "org.scalamacros" %% "quasiquotes" % version cross CrossVersion.binary
-          )
-      }
-    }
-  )
+  def scalaMacroDependencies(v: Versions): Seq[Setting[_]] = {
+    val version = v.vers("paradise")
+    Seq(
+       libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
+       libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value % "provided",
+       libraryDependencies ++= {
+         CrossVersion.partialVersion(scalaVersion.value) match {
+           // if scala 2.11+ is used, quasiquotes are merged into scala-reflect
+           case Some((2, scalaMajor)) if scalaMajor >= 11 => Seq()
+           // in Scala 2.10, quasiquotes are provided by macro paradise
+           case Some((2, 10)) =>
+             Seq(
+               compilerPlugin("org.scalamacros" %% "paradise" % version cross CrossVersion.full),
+               "org.scalamacros" %% "quasiquotes" % version cross CrossVersion.binary
+             )
+         }
+       }
+    )
+  }
 
   lazy val scalacCommonOptions = Seq(
     "-deprecation",
@@ -143,13 +150,16 @@ trait CatalystsBase {
 
 
   lazy val sharedCommonSettings = Seq(
+    resolvers ++= Seq(
+      Resolver.sonatypeRepo("releases")
+    ),
     updateOptions := updateOptions.value.withCachedResolution(true)
   )
 
-  def sharedBuildSettings(gh: GitHubSettings, vers: VersionsType) = Seq(
+  def sharedBuildSettings(gh: GitHubSettings, v: Versions) = Seq( //vers: VersionsType) = Seq(
     organization := gh.publishOrg,
-    scalaVersion := vers("scalac"),
-    crossScalaVersions := Seq(vers("scalac_2.10"), scalaVersion.value)
+    scalaVersion := v.vers("scalac"),
+    crossScalaVersions := Seq(v.vers("scalac_2.10"), scalaVersion.value)
   )
 
   def sharedPublishSettings(gh: GitHubSettings, devs: Seq[Dev]): Seq[Setting[_]] = Seq(
@@ -233,7 +243,7 @@ trait CatalystsBase {
    * sbt Project, and cannot be used as one.
    *
    * So we introduce the concept of a Module, that is essentialy a CrossProject
-   * with the difference that the variable name is the directory name with the 
+   * with the difference that the variable name is the directory name with the
    * suffix "M". This allows us to create a real project based on the dirctory name
    * that is an aggregate project for the underlying JS and JVM projects.
    *
