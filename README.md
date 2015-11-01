@@ -8,7 +8,7 @@ Sbt plugin for catalysts-like projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.github.inthenow" % "sbt-catalysts" % "0.1.4")
+addSbtPlugin("com.github.inthenow" % "sbt-catalysts" % "0.1.5")
 ```
 
 This will automatically:
