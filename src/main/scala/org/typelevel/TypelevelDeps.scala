@@ -17,7 +17,7 @@ object Dependencies {
     "export-hook"    -> "1.0.2",
     "kind-projector" -> "0.6.3",
     "machinist"      -> "0.4.1",
-    "macro-compat"   -> "1.0.4",
+    "macro-compat"   -> "1.0.6",
     "monocle"        -> "1.2.0-M1",
     "paradise"       -> "2.1.0-M5",
     "refined"        -> "0.3.1",
