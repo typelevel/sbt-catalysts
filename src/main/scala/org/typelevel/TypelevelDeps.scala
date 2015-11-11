@@ -14,7 +14,7 @@ object Dependencies {
     "catalysts"      -> "0.1.0",
     "cats"           -> "0.2.0",
     "discipline"     -> "0.4",
-    "export-hook"    -> "1.0.2",
+    "export-hook"    -> "1.1.0",
     "kind-projector" -> "0.6.3",
     "machinist"      -> "0.4.1",
     "macro-compat"   -> "1.1.0",
