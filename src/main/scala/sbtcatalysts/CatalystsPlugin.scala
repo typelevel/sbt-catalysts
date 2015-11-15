@@ -23,6 +23,50 @@ import ScalaJSPlugin.autoImport._
 import scoverage.ScoverageSbtPlugin._
 import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
 
+/**
+ * Plugin that automatically brings into scope all predefined val's and method
+ * definitions.
+ * 
+ * It is very important to realise that using the plugin does not actually change the
+ * the build in any way, but merely provides the methods to help create a build.sbt.
+ * 
+ * Compared to a plugin that "does everything", the advantage of this approach is that it is far
+ * easier to use other functionality where appropriate and also to "see" what the build is
+ * is actually doing, as the methods are (mainly) just pure SBT methods.
+ * 
+ * Where we do deviate from "pure" SBT is how we define library dependencies. The norm would be:
+ * 
+ * In a small project, define the library dependencies explicitly:
+ * 
+ *    libraryDependencies += "org.typelevel" %% "alleycats" %  "0.1.0"
+ * 
+ * If another sub-project also has this dependency, it's common to move the definition to a val, and
+ * often the version too. If the library is used in another module for test only, another val is 
+ * required:
+ * 
+ *      val alleycatsV = "0.1.0"
+ *      val alleycatsDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV)
+ *      val alleycatsTestDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV % "test")
+ * 
+ * Whilst this works fine for individual projects, it's not ideal when a group of loosely coupled want
+ * to share a common set (or sets) of dependencies, that they can also modify locally if required.
+ * In this sense, we need "cascading configuration dependency files" and this is what this plugin also
+ * provides.
+ * 
+ * "org.typelevel.depenendcies" provides two Maps, one for library versions the the for individual libraries
+ * with their organisation, name and version. Being standard scala Maps, other dependency Maps can be added
+ * with new or updated dependencies. The same applies for scala plugins. To use, we create the three Maps and
+ * add to a combined container and then add the required dependencies to a module: eg
+ * 
+ *     val vers = typelevel.versions ++ catalysts.versions + ("discipline" -> "0.3")
+ *     val libs = typelevel.libraries ++ catalysts.libraries
+ *     val addins = typelevel.scalacPlugins ++ catalysts.scalacPlugins
+ *     val vAll = Versions(vers, libs, addins)
+ *     ....
+ *    .settings(addLibs(vAll, "specs2-core","specs2-scalacheck" ):_*)
+ *    .settings(addTestLibs(vAll, "scalatest" ):_*)
+ * 
+ */
 object CatalystsPlugin extends AutoPlugin {
   override def requires = plugins.JvmPlugin
   override def trigger = allRequirements
@@ -31,67 +75,93 @@ object CatalystsPlugin extends AutoPlugin {
   }
 }
 
+/** Contains all methods to simplify a common build file.*/
 trait CatalystsBase {
   type VersionsType = Map[String, String]
   type LibrariesType = Map[String, (String, String, String)]
   type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
 
+  /** Container for the version, library and scala plugin Maps.*/
   case class Versions(vers: VersionsType, libs: LibrariesType, plugs: ScalacPluginType) {
     def vLibs  = (vers, libs)
     def vPlugs = (vers, plugs)
   }
 
   // Licences
+  /** Apache 2.0 Licence.*/
   val apache = ("Apache License", url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+  
+  /** MIT Licence.*/
   val mit = ("MIT", url("http://opensource.org/licenses/MIT"))
 
-  // Github settings and related settings usually found in a Github README
+  /** Github settings and related settings usually found in a Github README.*/
   case class GitHubSettings(org: String, proj: String, publishOrg: String, license: (String, URL)) {
     def home = s"https://github.com/$org/$proj"
     def repo = s"git@github.com:$org/$proj.git"
     def api  = s"https://$org.github.io/$proj/api/"
     def organisation  = s"com.github.$org"
-    override def toString = s"GitHubSettings:home = $home\nGitHubSettings:repo = $repo\nGitHubSettings:api = $api\nGitHubSettings:organisation = $organisation"
+    override def toString = 
+      s"GitHubSettings:home = $home\nGitHubSettings:repo = $repo\nGitHubSettings:api = $api\nGitHubSettings:organisation = $organisation"
   }
 
-  // From https://github.com/typelevel/sbt-typelevel/blob/master/src/main/scala/Developer.scala
+  /** The name and github user id */ 
+  //From https://github.com/typelevel/sbt-typelevel/blob/master/src/main/scala/Developer.scala
   case class Dev(name: String, id: String) {
-    def pomExtra: xml.NodeSeq = (
+    def pomExtra: xml.NodeSeq =
       <developer>
         <id>{ id }</id>
         <name>{ name }</name>
         <url>http://github.com/{ id }</url>
           </developer>
-    )
   }
 
-  def addLibs(v: Versions, s: String*) =
-    s.map(s => Seq(libraryDependencies +=
-        v.libs(s)._2 %%% v.libs(s)._3  % v.vers(v.libs(s)._1) )).flatten
+  /** Using the supplied Versions map, adds the list of libraries to a module.*/
+  def addLibs(versions: Versions, libs: String*) =
+    libs.flatMap(s => Seq(libraryDependencies +=
+      versions.libs(s)._2 %%% versions.libs(s)._3 % versions.vers(versions.libs(s)._1)))
 
-  def addCompileLibs(v: Versions, s: String*) = addLibsScoped(v, "compile", s:_*)
+  /** Using the supplied Versions map, adds the list of libraries to a module as a compile dependency.*/
+  def addCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", libs:_*)
 
-  def addTestLibs(v: Versions, s: String*) = addLibsScoped(v, "test", s:_*)
+  /** Using the supplied Versions map, adds the list of libraries to a module as a test dependency.*/
+  def addTestLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "test", libs:_*)
 
-  def addLibsScoped(v: Versions, scope: String, s: String*) =
-    s.map(s => Seq(libraryDependencies +=
-        v.libs(s)._2 %%% v.libs(s)._3  % v.vers(v.libs(s)._1) % scope)).flatten
+  /** Using versions map, adds the list of libraries to a module using the given dependency.*/
+  def addLibsScoped(versions: Versions, scope: String, libs: String*) =
+    libs.flatMap(s => Seq(libraryDependencies +=
+      versions.libs(s)._2 %%% versions.libs(s)._3 % versions.vers(versions.libs(s)._1) % scope))
 
-  def addCompilerPlugins(v: Versions, s: String*) =
-    s.map(s => Seq(libraryDependencies +=
-        compilerPlugin(v.plugs(s)._2 %% v.plugs(s)._3  % v.vers(v.plugs(s)._1) cross v.plugs(s)._4 ))).flatten
+  /** Using the supplied Versions map, adds the list of compiler plugins to a module.*/
+  def addCompilerPlugins(v: Versions, plugins: String*) =
+    plugins.flatMap(s => Seq(libraryDependencies += compilerPlugin(
+      v.plugs(s)._2 %% v.plugs(s)._3 % v.vers(v.plugs(s)._1) cross v.plugs(s)._4)))
 
   // Common and shared setting
+  /** Settings to make the module not published*/
   lazy val noPublishSettings = Seq(
     publish := (),
     publishLocal := (),
     publishArtifact := false
   )
 
+  /**
+   * Default settings for the root module.
+   *
+   * Sets the root module name to root and sets the module not to be published
+   */
   lazy val rootSettings = noPublishSettings ++ Seq(
     moduleName := "root"
   )
 
+  /** Adds the settings required to add scala versioned shared directory.
+   *
+   * In a scala.js shared project, the shared sources are by default in a
+   * the directory "shared/src/main/scala". By adding these settings, the build will also
+   * look in the directories that match the scala version:
+   *
+   *      "shared/src/main/scala_2.10"
+   *      "shared/src/main/scala_2.11"
+   */
   lazy val crossVersionSharedSources: Seq[Setting[_]] =
     Seq(Compile, Test).map { sc =>
       (unmanagedSourceDirectories in sc) ++= {
@@ -101,6 +171,7 @@ trait CatalystsBase {
       }
     }
 
+  /** Using the supplied Versions map, adds the dependencies for scala macros.*/
   def scalaMacroDependencies(v: Versions): Seq[Setting[_]] = {
     val version = v.vers("paradise")
     Seq(
@@ -121,6 +192,7 @@ trait CatalystsBase {
     )
   }
 
+  /** Common scalac options useful to most (if not all) projects.*/
   lazy val scalacCommonOptions = Seq(
     "-deprecation",
     "-encoding", "UTF-8",
@@ -129,6 +201,7 @@ trait CatalystsBase {
     "-Xlint"
   )
 
+  /** Scalac options for additional language options.*/
   lazy val scalacLanguageOptions = Seq(
     "-language:existentials",
     "-language:higherKinds",
@@ -136,6 +209,7 @@ trait CatalystsBase {
     "-language:experimental.macros"
   )
 
+  /** Scalac strict compilation options.*/
   lazy val scalacStrictOptions = Seq(
     "-Xfatal-warnings",
     "-Yinline-warnings",
@@ -146,9 +220,14 @@ trait CatalystsBase {
     "-Xfuture"
   )
 
+  /** Combines all scalac options.*/
   lazy val scalacAllOptions = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
 
-
+  /**
+   * Settings common to all projects.
+   *
+   * Adds Sonatype release repository and "withCachedResolution" to the update options
+   */
   lazy val sharedCommonSettings = Seq(
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases")
@@ -156,12 +235,24 @@ trait CatalystsBase {
     updateOptions := updateOptions.value.withCachedResolution(true)
   )
 
-  def sharedBuildSettings(gh: GitHubSettings, v: Versions) = Seq( //vers: VersionsType) = Seq(
+  /**
+   * Build settings common to all projects.
+   *
+   * Uses the github settings and versions map to set the organisation,
+   * scala version and cross versions
+   */
+  def sharedBuildSettings(gh: GitHubSettings, v: Versions) = Seq(
     organization := gh.publishOrg,
     scalaVersion := v.vers("scalac"),
     crossScalaVersions := Seq(v.vers("scalac_2.10"), scalaVersion.value)
   )
 
+  /**
+   * Publish settings common to all projects.
+   *
+   * Uses the github settings and list of developers to set all publish settings
+   * required to publish signed artifacts to Sonatype OSS repository
+   */
   def sharedPublishSettings(gh: GitHubSettings, devs: Seq[Dev]): Seq[Setting[_]] = Seq(
     homepage := Some(url(gh.home)),
     licenses += gh.license,
@@ -180,9 +271,14 @@ trait CatalystsBase {
         Some("Releases" at nexus + "service/local/staging/deploy/maven2")
     },
     autoAPIMappings := true,
-    pomExtra := ( <developers> { devs.map(_.pomExtra) } </developers> )
+    pomExtra := <developers> { devs.map(_.pomExtra) } </developers>
   )
 
+  /**
+   * Release settings common to all projects.
+   *
+   * Adds a Sonatype release step to the default release steps
+   */
   lazy val sharedReleaseProcess = Seq(
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
@@ -199,6 +295,7 @@ trait CatalystsBase {
       pushChanges)
   )
 
+  /** Common coverage settings, with minimum coverage defaulting to 80.*/
   def sharedScoverageSettings(min: Int = 80) = Seq(
     ScoverageKeys.coverageMinimum := min,
     ScoverageKeys.coverageFailOnMinimum := false,
@@ -206,10 +303,12 @@ trait CatalystsBase {
     // ScoverageKeys.coverageExcludedPackages := "catalysts\\.bench\\..*"
   )
 
+  /** Common unidoc settings, adding the "-Ymacro-no-expand" scalac option.*/
   lazy val unidocCommonSettings = Seq(
     scalacOptions in (ScalaUnidoc, unidoc) += "-Ymacro-no-expand"
   )
 
+  /** Add the "unused import" warning to scala 2.11+, but not for the console.*/
   lazy val warnUnusedImport = Seq(
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
@@ -225,6 +324,7 @@ trait CatalystsBase {
     scalacOptions in (Test, console) <<= (scalacOptions in (Compile, console))
   )
 
+  /** Adds the credential settings required for sonatype releases.*/
   lazy val credentialSettings = Seq(
     // For Travis CI - see http://www.cakesolutions.net/teamblogs/publishing-artefacts-to-oss-sonatype-nexus-using-sbt-and-travis-ci
     credentials ++= (for {
@@ -239,12 +339,12 @@ trait CatalystsBase {
    * Creates a module definition based on a Scala.js CrossProject
    *
    * The standard Scala.js CrossProject contains the real JVM and JS project
-   * and can be used as a dependcy of another CrossProject. But it not an
+   * and can be used as a dependency of another CrossProject. But it not an
    * sbt Project, and cannot be used as one.
    *
-   * So we introduce the concept of a Module, that is essentialy a CrossProject
+   * So we introduce the concept of a Module, that is essentially a CrossProject
    * with the difference that the variable name is the directory name with the
-   * suffix "M". This allows us to create a real project based on the dirctory name
+   * suffix "M". This allows us to create a real project based on the directory name
    * that is an aggregate project for the underlying JS and JVM projects.
    *
    * Usage;
@@ -274,7 +374,7 @@ trait CatalystsBase {
   }
 
   /**
-   * Helper method for mkModule so that the main project name anf configuration need not ne repeated for each module
+   * Helper method for mkModule so that the main project name and configuration need not ne repeated for each module
    */
   def mkModuleFactory(proj: String, projConfig: CrossProject ⇒ CrossProject) =
     (id: String, crossType: CrossType) => mkModule(proj, projConfig, id, crossType)
@@ -294,23 +394,39 @@ trait CatalystsBase {
    }
 
   /**
-   * Helper method for mkPrj so that the main project settings need not ne repeated for each module
+   * Helper method for mkPrj so that the main project settings need not be repeated for each module
    */
   def mkPrjFactory(projSettings: Seq[sbt.Setting[_]]) = (c: CrossProject) => mkPrj(projSettings, c)
 
   // Config builders
+
+  /**
+   * Helper method that sets the default project(i.e. platform independent), JS and JVM settings.
+   */
   def mkConfig(projSettings: Seq[sbt.Setting[_]], jvmSettings: Seq[sbt.Setting[_]],
       jsSettings: Seq[sbt.Setting[_]] ): CrossProject ⇒ CrossProject =
     _.settings(projSettings:_*)
     .jsSettings(jsSettings:_*)
     .jvmSettings(jvmSettings:_*)
 
+  /**
+   * Helper method that sets the root project's settings
+   * 
+   * In addition to setting the root settings, also adds the rootJVM settings to be used in 
+   * in root console.
+   */
   def mkRootConfig(projSettings: Seq[sbt.Setting[_]] , projJVM:Project): Project ⇒ Project =
     _.in(file("."))
     .settings(rootSettings)
     .settings(projSettings)
     .settings(console <<= console in (projJVM, Compile))
 
+  /**
+   * Creates the rootJVM project.
+   * 
+   * Creates the rootJVM project in ".rootJVM" with the default settings and 
+   * JVM specific default settings.
+   */
   def mkRootJvmConfig(s: String, projSettings: Seq[sbt.Setting[_]],
       jvmSettings: Seq[sbt.Setting[_]]): Project ⇒ Project =
     _.settings(moduleName := s)
@@ -318,6 +434,13 @@ trait CatalystsBase {
     .settings(jvmSettings)
     .in(file("." + s + "JVM"))
 
+
+  /**
+   * Creates the rootJS project.
+   * 
+   * Creates the rootJS project in ".rootJS" with the default settings and 
+   * JS specific default settings.
+   */
   def mkRootJsConfig(s: String, projSettings: Seq[sbt.Setting[_]],
       jsSettings: Seq[sbt.Setting[_]]): Project ⇒ Project =
     _.settings(moduleName := s)
@@ -326,6 +449,12 @@ trait CatalystsBase {
     .in(file("." + s + "JS"))
     .enablePlugins(ScalaJSPlugin)
 
+  /**
+   * Creates a configuration for a document project for scaladoc and a GitHubPages site
+   * 
+   * Creates the basic settings for a document project based on the supplied GitHub settings,
+   * project and JVM settings. The documentation is created for the supplied list of projects.
+   */
   def mkDocConfig(gh: GitHubSettings, projSettings: Seq[sbt.Setting[_]], jvmSettings: Seq[sbt.Setting[_]],
       deps: Project*): Project ⇒ Project =
     _.settings(projSettings)
@@ -336,7 +465,7 @@ trait CatalystsBase {
     .settings(tutSettings)
     .settings(ghpages.settings)
     .settings(jvmSettings)
-    .dependsOn(deps.map( ClasspathDependency(_, Some("compile;test->test")))  :_*) //platformJVM, macrosJVM, scalatestJVM, specs2, testkitJVM)
+    .dependsOn(deps.map( ClasspathDependency(_, Some("compile;test->test"))):_*)
     .settings(
        organization  := gh.organisation,
        autoAPIMappings := true,
