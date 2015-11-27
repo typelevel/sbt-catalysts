@@ -4,10 +4,14 @@ package typelevel
 import sbt._
 import sbtcatalysts.CatalystsPlugin.autoImport._
 
+/** Default Typelevel dependencies.*/
 object Dependencies {
 
-  // Versions for libraries and packages
-  // Package -> version
+  /**
+   * Versions for libraries and packages
+   *
+   * Format: Package -> version
+   */
   val versions = Map[String, String](
     "algebra"        -> "0.3.1",
     "alleycats"      -> "0.1.2",
@@ -31,9 +35,12 @@ object Dependencies {
     "specs2"         -> "3.6.4"
   )
 
-  // library definitions and links to their versions
-  // Note that one version may apply to more than one library.
-  // Library name -> version key, org, library
+  /**
+   * Library definitions and links to their versions.
+   *
+   * Note that one version may apply to more than one library.
+   * Format: Library name -> version key, org, library
+   */
   val libraries = Map[String, (String, String, String)](
     "algebra"               -> ("algebra"         , "org.spire-math"               , "algebra"),
     "algebra-laws"          -> ("algebra"         , "org.spire-math"               , "algebra-laws"),
@@ -76,15 +83,25 @@ object Dependencies {
     "specs2-scalacheck"     -> ("specs2"          , "org.specs2"                   , "specs2-scalacheck")
   )
 
-  // compiler plugins definitions and links to their versions
-  // Note that one version may apply to more than one plugin.
-  // Library name -> version key, org, librar, crossVersion
+  /**
+   * Compiler plugins definitions and links to their versions
+   *
+   * Note that one version may apply to more than one plugin.
+   *
+   * Format: Library name -> version key, org, librar, crossVersion
+   */
   val scalacPlugins = Map[String, (String, String, String, CrossVersion)](
     "kind-projector"    -> ("kind-projector"  , "org.spire-math"      , "kind-projector" , CrossVersion.binary),
     "paradise"          -> ("paradise"        , "org.scalamacros"     , "paradise"       , CrossVersion.full)
   )
 
   // Some helper methods to combine libraries
+  /**
+   * Sets all settings required for the macro-compat library.
+   *
+   * @param v Versions map to use
+   * @return All settings required for the macro-compat library
+   */
   def macroCompatSettings(v: Versions): Seq[Setting[_]] =
     addCompileLibs(v, "macro-compat") ++ addCompilerPlugins(v, "paradise") ++
       scalaMacroDependencies(v)
