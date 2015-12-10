@@ -12,7 +12,7 @@ resolvers += Resolver.url(
 
 addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"             % "0.3.3")
 addSbtPlugin("com.github.gseitz"   %  "sbt-release"            % "1.0.0")
-addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"            % "0.3.4")
+addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"            % "0.3.5")
 addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"           % "0.5.1")
 addSbtPlugin("com.jsuereth"        %  "sbt-pgp"                % "1.0.0")
 addSbtPlugin("com.typesafe.sbt"    %  "sbt-ghpages"            % "0.5.3")
