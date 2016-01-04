@@ -24,7 +24,7 @@ object Dependencies {
     "macro-compat"   -> "1.1.0",
     "monocle"        -> "1.2.0-M2",
     "paradise"       -> "2.1.0-M5",
-    "refined"        -> "0.3.2",
+    "refined"        -> "0.3.3",
     "scalacheck"     -> "1.12.5",
     "scalatest"      -> "3.0.0-M10",
     "scalac"         -> "2.11.7",
