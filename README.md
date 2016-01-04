@@ -8,7 +8,7 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.github.inthenow" % "sbt-catalysts" % "0.1.7")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.1.7")
 ```
 
 This will automatically:
