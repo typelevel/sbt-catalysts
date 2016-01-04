@@ -159,14 +159,14 @@ trait CatalystsBase {
    * the directory "shared/src/main/scala". By adding these settings, the build will also
    * look in the directories that match the scala version:
    *
-   *      "shared/src/main/scala_2.10"
-   *      "shared/src/main/scala_2.11"
+   *      "shared/src/main/scala-2.10"
+   *      "shared/src/main/scala-2.11"
    */
   lazy val crossVersionSharedSources: Seq[Setting[_]] =
     Seq(Compile, Test).map { sc =>
       (unmanagedSourceDirectories in sc) ++= {
         (unmanagedSourceDirectories in sc ).value.map {
-          dir:File => new File(dir.getPath + "_" + scalaBinaryVersion.value)
+          dir:File => new File(dir.getPath + "-" + scalaBinaryVersion.value)
         }
       }
     }
