@@ -8,6 +8,11 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
+resolvers += Resolver.url(
+  "typelevel-sbt-plugins",
+   url("http://dl.bintray.com/content/typelevel/sbt-plugins"))(
+      Resolver.ivyStylePatterns)
+
 addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.1.7")
 ```
 
@@ -22,25 +27,25 @@ For a new project, consider using [the activator template](https://github.com/In
 The current list of dependencies and versions is:
 
 + [algebra-0.3.1](https://github.com/non/algebra)
-+ [alleycats-0.1.2](https://github.com/non/alleycats)
++ [alleycats-0.1.3](https://github.com/non/alleycats)
 + [catalysts-0.1.0](https://github.com/InTheNow/catalysts)
-+ [cats-0.3.0](https://github.com/non/cats)
++ [cats-0.4.0](https://github.com/typelevel/cats)
 + [discipline-0.4](https://github.com/typelevel/discipline)
 + [export-hook-1.1.0](https://github.com/milessabin/export-hook)
 + [kind-projector-0.7.1](https://github.com/non/kind-projector)
 + [machinist-0.4.1](https://github.com/typelevel/machinist)
-+ [macro-compat-1.1.0](https://github.com/milessabin/macro-compat)
++ [macro-compat-1.1.1](https://github.com/milessabin/macro-compat)
 + [monocle-1.2.0](https://github.com/julien-truffaut/Monocle)
 + [paradise-2.1.0-M5](https://github.com/scalamacros/paradise)
-+ [refined-0.3.2](https://github.com/fthomas/refined)
-+ [sbt-catalysts-0.1.7](https://github.com/InTheNow/sbt-catalysts)
++ [refined-0.3.6](https://github.com/fthomas/refined)
++ [sbt-catalysts-0.1.8](https://github.com/InTheNow/sbt-catalysts)
 + [scalac-2.11.7](https://github.com/scala/scala)
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
 + [scalac_2.11-2.11.7](https://github.com/scala/scala)
 + [scalacheck-1.12.5](https://github.com/rickynils/scalacheck)
-+ [scalatest-3.0.0-M11](https://github.com/scalatest/scalatest)
-+ [shapeless-2.2.5](https://github.com/milessabin/shapeless)
-+ [simulacrum-0.5.0](https://github.com/mpilquist/simulacrum)
++ [scalatest-3.0.0-M15](https://github.com/scalatest/scalatest)
++ [shapeless-2.3.0](https://github.com/milessabin/shapeless)
++ [simulacrum-0.7.0](https://github.com/mpilquist/simulacrum)
 + [specs2-3.6.5](https://github.com/etorreborre/specs2)
 
 ## Quick Example
