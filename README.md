@@ -13,7 +13,7 @@ resolvers += Resolver.url(
    url("http://dl.bintray.com/content/typelevel/sbt-plugins"))(
       Resolver.ivyStylePatterns)
 
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.1.7")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.1.9")
 ```
 
 This will automatically:
@@ -29,7 +29,7 @@ The current list of dependencies and versions is:
 + [algebra-0.3.1](https://github.com/non/algebra)
 + [alleycats-0.1.3](https://github.com/non/alleycats)
 + [catalysts-0.1.0](https://github.com/InTheNow/catalysts)
-+ [cats-0.4.0](https://github.com/typelevel/cats)
++ [cats-0.4.1](https://github.com/typelevel/cats)
 + [discipline-0.4](https://github.com/typelevel/discipline)
 + [export-hook-1.1.0](https://github.com/milessabin/export-hook)
 + [kind-projector-0.7.1](https://github.com/non/kind-projector)
@@ -43,6 +43,7 @@ The current list of dependencies and versions is:
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
 + [scalac_2.11-2.11.7](https://github.com/scala/scala)
 + [scalacheck-1.12.5](https://github.com/rickynils/scalacheck)
++ [scalajs-0.6.7](https://github.com/scala-js/scala-js)
 + [scalatest-3.0.0-M15](https://github.com/scalatest/scalatest)
 + [shapeless-2.3.0](https://github.com/milessabin/shapeless)
 + [simulacrum-0.7.0](https://github.com/mpilquist/simulacrum)
