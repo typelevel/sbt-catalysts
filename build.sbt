@@ -27,4 +27,4 @@ scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@g
 
 publishMavenStyle := false
 bintrayRepository := "sbt-plugins"
-bintrayOrganization := None
+bintrayOrganization := Some("typelevel")
