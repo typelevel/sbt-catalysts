@@ -77,6 +77,9 @@ object CatalystsPlugin extends AutoPlugin {
 
 /** Contains all methods to simplify a common build file.*/
 trait CatalystsBase {
+
+  import CatalystsKeys._
+
   type VersionsType = Map[String, String]
   type LibrariesType = Map[String, (String, String, String)]
   type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
@@ -135,6 +138,7 @@ trait CatalystsBase {
   def addCompilerPlugins(v: Versions, plugins: String*) =
     plugins.flatMap(s => Seq(libraryDependencies += compilerPlugin(
       v.plugs(s)._2 %% v.plugs(s)._3 % v.vers(v.plugs(s)._1) cross v.plugs(s)._4)))
+
 
   // Common and shared setting
   /** Settings to make the module not published*/
@@ -232,8 +236,32 @@ trait CatalystsBase {
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases")
     ),
-    updateOptions := updateOptions.value.withCachedResolution(true)
+    updateOptions := updateOptions.value.withCachedResolution(true),
+    travisBuild := scala.sys.env.get("TRAVIS").isDefined
   )
+
+ /**
+   * Scala JS settings shared by many projects.
+   *
+   * Forces the use of node.js in tests and batchmode under travis
+   */
+  lazy val sharedJsSettings = Seq(
+    scalaJSStage in Global := FastOptStage,
+    parallelExecution := false,
+    // Using Rhino as jsEnv to build scala.js code can lead to OOM, switch to NodeJS by default
+    scalaJSUseRhino := false,
+    requiresDOM := false,
+    jsEnv := NodeJSEnv().value,
+    // batch mode decreases the amount of memory needed to compile scala.js code
+    scalaJSOptimizerOptions := scalaJSOptimizerOptions.value.withBatchMode(travisBuild.value)
+  )
+
+  /**
+   * Scala JVM settings shared by many projects.
+   *
+   * Currently empty.
+   */
+  lazy val sharedJvmSettings = Seq()
 
   /**
    * Build settings common to all projects.
@@ -482,4 +510,11 @@ trait CatalystsBase {
        ),
        git.remoteRepo := gh.repo,
        includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
+}
+
+object CatalystsKeys extends BaseCatalystsKeys
+
+class  BaseCatalystsKeys  {
+
+  lazy val travisBuild = settingKey[Boolean]("Build by TravisCI instead of local dev environment")
 }
