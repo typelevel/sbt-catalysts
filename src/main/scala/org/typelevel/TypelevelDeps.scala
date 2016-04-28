@@ -13,10 +13,10 @@ object Dependencies {
    * Format: Package -> version
    */
   val versions = Map[String, String](
-    "algebra"        -> "0.3.1",
+    "algebra"        -> "0.4.2",
     "alleycats"      -> "0.1.3",
     "catalysts"      -> "0.1.0",
-    "cats"           -> "0.4.1",
+    "cats"           -> "0.5.0",
     "discipline"     -> "0.4",
     "export-hook"    -> "1.1.0",
     "kind-projector" -> "0.7.1",
