@@ -23,7 +23,7 @@ object Dependencies {
     "machinist"      -> "0.4.1",
     "macro-compat"   -> "1.1.1",
     "monocle"        -> "1.2.0",
-    "paradise"       -> "2.1.0-M5",
+    "paradise"       -> "2.1.0",
     "refined"        -> "0.3.6",
     "scalacheck"     -> "1.12.5",
     "scalatest"      -> "3.0.0-M15",
