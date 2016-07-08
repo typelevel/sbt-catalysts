@@ -20,17 +20,17 @@ addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.1.10")
 
 This will automatically:
 
-- Include other plugins - see [the build file for the current list](https://github.com/InTheNow/sbt-catalysts/blob/master/build.sbt#L13-L25)
-- Provide versions and library settings used by typelevel and related projects - see [Dependencies](https://github.com/InTheNow/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
-- Include some functionality to help keep your build file sane - see [the activator template build file for an example](https://github.com/InTheNow/activator-catalysts/blob/master/build.sbt)
+- Include other plugins - see [the build file for the current list](https://github.com/typelevel/sbt-catalysts/blob/master/build.sbt#L13-L25)
+- Provide versions and library settings used by typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
+- Include some functionality to help keep your build file sane - see [the activator template build file for an example](https://github.com/typelevel/activator-catalysts/blob/master/build.sbt)
 
-For a new project, consider using [the activator template](https://github.com/InTheNow/activator-catalysts)
+For a new project, consider using [the activator template](https://github.com/typelevel/activator-catalysts)
 
 The current list of dependencies and versions is:
 
 + [algebra-0.4.2](https://github.com/non/algebra)
 + [alleycats-0.1.3](https://github.com/non/alleycats)
-+ [catalysts-0.1.0](https://github.com/InTheNow/catalysts)
++ [catalysts-0.1.0](https://github.com/typelevel/catalysts)
 + [cats-0.5.0](https://github.com/typelevel/cats)
 + [discipline-0.5](https://github.com/typelevel/discipline)
 + [export-hook-1.1.0](https://github.com/milessabin/export-hook)
@@ -40,7 +40,7 @@ The current list of dependencies and versions is:
 + [monocle-1.2.0](https://github.com/julien-truffaut/Monocle)
 + [paradise-2.1.0](https://github.com/scalamacros/paradise)
 + [refined-0.3.6](https://github.com/fthomas/refined)
-+ [sbt-catalysts-0.1.10](https://github.com/InTheNow/sbt-catalysts)
++ [sbt-catalysts-0.1.10](https://github.com/typelevel/sbt-catalysts)
 + [scalac-2.11.8](https://github.com/scala/scala)
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
 + [scalac_2.11-2.11.8](https://github.com/scala/scala)
@@ -206,6 +206,7 @@ The current maintainers (people who can merge pull requests) are:
  * [fthomas](https://github.com/fthomas) Frank S. Thomas
  * [julien-truffaut](https://github.com/julien-truffaut) Julien Truffaut
  * [dwijnand](https://github.com/dwijnand) Dale Wijnand
+ * [kailuowang](https://github.com/kailuowang) Kailuo Wang
 
 We are currently following a practice of requiring at least two
 sign-offs to merge PRs (and for large or contentious issues we may
@@ -215,9 +216,9 @@ relax this to a single sign-off.
 ### Contributing
 
 Discussion around sbt-catalysts is currently happening in the
-[Catalysts Gitter channel](https://gitter.im/InTheNow/catalysts) as well as on Github
-issue and PR pages. You can get an overview of who is working on what
-via [Waffle.io](https://waffle.io/InTheNow/sbt-catalysts).
+gitter channel, issue and PR pages.
+You can get an overview of who is working on what
+via [Waffle.io](https://waffle.io/typelevel/sbt-catalysts).
 
 Feel free to open an issue if you notice a bug, have an idea for a
 feature, or have a question about the code. Pull requests are also
@@ -251,4 +252,4 @@ limitations under the License.
 
 [apache]: https://www.apache.org/licenses/LICENSE-2.0
 [alleycats]: https://github.com/non/alleycats
-[catalysts]: https://github.com/InTheNow/catalysts
+[catalysts]: https://github.com/typelevel/catalysts
