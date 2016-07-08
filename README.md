@@ -32,7 +32,7 @@ The current list of dependencies and versions is:
 + [alleycats-0.1.3](https://github.com/non/alleycats)
 + [catalysts-0.1.0](https://github.com/InTheNow/catalysts)
 + [cats-0.5.0](https://github.com/typelevel/cats)
-+ [discipline-0.4](https://github.com/typelevel/discipline)
++ [discipline-0.5](https://github.com/typelevel/discipline)
 + [export-hook-1.1.0](https://github.com/milessabin/export-hook)
 + [kind-projector-0.7.1](https://github.com/non/kind-projector)
 + [machinist-0.4.1](https://github.com/typelevel/machinist)
