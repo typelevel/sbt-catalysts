@@ -200,7 +200,7 @@ The current maintainers (people who can merge pull requests) are:
 
  * [adelbertc](https://github.com/adelbertc) Adelbert Chang
  * [ochrons](https://github.com/ochrons) Otto Chrons
- * [InTheNow](https://github.com/InTheNow) Alistair Johnson
+ * [BennyHill](https://github.com/BennyHill) Benny Hill
  * [non](https://github.com/non) Erik Osheim
  * [milessabin](https://github.com/milessabin) Miles Sabin
  * [fthomas](https://github.com/fthomas) Frank S. Thomas
