@@ -13,10 +13,10 @@ object Dependencies {
    * Format: Package -> version
    */
   val versions = Map[String, String](
-    "algebra"        -> "0.4.2",
-    "alleycats"      -> "0.1.3",
+    "algebra"        -> "0.5.0",
+    "alleycats"      -> "0.1.7",
     "catalysts"      -> "0.1.0",
-    "cats"           -> "0.5.0",
+    "cats"           -> "0.7.2",
     "discipline"     -> "0.5",
     "export-hook"    -> "1.1.0",
     "kind-projector" -> "0.7.1",
@@ -42,9 +42,8 @@ object Dependencies {
    * Format: Library name -> version key, org, library
    */
   val libraries = Map[String, (String, String, String)](
-    "algebra"               -> ("algebra"         , "org.spire-math"               , "algebra"),
-    "algebra-laws"          -> ("algebra"         , "org.spire-math"               , "algebra-laws"),
-    "algebra-std"           -> ("algebra"         , "org.spire-math"               , "algebra-std"),
+    "algebra"               -> ("algebra"         , "org.typelevel"               , "algebra"),
+    "algebra-laws"          -> ("algebra"         , "org.typelevel"               , "algebra-laws"),
     "alleycats"             -> ("alleycats"       , "org.typelevel"                , "alleycats"),
     "catalysts"             -> ("catalysts"       , "org.typelevel"                , "catalysts"),
     "catalysts-checklite"   -> ("catalysts"       , "org.typelevel"                , "catalysts-checklite"),
@@ -58,6 +57,7 @@ object Dependencies {
     "catalysts-testkit"     -> ("catalysts"       , "org.typelevel"                , "catalysts-testkit"),
     "cats"                  -> ("cats"            , "org.typelevel"                , "cats"),
     "cats-core"             -> ("cats"            , "org.typelevel"                , "cats-core"),
+    "cats-kernel"           -> ("cats"            , "org.typelevel"                , "cats-kernel"),
     "cats-free"             -> ("cats"            , "org.typelevel"                , "cats-free"),
     "cats-laws"             -> ("cats"            , "org.typelevel"                , "cats-laws"),
     "cats-macros"           -> ("cats"            , "org.typelevel"                , "cats-macros"),
