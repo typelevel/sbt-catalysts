@@ -53,7 +53,7 @@ import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
  * In this sense, we need "cascading configuration dependency files" and this is what this plugin also
  * provides.
  * 
- * "org.typelevel.depenendcies" provides two Maps, one for library versions the the for individual libraries
+ * "org.typelevel.dependencies" provides two Maps, one for library versions the the for individual libraries
  * with their organisation, name and version. Being standard scala Maps, other dependency Maps can be added
  * with new or updated dependencies. The same applies for scala plugins. To use, we create the three Maps and
  * add to a combined container and then add the required dependencies to a module: eg
@@ -65,7 +65,16 @@ import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
  *     ....
  *    .settings(addLibs(vAll, "specs2-core","specs2-scalacheck" ):_*)
  *    .settings(addTestLibs(vAll, "scalatest" ):_*)
- * 
+ *    ...
+ *    .settings(
+  *       addLibsExcluding(
+ *          vAll,
+ *          exclusions = List(
+ *            ExclusionRule("org.scalaz", "scalaz-concurrent"),
+ *            ExclusionRule("org.specs2", "specs2-matcher")
+ *        ),
+ *        "specs2-core","specs2-scalacheck" ):_*)
+ *
  */
 object CatalystsPlugin extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -88,6 +97,20 @@ trait CatalystsBase {
   case class Versions(vers: VersionsType, libs: LibrariesType, plugs: ScalacPluginType) {
     def vLibs  = (vers, libs)
     def vPlugs = (vers, plugs)
+
+    def asLibraryDependencies(key: String,
+      maybeScope: Option[String] = None,
+      exclusions: List[ExclusionRule] = Nil) = Seq(
+        libraryDependencies += {
+          val mainModule = libs(key)._2 %%% libs(key)._3 % vers(libs(key)._1)
+          (maybeScope, exclusions) match {
+            case (Some(scope), Nil) => mainModule % scope
+            case (None, ex) => mainModule excludeAll (ex: _*)
+            case (Some(scope), ex) => mainModule % scope excludeAll (ex: _*)
+            case _ => mainModule
+          }
+        }
+      )
   }
 
   // Licences
@@ -120,8 +143,7 @@ trait CatalystsBase {
 
   /** Using the supplied Versions map, adds the list of libraries to a module.*/
   def addLibs(versions: Versions, libs: String*) =
-    libs.flatMap(s => Seq(libraryDependencies +=
-      versions.libs(s)._2 %%% versions.libs(s)._3 % versions.vers(versions.libs(s)._1)))
+    libs flatMap (versions.asLibraryDependencies(_))
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a compile dependency.*/
   def addCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", libs:_*)
@@ -131,8 +153,14 @@ trait CatalystsBase {
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
   def addLibsScoped(versions: Versions, scope: String, libs: String*) =
-    libs.flatMap(s => Seq(libraryDependencies +=
-      versions.libs(s)._2 %%% versions.libs(s)._3 % versions.vers(versions.libs(s)._1) % scope))
+    libs flatMap (versions.asLibraryDependencies(_, Some(scope)))
+
+  /** Using versions map, adds the list of libraries to a module using the given dependency.*/
+  def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, exclusions = exclusions))
+
+  def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, Some(scope), exclusions))
 
   /** Using the supplied Versions map, adds the list of compiler plugins to a module.*/
   def addCompilerPlugins(v: Versions, plugins: String*) =
