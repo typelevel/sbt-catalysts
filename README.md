@@ -98,7 +98,7 @@ lazy val macros    = prj(macrosM)
 lazy val macrosJVM = macrosM.jvm
 lazy val macrosJS  = macrosM.js
 lazy val macrosM   = module("macros", CrossType.Pure)
-  .settings(typelevel.macroCompatSettings(vAll):_*)
+  .settings(macroCompatSettings(vAll):_*)
 
 /** Platform - cross project that provides cross platform support.*/
 lazy val platform    = prj(platformM)
