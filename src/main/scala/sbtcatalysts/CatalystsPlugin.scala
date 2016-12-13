@@ -6,7 +6,7 @@ import Keys._
 import com.typesafe.sbt.pgp.PgpKeys
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 import com.typesafe.sbt.SbtSite.SiteKeys._
-import com.typesafe.sbt.SbtSite.site
+import com.typesafe.sbt.site.SitePlugin.autoImport._
 import com.typesafe.sbt.SbtGit._
 
 import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
@@ -20,7 +20,7 @@ import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseTransformations._
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import ScalaJSPlugin.autoImport._
-import scoverage.ScoverageSbtPlugin._
+import scoverage.ScoverageKeys
 import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
 
 /**
@@ -276,8 +276,6 @@ trait CatalystsBase {
   lazy val sharedJsSettings = Seq(
     scalaJSStage in Global := FastOptStage,
     parallelExecution := false,
-    // Using Rhino as jsEnv to build scala.js code can lead to OOM, switch to NodeJS by default
-    scalaJSUseRhino := false,
     requiresDOM := false,
     jsEnv := NodeJSEnv().value,
     // batch mode decreases the amount of memory needed to compile scala.js code
@@ -426,7 +424,7 @@ trait CatalystsBase {
 
     CrossProject(cpId, new File(cpId), crossType)
      .settings(moduleName := s"$proj-$id")
-    .configure(projConfig)
+    .configureCross(projConfig)
   }
 
   /**
@@ -517,7 +515,6 @@ trait CatalystsBase {
     .settings(moduleName := gh.proj + "-docs")
     .settings(noPublishSettings)
     .settings(unidocSettings)
-    .settings(site.settings)
     .settings(tutSettings)
     .settings(ghpages.settings)
     .settings(jvmSettings)
@@ -526,9 +523,9 @@ trait CatalystsBase {
        organization  := gh.organisation,
        autoAPIMappings := true,
        unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(deps.map(_.project)  :_*),
-       site.addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), "api"),
+       docsMappingsAPIDir := "api",
+       addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir),
        ghpagesNoJekyll := false,
-       site.addMappingsToSiteDir(tut, "_tut"),
        tutScalacOptions ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))),
 
        scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
@@ -545,4 +542,6 @@ object CatalystsKeys extends BaseCatalystsKeys
 class  BaseCatalystsKeys  {
 
   lazy val travisBuild = settingKey[Boolean]("Build by TravisCI instead of local dev environment")
+
+  lazy val docsMappingsAPIDir = settingKey[String]("Name of subdirectory in site target directory for api docs")
 }
