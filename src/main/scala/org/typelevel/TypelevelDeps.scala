@@ -16,7 +16,7 @@ object Dependencies {
     "algebra"        -> "0.6.0",
     "alleycats"      -> "0.1.8",
     "catalysts"      -> "0.1.0",
-    "cats"           -> "0.8.1",
+    "cats"           -> "0.9.0",
     "discipline"     -> "0.7.2",
     "export-hook"    -> "1.2.0",
     "kind-projector" -> "0.9.3",
