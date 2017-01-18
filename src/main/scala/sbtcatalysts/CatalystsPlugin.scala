@@ -193,6 +193,7 @@ trait CatalystsBase {
    *
    *      "shared/src/main/scala-2.10"
    *      "shared/src/main/scala-2.11"
+   *      "shared/src/main/scala-2.12"
    */
   lazy val crossVersionSharedSources: Seq[Setting[_]] =
     Seq(Compile, Test).map { sc =>
@@ -244,7 +245,6 @@ trait CatalystsBase {
   /** Scalac strict compilation options.*/
   lazy val scalacStrictOptions = Seq(
     "-Xfatal-warnings",
-    "-Yinline-warnings",
     "-Yno-adapted-args",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",

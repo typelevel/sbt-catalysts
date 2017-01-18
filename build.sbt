@@ -17,7 +17,7 @@ addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                % "0.2.4")
 addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"  % "0.8.0")
 addSbtPlugin("org.scoverage"       %  "sbt-scoverage"          % "1.4.0")
 addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                % "0.8.5")
-addSbtPlugin("org.scala-js"        %  "sbt-scalajs"            % "0.6.13")
+addSbtPlugin("org.scala-js"        %  "sbt-scalajs"            % "0.6.14")
 addSbtPlugin("com.fortysevendeg"   %  "sbt-microsites"         % "0.2.6")
 
 scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
