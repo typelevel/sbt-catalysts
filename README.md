@@ -10,7 +10,7 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.1.12")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.2.4")
 ```
 
 This will automatically:
@@ -41,9 +41,9 @@ The current list of dependencies and versions is:
 + [scalac_2.11-2.11.8](https://github.com/scala/scala)
 + [scalac_2.12-2.12.1](https://github.com/scala/scala)
 + [scalacheck-1.13.4](https://github.com/rickynils/scalacheck)
-+ [scalajs-0.6.14](https://github.com/scala-js/scala-js)
++ [scalajs-0.6.15](https://github.com/scala-js/scala-js)
 + [scalatest-3.0.0](https://github.com/scalatest/scalatest)
-+ [shapeless-2.3.0](https://github.com/milessabin/shapeless)
++ [shapeless-2.3.2](https://github.com/milessabin/shapeless)
 + [simulacrum-0.10.0](https://github.com/mpilquist/simulacrum)
 + [specs2-3.6.5](https://github.com/etorreborre/specs2)
 

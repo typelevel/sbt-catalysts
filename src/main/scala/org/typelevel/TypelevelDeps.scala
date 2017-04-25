@@ -31,7 +31,7 @@ object Dependencies {
     "scalac_2.12"    -> "2.12.1",
     "scalac_2.11"    -> "2.11.8",
     "scalac_2.10"    -> "2.10.6",
-    "shapeless"      -> "2.3.0",
+    "shapeless"      -> "2.3.2",
     "simulacrum"     -> "0.10.0",
     "specs2"         -> "3.6.4"
   )
