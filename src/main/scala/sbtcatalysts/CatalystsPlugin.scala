@@ -230,8 +230,7 @@ trait CatalystsBase {
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xlint"
+    "-unchecked"
   )
 
   /** Scalac options for additional language options.*/
@@ -387,6 +386,14 @@ trait CatalystsBase {
     } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
   )
 
+  lazy val xlint = Seq(
+    scalacOptions += {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 12)) => "-Xlint:-unused,_"  //Xling:unused warn against unused implicit evidence
+        case _ => "-Xlint"
+      }
+    }
+  )
   // Builder methods
 
   /**
