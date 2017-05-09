@@ -202,6 +202,7 @@ The current maintainers (people who can merge pull requests) are:
  * [fthomas](https://github.com/fthomas) Frank S. Thomas
  * [julien-truffaut](https://github.com/julien-truffaut) Julien Truffaut
  * [dwijnand](https://github.com/dwijnand) Dale Wijnand
+ * [BennyHill](https://github.com/BennyHill) Benny Hill
  * [kailuowang](https://github.com/kailuowang) Kailuo Wang
 
 We are currently following a practice of requiring at least two
