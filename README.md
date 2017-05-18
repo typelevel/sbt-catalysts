@@ -17,7 +17,7 @@ This will automatically:
 
 - Include other plugins - see [the build file for the current list](https://github.com/typelevel/sbt-catalysts/blob/master/build.sbt#L13-L25)
 - Provide versions and library settings used by typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
-- Include some functionality to help keep your build file sane - see [the activator template build file for an example](https://github.com/typelevel/activator-catalysts/blob/master/build.sbt)
+- Include some functionality to help keep your build file sane - see the quick example below
 
 For a new project, consider using [the activator template](https://github.com/typelevel/activator-catalysts)
 
