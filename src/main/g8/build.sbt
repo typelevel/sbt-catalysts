@@ -5,9 +5,6 @@ import org.typelevel.Dependencies._
 
 addCommandAlias("gitSnapshots", ";set version in ThisBuild := git.gitDescribedVersion.value.get + \"-SNAPSHOT\"")
 
-addCommandAlias("validateJVM", ";testsJVM/test ; docs/makeMicrosite")
-
-
 val apache2 = "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.html")
 val gh = GitHubSettings(org = "$github_org$", proj = "$name$", publishOrg = "$publish_org$", license = apache2)
 val devs = Seq(Dev("$dev_name$", "$dev_github_handler$"))
