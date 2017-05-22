@@ -2,16 +2,13 @@ package sbtcatalysts
 
 import sbt._
 import Keys._
-
 import com.typesafe.sbt.pgp.PgpKeys
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 import com.typesafe.sbt.SbtSite.SiteKeys._
 import com.typesafe.sbt.site.SitePlugin.autoImport._
 import com.typesafe.sbt.SbtGit._
-
 import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
 import com.typesafe.sbt.SbtGhPages.ghpages
-
 import tut.Plugin._
 import pl.project13.scala.sbt.SbtJmh._
 import sbtunidoc.Plugin.UnidocKeys._
@@ -20,6 +17,7 @@ import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseTransformations._
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import ScalaJSPlugin.autoImport._
+import microsites.MicrositesPlugin.autoImport._
 import scoverage.ScoverageKeys
 import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
 
@@ -401,6 +399,16 @@ trait CatalystsBase {
      ivyConfigurations += config("compile-time").hide,
      unmanagedClasspath in Compile ++= update.value.select(configurationFilter("compile-time"))
   )
+
+  def micrositeSettings(gh: GitHubSettings, dev: Dev, siteDescription: String) = Seq(
+    micrositeName := gh.proj,
+    micrositeDescription := siteDescription,
+    micrositeBaseUrl := gh.proj,
+    micrositeGithubOwner := dev.id,
+    micrositeGithubRepo := gh.proj,
+    micrositeHighlightTheme := "atom-one-light",
+    micrositeAuthor := dev.name
+  )
   // Builder methods
 
   /**
@@ -549,6 +557,7 @@ trait CatalystsBase {
        ),
        git.remoteRepo := gh.repo,
        includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
+
 }
 
 object CatalystsKeys extends BaseCatalystsKeys
