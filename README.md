@@ -19,8 +19,6 @@ This will automatically:
 - Provide versions and library settings used by typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
 - Include some functionality to help keep your build file sane - see the quick example below
 
-For a new project, consider using [the activator template](https://github.com/typelevel/activator-catalysts)
-
 The current list of dependencies and versions is:
 
 + [algebra-0.7.0](https://github.com/non/algebra)
