@@ -188,6 +188,7 @@ To follow...
 ## Projects using sbt-catalysts
 
 + [alleycats][alleycats]
++ [mainecoon][mainecoon]
 + [catalysts][catalysts]
 
 ### Maintainers
@@ -249,3 +250,4 @@ limitations under the License.
 [apache]: https://www.apache.org/licenses/LICENSE-2.0
 [alleycats]: https://github.com/non/alleycats
 [catalysts]: https://github.com/typelevel/catalysts
+[mainecoon]: https://github.com/kailuowang/mainecoon
