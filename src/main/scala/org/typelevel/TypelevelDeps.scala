@@ -18,7 +18,7 @@ object Dependencies {
     "catalysts"      -> "0.1.0",
     "cats"           -> "1.0.0-MF",
     "cats-effect"    -> "0.4",
-    "cats-mtl"       -> "0.0.1,
+    "cats-mtl"       -> "0.0.1",
     "discipline"     -> "0.7.3",
     "export-hook"    -> "1.2.0",
     "kind-projector" -> "0.9.3",
