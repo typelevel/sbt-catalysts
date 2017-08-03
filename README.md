@@ -24,25 +24,25 @@ For a new project, consider using [the activator template](https://github.com/ty
 The current list of dependencies and versions is:
 
 + [algebra-0.7.0](https://github.com/non/algebra)
-+ [alleycats-0.1.7](https://github.com/non/alleycats)
++ [alleycats-0.2.0](https://github.com/non/alleycats)
 + [catalysts-0.1.0](https://github.com/typelevel/catalysts)
-+ [cats-0.9.0](https://github.com/typelevel/cats)
-+ [discipline-0.7.2](https://github.com/typelevel/discipline)
++ [cats-1.0.0-MF](https://github.com/typelevel/cats)
++ [discipline-0.7.3](https://github.com/typelevel/discipline)
 + [export-hook-1.2.0](https://github.com/milessabin/export-hook)
 + [kind-projector-0.9.3](https://github.com/non/kind-projector)
 + [machinist-0.6.1](https://github.com/typelevel/machinist)
 + [macro-compat-1.1.1](https://github.com/milessabin/macro-compat)
 + [monocle-1.3.0](https://github.com/julien-truffaut/Monocle)
 + [paradise-2.1.0](https://github.com/scalamacros/paradise)
-+ [refined-0.6.2](https://github.com/fthomas/refined)
++ [refined-0.8.2](https://github.com/fthomas/refined)
 + [sbt-catalysts-0.1.10](https://github.com/typelevel/sbt-catalysts)
-+ [scalac-2.12.2](https://github.com/scala/scala)
++ [scalac-2.12.3](https://github.com/scala/scala)
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
 + [scalac_2.11-2.11.11](https://github.com/scala/scala)
-+ [scalac_2.12-2.12.1](https://github.com/scala/scala)
++ [scalac_2.12-2.12.3](https://github.com/scala/scala)
 + [scalacheck-1.13.4](https://github.com/rickynils/scalacheck)
-+ [scalajs-0.6.15](https://github.com/scala-js/scala-js)
-+ [scalatest-3.0.0](https://github.com/scalatest/scalatest)
++ [scalajs-0.6.19](https://github.com/scala-js/scala-js)
++ [scalatest-3.0.1](https://github.com/scalatest/scalatest)
 + [shapeless-2.3.2](https://github.com/milessabin/shapeless)
 + [simulacrum-0.10.0](https://github.com/mpilquist/simulacrum)
 + [specs2-3.6.5](https://github.com/etorreborre/specs2)
@@ -188,6 +188,7 @@ To follow...
 ## Projects using sbt-catalysts
 
 + [alleycats][alleycats]
++ [mainecoon][mainecoon]
 + [catalysts][catalysts]
 
 ### Maintainers
@@ -249,3 +250,4 @@ limitations under the License.
 [apache]: https://www.apache.org/licenses/LICENSE-2.0
 [alleycats]: https://github.com/non/alleycats
 [catalysts]: https://github.com/typelevel/catalysts
+[mainecoon]: https://github.com/kailuowang/mainecoon
