@@ -34,7 +34,7 @@ The current list of dependencies and versions is:
 + [macro-compat-1.1.1](https://github.com/milessabin/macro-compat)
 + [monocle-1.3.0](https://github.com/julien-truffaut/Monocle)
 + [paradise-2.1.0](https://github.com/scalamacros/paradise)
-+ [refined-0.6.2](https://github.com/fthomas/refined)
++ [refined-0.8.2](https://github.com/fthomas/refined)
 + [sbt-catalysts-0.1.10](https://github.com/typelevel/sbt-catalysts)
 + [scalac-2.12.3](https://github.com/scala/scala)
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
