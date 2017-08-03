@@ -24,7 +24,7 @@ For a new project, consider using [the activator template](https://github.com/ty
 The current list of dependencies and versions is:
 
 + [algebra-0.7.0](https://github.com/non/algebra)
-+ [alleycats-0.1.7](https://github.com/non/alleycats)
++ [alleycats-0.2.0](https://github.com/non/alleycats)
 + [catalysts-0.1.0](https://github.com/typelevel/catalysts)
 + [cats-1.0.0-MF](https://github.com/typelevel/cats)
 + [discipline-0.7.3](https://github.com/typelevel/discipline)
