@@ -40,6 +40,7 @@ The current list of dependencies and versions is:
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
 + [scalac_2.11-2.11.11](https://github.com/scala/scala)
 + [scalac_2.12-2.12.3](https://github.com/scala/scala)
++ [scalac_2.13-2.13.0-M1](https://github.com/scala/scala)
 + [scalacheck-1.13.4](https://github.com/rickynils/scalacheck)
 + [scalajs-0.6.19](https://github.com/scala-js/scala-js)
 + [scalatest-3.0.1](https://github.com/scalatest/scalatest)
