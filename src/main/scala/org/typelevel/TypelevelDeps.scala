@@ -30,6 +30,7 @@ object Dependencies {
     "scalacheck"     -> "1.13.4",
     "scalatest"      -> "3.0.1",
     "scalac"         -> "2.12.3",
+    "scalac_2.13"    -> "2.13.0-M1",
     "scalac_2.12"    -> "2.12.3",
     "scalac_2.11"    -> "2.11.11",
     "scalac_2.10"    -> "2.10.6",
