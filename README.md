@@ -51,7 +51,7 @@ The current list of dependencies and versions is:
 
 The easiest way to create a new project using sbt-catalyst is through its g8 template.
 ```bash
-sbt new typelevel/sbt-catalysts
+sbt new typelevel/sbt-catalysts.g8
 ```
 Or you can follow the example below, which is slightly different from the g8 template.
 
