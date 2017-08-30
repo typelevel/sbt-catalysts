@@ -19,7 +19,7 @@ object Dependencies {
     "cats"           -> "1.0.0-MF",
     "cats-effect"    -> "0.4",
     "cats-mtl"       -> "0.0.1",
-    "discipline"     -> "0.7.3",
+    "discipline"     -> "0.8",
     "export-hook"    -> "1.2.0",
     "kind-projector" -> "0.9.3",
     "machinist"      -> "0.6.1",
@@ -27,16 +27,16 @@ object Dependencies {
     "monocle"        -> "1.3.0",
     "paradise"       -> "2.1.0",
     "refined"        -> "0.8.2",
-    "scalacheck"     -> "1.13.4",
-    "scalatest"      -> "3.0.1",
+    "scalacheck"     -> "1.13.5",
+    "scalatest"      -> "3.0.3",
     "scalac"         -> "2.12.3",
     "scalac_2.13"    -> "2.13.0-M1",
     "scalac_2.12"    -> "2.12.3",
     "scalac_2.11"    -> "2.11.11",
     "scalac_2.10"    -> "2.10.6",
     "shapeless"      -> "2.3.2",
-    "simulacrum"     -> "0.10.0",
-    "specs2"         -> "3.6.4"
+    "simulacrum"     -> "0.11.0",
+    "specs2"         -> "3.9.2"
   )
 
   /**
