@@ -46,6 +46,14 @@ The current list of dependencies and versions is:
 + [simulacrum-0.10.0](https://github.com/mpilquist/simulacrum)
 + [specs2-3.6.5](https://github.com/etorreborre/specs2)
 
+## G8 Template
+
+The easiest way to create a new project using sbt-catalyst is through its g8 template.
+```bash
+sbt new typelevel/sbt-catalysts.g8
+```
+Or you can follow the example below, which is slightly different from the g8 template.
+
 ## Quick Example
 
 In this example build file, we define a project that:
