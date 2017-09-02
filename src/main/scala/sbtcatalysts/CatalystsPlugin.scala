@@ -13,8 +13,9 @@ import com.typesafe.sbt.sbtghpages.GhpagesPlugin.autoImport._
 import tut.TutPlugin
 import tut.TutPlugin.autoImport._
 import pl.project13.scala.sbt.SbtJmh._
-import sbtunidoc.Plugin.UnidocKeys._
-import sbtunidoc.Plugin._
+import sbtunidoc.ScalaUnidocPlugin
+import sbtunidoc.ScalaUnidocPlugin.autoImport._
+import sbtunidoc.BaseUnidocPlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseTransformations._
 import org.scalajs.sbtplugin.ScalaJSPlugin
@@ -275,7 +276,6 @@ trait CatalystsBase {
   lazy val sharedJsSettings = Seq(
     scalaJSStage in Global := FastOptStage,
     parallelExecution := false,
-    requiresDOM := false,
     jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
     // batch mode decreases the amount of memory needed to compile scala.js code
     scalaJSOptimizerOptions := scalaJSOptimizerOptions.value.withBatchMode(travisBuild.value)
@@ -537,11 +537,11 @@ trait CatalystsBase {
     _.settings(projSettings)
     .settings(moduleName := gh.proj + "-docs")
     .settings(noPublishSettings)
-    .settings(unidocSettings)
     .settings(jvmSettings)
     .dependsOn(deps.map( ClasspathDependency(_, Some("compile;test->test"))):_*)
     .enablePlugins(GhpagesPlugin)
     .enablePlugins(TutPlugin)
+    .enablePlugins(ScalaUnidocPlugin)
     .settings(
        organization  := gh.organisation,
        autoAPIMappings := true,
