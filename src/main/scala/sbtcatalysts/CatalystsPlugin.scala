@@ -7,12 +7,15 @@ import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 import com.typesafe.sbt.SbtSite.SiteKeys._
 import com.typesafe.sbt.site.SitePlugin.autoImport._
 import com.typesafe.sbt.SbtGit._
-import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
-import com.typesafe.sbt.SbtGhPages.ghpages
-import tut.Plugin._
+import com.typesafe.sbt.sbtghpages.GhpagesPlugin
+import com.typesafe.sbt.sbtghpages.GhpagesPlugin.autoImport._
+
+import tut.TutPlugin
+import tut.TutPlugin.autoImport._
 import pl.project13.scala.sbt.SbtJmh._
-import sbtunidoc.Plugin.UnidocKeys._
-import sbtunidoc.Plugin._
+import sbtunidoc.ScalaUnidocPlugin
+import sbtunidoc.ScalaUnidocPlugin.autoImport._
+import sbtunidoc.BaseUnidocPlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseTransformations._
 import org.scalajs.sbtplugin.ScalaJSPlugin
@@ -273,8 +276,7 @@ trait CatalystsBase {
   lazy val sharedJsSettings = Seq(
     scalaJSStage in Global := FastOptStage,
     parallelExecution := false,
-    requiresDOM := false,
-    jsEnv := NodeJSEnv().value,
+    jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
     // batch mode decreases the amount of memory needed to compile scala.js code
     scalaJSOptimizerOptions := scalaJSOptimizerOptions.value.withBatchMode(travisBuild.value)
   )
@@ -369,10 +371,8 @@ trait CatalystsBase {
           Seq("-Ywarn-unused-import")
       }
     },
-    //use this when activator moved to 13.9
-   // scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
-    scalacOptions in (Compile, console) ~= {_.filterNot("-Ywarn-unused-import" == _)},
-    scalacOptions in (Test, console) <<= (scalacOptions in (Compile, console))
+    scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
+    scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
   )
 
   /** Adds the credential settings required for sonatype releases.*/
@@ -495,7 +495,7 @@ trait CatalystsBase {
     _.in(file("."))
     .settings(rootSettings)
     .settings(projSettings)
-    .settings(console <<= console in (projJVM, Compile))
+    .settings(console := (console in (projJVM, Compile)).value)
 
   /**
    * Creates the rootJVM project.
@@ -525,6 +525,7 @@ trait CatalystsBase {
     .in(file("." + s + "JS"))
     .enablePlugins(ScalaJSPlugin)
 
+  import scala.language.postfixOps
   /**
    * Creates a configuration for a document project for scaladoc and a GitHubPages site
    * 
@@ -536,11 +537,11 @@ trait CatalystsBase {
     _.settings(projSettings)
     .settings(moduleName := gh.proj + "-docs")
     .settings(noPublishSettings)
-    .settings(unidocSettings)
-    .settings(tutSettings)
-    .settings(ghpages.settings)
     .settings(jvmSettings)
     .dependsOn(deps.map( ClasspathDependency(_, Some("compile;test->test"))):_*)
+    .enablePlugins(GhpagesPlugin)
+    .enablePlugins(TutPlugin)
+    .enablePlugins(ScalaUnidocPlugin)
     .settings(
        organization  := gh.organisation,
        autoAPIMappings := true,
@@ -548,8 +549,7 @@ trait CatalystsBase {
        docsMappingsAPIDir := "api",
        addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir),
        ghpagesNoJekyll := false,
-       tutScalacOptions ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code"))),
-
+       scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-dead-code"),
        scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
          "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
          "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,

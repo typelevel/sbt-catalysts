@@ -6,20 +6,20 @@ description := "SBT plugin for Catalysts"
 
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.10"
 
-addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"             % "0.3.3")
-addSbtPlugin("com.github.gseitz"   %  "sbt-release"            % "1.0.3")
-addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"            % "0.3.5")
-addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"           % "0.5.1")
-addSbtPlugin("com.jsuereth"        %  "sbt-pgp"                % "1.0.1")
-addSbtPlugin("com.typesafe.sbt"    %  "sbt-ghpages"            % "0.5.4")
-addSbtPlugin("com.typesafe.sbt"    %  "sbt-site"               % "1.1.0")
-addSbtPlugin("org.tpolecat"        %  "tut-plugin"             % "0.4.7")
-addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                % "0.2.4")
-addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"  % "0.8.0")
-addSbtPlugin("org.scoverage"       %  "sbt-scoverage"          % "1.5.0")
-addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                % "0.8.5")
+addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"             % "0.4.1")
+addSbtPlugin("com.github.gseitz"   %  "sbt-release"            % "1.0.6")
+addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"            % "0.7.0")
+addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"           % "2.0")
+addSbtPlugin("com.jsuereth"        %  "sbt-pgp"                % "1.1.0")
+addSbtPlugin("com.typesafe.sbt"    %  "sbt-ghpages"            % "0.6.2")
+addSbtPlugin("com.typesafe.sbt"    %  "sbt-site"               % "1.3.0")
+addSbtPlugin("org.tpolecat"        %  "tut-plugin"             % "0.5.4")
+addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                % "0.2.27")
+addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"  % "1.0.0")
+addSbtPlugin("org.scoverage"       %  "sbt-scoverage"          % "1.5.1")
+addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                % "0.9.3")
 addSbtPlugin("org.scala-js"        %  "sbt-scalajs"            % "0.6.19")
-addSbtPlugin("com.fortysevendeg"   %  "sbt-microsites"         % "0.2.6")
+addSbtPlugin("com.47deg"           %  "sbt-microsites"         % "0.6.2")
 
 scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
