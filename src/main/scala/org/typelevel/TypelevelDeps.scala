@@ -14,9 +14,8 @@ object Dependencies {
    */
   val versions = Map[String, String](
     "algebra"        -> "0.7.0",
-    "alleycats"      -> "0.2.0",
-    "catalysts"      -> "0.1.0",
-    "cats"           -> "1.0.0-MF",
+    "catalysts"      -> "0.0.5",
+    "cats"           -> "1.0.0-RC1",
     "cats-effect"    -> "0.4",
     "cats-mtl"       -> "0.0.1",
     "discipline"     -> "0.8",
@@ -48,7 +47,6 @@ object Dependencies {
   val libraries = Map[String, (String, String, String)](
     "algebra"               -> ("algebra"         , "org.typelevel"               , "algebra"),
     "algebra-laws"          -> ("algebra"         , "org.typelevel"               , "algebra-laws"),
-    "alleycats"             -> ("alleycats"       , "org.typelevel"                , "alleycats"),
     "catalysts"             -> ("catalysts"       , "org.typelevel"                , "catalysts"),
     "catalysts-checklite"   -> ("catalysts"       , "org.typelevel"                , "catalysts-checklite"),
     "catalysts-lawkit"      -> ("catalysts"       , "org.typelevel"                , "catalysts-lawkit"),
