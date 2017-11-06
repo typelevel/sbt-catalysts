@@ -22,9 +22,8 @@ This will automatically:
 The current list of dependencies and versions is:
 
 + [algebra-0.7.0](https://github.com/non/algebra)
-+ [alleycats-0.2.0](https://github.com/non/alleycats)
-+ [catalysts-0.1.0](https://github.com/typelevel/catalysts)
-+ [cats-1.0.0-MF](https://github.com/typelevel/cats)
++ [catalysts-0.0.5](https://github.com/typelevel/catalysts)
++ [cats-1.0.0-RC1](https://github.com/typelevel/cats)
 + [discipline-0.7.3](https://github.com/typelevel/discipline)
 + [export-hook-1.2.0](https://github.com/milessabin/export-hook)
 + [kind-projector-0.9.3](https://github.com/non/kind-projector)
@@ -43,7 +42,7 @@ The current list of dependencies and versions is:
 + [scalajs-0.6.19](https://github.com/scala-js/scala-js)
 + [scalatest-3.0.1](https://github.com/scalatest/scalatest)
 + [shapeless-2.3.2](https://github.com/milessabin/shapeless)
-+ [simulacrum-0.10.0](https://github.com/mpilquist/simulacrum)
++ [simulacrum-0.11.0](https://github.com/mpilquist/simulacrum)
 + [specs2-3.6.5](https://github.com/etorreborre/specs2)
 
 ## G8 Template
