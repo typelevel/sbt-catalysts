@@ -10,7 +10,7 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.2.6")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.4.0")
 ```
 
 This will automatically:
@@ -24,14 +24,18 @@ The current list of dependencies and versions is:
 + [algebra-0.7.0](https://github.com/non/algebra)
 + [catalysts-0.0.5](https://github.com/typelevel/catalysts)
 + [cats-1.0.0-RC1](https://github.com/typelevel/cats)
-+ [discipline-0.7.3](https://github.com/typelevel/discipline)
++ [cats-effect-0.5.0](https://github.com/typelevel/cats-effect)
++ [cats-mtl-0.1.0](https://github.com/typelevel/cats-mtl)
++ [kittens-1.0.0-RC1](https://github.com/typelevel/cats)
++ [mouse-0.12](https://github.com/typelevel/mouse)
++ [discipline-0.8](https://github.com/typelevel/discipline)
 + [export-hook-1.2.0](https://github.com/milessabin/export-hook)
 + [kind-projector-0.9.3](https://github.com/non/kind-projector)
 + [machinist-0.6.1](https://github.com/typelevel/machinist)
 + [macro-compat-1.1.1](https://github.com/milessabin/macro-compat)
-+ [monocle-1.3.0](https://github.com/julien-truffaut/Monocle)
++ [monocle-1.5.0-cats-M2](https://github.com/julien-truffaut/Monocle)
 + [paradise-2.1.0](https://github.com/scalamacros/paradise)
-+ [refined-0.8.2](https://github.com/fthomas/refined)
++ [refined-0.8.4](https://github.com/fthomas/refined)
 + [sbt-catalysts-0.1.10](https://github.com/typelevel/sbt-catalysts)
 + [scalac-2.12.3](https://github.com/scala/scala)
 + [scalac_2.10-2.10.6](https://github.com/scala/scala)
