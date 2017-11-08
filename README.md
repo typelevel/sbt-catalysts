@@ -67,7 +67,7 @@ In this example build file, we define a project that:
 - Publishes regular snapshots as well as git-versioned immutable snapshots
 - Sets the root project's console settings to include the required dependencies
 - Includes Scoverage test coverage metrics
-- Configured for automated release to Sonatpye OSS release and snapshot repositories
+- Configured for automated release to Sonatype OSS release and snapshot repositories
 - Generates scaladoc documentation and a GithubPages web site
 
 ```scala
