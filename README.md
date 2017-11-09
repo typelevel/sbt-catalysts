@@ -10,7 +10,7 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.4.0")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.3.1")
 ```
 
 This will automatically:
