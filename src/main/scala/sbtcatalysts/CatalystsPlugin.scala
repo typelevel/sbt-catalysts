@@ -249,6 +249,7 @@ trait CatalystsBase {
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
+    "-Ypartial-unification",
     "-Xfuture"
   )
 
