@@ -399,7 +399,7 @@ trait CatalystsBase {
       "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % "compile-time"),
      ivyConfigurations += config("compile-time").hide,
      unmanagedClasspath in Compile ++= update.value.select(configurationFilter("compile-time"))
-  )
+  ) ++ scalaMacroDependencies(v)
 
   def micrositeSettings(gh: GitHubSettings, dev: Dev, siteDescription: String) = Seq(
     micrositeName := gh.proj,
