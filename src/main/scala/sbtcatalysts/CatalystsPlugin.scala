@@ -253,12 +253,12 @@ trait CatalystsBase {
   )
 
   /** Combines all scalac options.*/
-  lazy val scalacAllOptions = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
+  lazy val scalacAllOptions: Seq[String] = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
 
   /** all scalac options as a settings including the partialUnification and xlint **/
-  lazy val scalacAllSettings = Seq(
+  lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= scalacAllOptions
-  ) ++ partialUnificationSettings ++ xlintSettings
+  ) ++ partialUnificationSettings ++ xlintSettings ++ warnUnusedImport
 
   /**
    * Settings common to all projects.
