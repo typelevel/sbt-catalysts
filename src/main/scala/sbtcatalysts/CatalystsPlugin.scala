@@ -398,7 +398,8 @@ trait CatalystsBase {
     libraryDependencies ++= Seq(
       "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % "compile-time"),
      ivyConfigurations += config("compile-time").hide,
-     unmanagedClasspath in Compile ++= update.value.select(configurationFilter("compile-time"))
+     unmanagedClasspath in Compile ++= update.value.select(configurationFilter("compile-time")),
+     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
 
   def micrositeSettings(gh: GitHubSettings, dev: Dev, siteDescription: String) = Seq(
