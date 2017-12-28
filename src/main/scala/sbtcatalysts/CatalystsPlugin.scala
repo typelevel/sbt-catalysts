@@ -253,7 +253,12 @@ trait CatalystsBase {
   )
 
   /** Combines all scalac options.*/
-  lazy val scalacAllOptions = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions ++ partialUnificatonSettings
+  lazy val scalacAllOptions: Seq[String] = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
+
+  /** all scalac options as a settings including the partialUnification and xlint **/
+  lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
+    scalacOptions ++= scalacAllOptions
+  ) ++ partialUnificationSettings ++ xlintSettings ++ warnUnusedImport
 
   /**
    * Settings common to all projects.
@@ -392,8 +397,8 @@ trait CatalystsBase {
       }
     }
   )
- 
-  lazy val partialUnificatonSettings = Seq(
+
+  lazy val partialUnificationSettings = Seq(
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 10)) => Nil  //Xling:unused warn against unused implicit evidence
