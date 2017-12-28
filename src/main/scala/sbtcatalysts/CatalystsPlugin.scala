@@ -249,12 +249,11 @@ trait CatalystsBase {
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
-    "-Ypartial-unification",
     "-Xfuture"
   )
 
   /** Combines all scalac options.*/
-  lazy val scalacAllOptions = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
+  lazy val scalacAllOptions = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions ++ partialUnificatonSettings
 
   /**
    * Settings common to all projects.
@@ -388,8 +387,17 @@ trait CatalystsBase {
   lazy val xlintSettings = Seq(
     scalacOptions += {
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 12)) => "-Xlint:-unused,_"  //Xling:unused warn against unused implicit evidence
+        case Some((2, 12)) => "-Xlint:-unused,_"  //Xlint:unused warn against unused implicit evidence
         case _ => "-Xlint"
+      }
+    }
+  )
+ 
+  lazy val partialUnificatonSettings = Seq(
+    scalacOptions ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 10)) => Nil  //Xling:unused warn against unused implicit evidence
+        case _ => Seq("-Ypartial-unification")
       }
     }
   )
