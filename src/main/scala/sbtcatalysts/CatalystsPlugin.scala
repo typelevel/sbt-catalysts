@@ -387,7 +387,7 @@ trait CatalystsBase {
   lazy val xlintSettings = Seq(
     scalacOptions += {
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 12)) => "-Xlint:-unused,_"  //Xling:unused warn against unused implicit evidence
+        case Some((2, 12)) => "-Xlint:-unused,_"  //Xlint:unused warn against unused implicit evidence
         case _ => "-Xlint"
       }
     }
