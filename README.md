@@ -10,7 +10,7 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.3.1")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.5.2")
 ```
 
 This will automatically:
@@ -19,35 +19,9 @@ This will automatically:
 - Provide versions and library settings used by typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
 - Include some functionality to help keep your build file sane - see the quick example below
 
-The current list of dependencies and versions is:
+The current list of dependencies and versions can be found here:
 
-+ [algebra-0.7.0](https://github.com/non/algebra)
-+ [catalysts-0.0.5](https://github.com/typelevel/catalysts)
-+ [cats-1.0.0-RC1](https://github.com/typelevel/cats)
-+ [cats-effect-0.5.0](https://github.com/typelevel/cats-effect)
-+ [cats-mtl-0.1.0](https://github.com/typelevel/cats-mtl)
-+ [kittens-1.0.0-RC1](https://github.com/typelevel/cats)
-+ [mouse-0.12](https://github.com/typelevel/mouse)
-+ [discipline-0.8](https://github.com/typelevel/discipline)
-+ [export-hook-1.2.0](https://github.com/milessabin/export-hook)
-+ [kind-projector-0.9.3](https://github.com/non/kind-projector)
-+ [machinist-0.6.1](https://github.com/typelevel/machinist)
-+ [macro-compat-1.1.1](https://github.com/milessabin/macro-compat)
-+ [monocle-1.5.0-cats-M2](https://github.com/julien-truffaut/Monocle)
-+ [paradise-2.1.0](https://github.com/scalamacros/paradise)
-+ [refined-0.8.4](https://github.com/fthomas/refined)
-+ [sbt-catalysts-0.1.10](https://github.com/typelevel/sbt-catalysts)
-+ [scalac-2.12.3](https://github.com/scala/scala)
-+ [scalac_2.10-2.10.6](https://github.com/scala/scala)
-+ [scalac_2.11-2.11.11](https://github.com/scala/scala)
-+ [scalac_2.12-2.12.3](https://github.com/scala/scala)
-+ [scalac_2.13-2.13.0-M1](https://github.com/scala/scala)
-+ [scalacheck-1.13.4](https://github.com/rickynils/scalacheck)
-+ [scalajs-0.6.19](https://github.com/scala-js/scala-js)
-+ [scalatest-3.0.1](https://github.com/scalatest/scalatest)
-+ [shapeless-2.3.2](https://github.com/milessabin/shapeless)
-+ [simulacrum-0.11.0](https://github.com/mpilquist/simulacrum)
-+ [specs2-3.6.5](https://github.com/etorreborre/specs2)
+ - [Typelevel dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala#L15)
 
 ## G8 Template
 
@@ -128,9 +102,8 @@ lazy val docs = project.configure(mkDocConfig(gh, rootSettings, commonJvmSetting
 lazy val buildSettings = sharedBuildSettings(gh, vAll)
 
 lazy val commonSettings = sharedCommonSettings ++ Seq(
-  scalacOptions ++= scalacAllOptions,
   parallelExecution in Test := false
-) ++ warnUnusedImport ++ unidocCommonSettings
+) ++ scalacAllSettings ++ unidocCommonSettings
 
 lazy val commonJsSettings = Seq(scalaJSStage in Global := FastOptStage)
 
@@ -215,7 +188,7 @@ The current maintainers (people who can merge pull requests) are:
  * [dwijnand](https://github.com/dwijnand) Dale Wijnand
  * [kailuowang](https://github.com/kailuowang) Kailuo Wang
  * [andyscott](https://github.com/andyscott) Andy Scott
- * [edmundnoble](https://github.com/edmundnoble) Edmund Noble
+
  
 We are currently following a practice of requiring at least two
 sign-offs to merge PRs (and for large or contentious issues we may

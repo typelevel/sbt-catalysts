@@ -15,11 +15,11 @@ object Dependencies {
   val versions = Map[String, String](
     "algebra"        -> "0.7.0",
     "catalysts"      -> "0.0.5",
-    "cats"           -> "1.0.0",
-    "cats-effect"    -> "0.7",
-    "cats-mtl"       -> "0.2.1",
-    "kittens"        -> "1.0.0-RC1",
-    "mouse"          -> "0.15",
+    "cats"           -> "1.0.1",
+    "cats-effect"    -> "0.8",
+    "cats-mtl"       -> "0.2.2",
+    "kittens"        -> "1.0.0-RC2",
+    "mouse"          -> "0.16",
     "dogs"           -> "0.6.10",
     "discipline"     -> "0.8",
     "export-hook"    -> "1.2.0",
@@ -36,7 +36,7 @@ object Dependencies {
     "scalac_2.12"    -> "2.12.4",
     "scalac_2.11"    -> "2.11.12",
     "scalac_2.10"    -> "2.10.7",
-    "shapeless"      -> "2.3.2",
+    "shapeless"      -> "2.3.3",
     "simulacrum"     -> "0.11.0",
     "specs2"         -> "3.9.2"
   )
