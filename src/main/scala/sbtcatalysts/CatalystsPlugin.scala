@@ -94,6 +94,12 @@ trait CatalystsBase {
   type LibrariesType = Map[String, (String, String, String)]
   type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
 
+  def singleModuleLib(name: String, org: String): (String, (String, String, String)) =
+    name -> (name, org, name)
+
+  def multiModuleLib(name: String, org: String, modules: String*): LibrariesType =
+    modules.map(module => module -> (name, org, module)).toMap
+
   /** Container for the version, library and scala plugin Maps.*/
   case class Versions(vers: VersionsType, libs: LibrariesType, plugs: ScalacPluginType) {
     def vLibs  = (vers, libs)
