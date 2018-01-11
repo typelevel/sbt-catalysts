@@ -3,8 +3,19 @@ import org.typelevel.Dependencies._
 val apache2 = "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.html")
 val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.kailuowang", license = apache2)
 
+lazy val myLibraries = Map(
+  singleModuleLib("newtype" , "io.estatico"),
+  singleModuleLib("scalacheck-shapeless_1.13" , "com.github.alexarchambault")
+) ++ multiModuleLib("http4s", "org.http4s", "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client")
 
-val vAll = Versions(versions, libraries, scalacPlugins)
+lazy val myVersions = Map(
+  "newtype" -> "0.1.0",
+  "http4s" -> "0.18.0-M8",
+  "scalacheck-shapeless_1.13" -> "1.1.6",
+)
+
+val vAll = Versions(versions ++ myVersions, libraries ++ myLibraries, scalacPlugins)
+
 
 lazy val rootSettings = buildSettings ++ commonSettings ++ publishSettings ++ scoverageSettings
 lazy val module = mkModuleFactory(gh.proj, mkConfig(rootSettings, commonJvmSettings, commonJsSettings))
@@ -27,6 +38,7 @@ lazy val coreJVM = coreM.jvm
 lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
   .settings(addLibs(vAll, "cats-core"))
+  .settings(addJVMLibs(vAll, "newtype"))
   .settings(simulacrumSettings(vAll, false))
 
 
