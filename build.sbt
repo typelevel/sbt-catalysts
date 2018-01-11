@@ -17,18 +17,39 @@ addSbtPlugin("org.scoverage"       %  "sbt-scoverage"          % "1.5.1")
 addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                % "0.9.3")
 addSbtPlugin("org.scala-js"        %  "sbt-scalajs"            % "0.6.21")
 addSbtPlugin("com.47deg"           %  "sbt-microsites"         % "0.7.6")
-addSbtPlugin("io.get-coursier"     %  "sbt-coursier"            % "1.0.0")
+addSbtPlugin("io.get-coursier"     %  "sbt-coursier"           % "1.0.0")
 
 scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
+scalaVersion := "2.12.4"
+
+sbtVersion in Global := "1.1.0"
+
+scalaCompilerBridgeSource := {
+  val sv = appConfiguration.value.provider.id.version
+  ("org.scala-sbt" % "compiler-interface" % sv % "component").sources
+}
+
+crossSbtVersions := List("0.13.16", "1.1.0")
+
 scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@github.com:inthenow/sbt-catalysts.git"))
 
 publishMavenStyle := false
 bintrayRepository := "sbt-plugins"
+
+
 bintrayOrganization := Some("typelevel")
 
-scriptedLaunchOpts ++= List("-Xms1024m", "-Xmx1024m", "-XX:ReservedCodeCacheSize=128m", "-XX:MaxPermSize=256m", "-Xss2m", "-Dfile.encoding=UTF-8")
-
 resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns)
+
+scriptedSettings
+
+scriptedBufferLog := false
+
+scriptedLaunchOpts ++= Seq(
+  "-Xmx1024M",
+  "-XX:MaxPermSize=256M",
+  "-Dplugin.version=" + version.value
+)

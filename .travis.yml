@@ -1,11 +1,8 @@
 language: scala
 
-scala:
-   - 2.10.6
+jdk: oraclejdk8
 
-jdk:
-   - oraclejdk7
-
+scala: 2.12.4
 
 cache:
   directories:
@@ -13,4 +10,4 @@ cache:
   - $HOME/.sbt/boot/
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean compile
+  - sbt ++$TRAVIS_SCALA_VERSION clean compile scripted
