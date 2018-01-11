@@ -51,7 +51,5 @@ scriptedBufferLog := false
 scriptedLaunchOpts ++= Seq(
   "-Xmx1024M",
   "-XX:MaxPermSize=256M",
-  "-Dbintray.user=username",
-  "-Dbintray.pass=password",
   "-Dplugin.version=" + version.value
 )
