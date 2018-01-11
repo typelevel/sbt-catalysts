@@ -137,17 +137,6 @@ trait CatalystsBase {
       s"GitHubSettings:home = $home\nGitHubSettings:repo = $repo\nGitHubSettings:api = $api\nGitHubSettings:organisation = $organisation"
   }
 
-  /** The name and github user id */ 
-  //From https://github.com/typelevel/sbt-typelevel/blob/master/src/main/scala/Developer.scala
-  case class Dev(name: String, id: String) {
-    def pomExtra: xml.NodeSeq =
-      <developer>
-        <id>{ id }</id>
-        <name>{ name }</name>
-        <url>http://github.com/{ id }</url>
-          </developer>
-  }
-
   /** Using the supplied Versions map, adds the list of libraries to a module.*/
   def addLibs(versions: Versions, libs: String*) =
     libs flatMap (versions.asLibraryDependencies(_))
@@ -178,9 +167,7 @@ trait CatalystsBase {
   // Common and shared setting
   /** Settings to make the module not published*/
   lazy val noPublishSettings = Seq(
-    publish := (),
-    publishLocal := (),
-    publishArtifact := false
+    skip in publish := true
   )
 
   /**
@@ -317,7 +304,7 @@ trait CatalystsBase {
    * Uses the github settings and list of developers to set all publish settings
    * required to publish signed artifacts to Sonatype OSS repository
    */
-  def sharedPublishSettings(gh: GitHubSettings, devs: Seq[Dev]): Seq[Setting[_]] = Seq(
+  def sharedPublishSettings(gh: GitHubSettings): Seq[Setting[_]] = Seq(
     homepage := Some(url(gh.home)),
     licenses += gh.license,
     scmInfo :=  Some(ScmInfo(url(gh.home), "scm:git:" + gh.repo)),
@@ -334,8 +321,7 @@ trait CatalystsBase {
       else
         Some("Releases" at nexus + "service/local/staging/deploy/maven2")
     },
-    autoAPIMappings := true,
-    pomExtra := <developers> { devs.map(_.pomExtra) } </developers>
+    autoAPIMappings := true
   )
 
   /**
@@ -355,7 +341,7 @@ trait CatalystsBase {
       publishArtifacts,
       setNextVersion,
       commitNextVersion,
-      ReleaseStep(action = Command.process("sonatypeReleaseAll", _)),
+      releaseStepCommand("sonatypeReleaseAll"),
       pushChanges)
   )
 
@@ -413,15 +399,28 @@ trait CatalystsBase {
     }
   )
 
-  def simulacrumSettings(v: Versions) = Seq(
-    libraryDependencies ++= Seq(
-      "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % "compile-time"),
-     ivyConfigurations += config("compile-time").hide,
-     unmanagedClasspath in Compile ++= update.value.select(configurationFilter("compile-time")),
-     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
-  )
+  lazy val CompileTime = config("compile-time").hide
 
-  def micrositeSettings(gh: GitHubSettings, dev: Dev, siteDescription: String) = Seq(
+  /**
+   * add simulacrum settings,
+   * @param compileTimeOnly make the dependency compile time only but may affect IntelliJ IDEA's simularcrum support (might be fixed post v2017.3)
+   */
+  def simulacrumSettings(v: Versions, compileTimeOnly: Boolean = true) = Seq(
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
+  ) ++ {
+    if(compileTimeOnly) Seq(
+      libraryDependencies ++= Seq(
+        "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % CompileTime),
+      ivyConfigurations += CompileTime,
+      unmanagedClasspath in Compile ++= update.value.select(configurationFilter(CompileTime.name))
+    ) else Seq(libraryDependencies ++= Seq(
+      "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum"))
+    )
+  }
+
+
+
+  def micrositeSettings(gh: GitHubSettings, dev: Developer, siteDescription: String) = Seq(
     micrositeName := gh.proj,
     micrositeDescription := siteDescription,
     micrositeBaseUrl := gh.proj,
