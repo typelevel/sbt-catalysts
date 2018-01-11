@@ -106,10 +106,16 @@ trait CatalystsBase {
     def vPlugs = (vers, plugs)
 
     def asLibraryDependencies(key: String,
+                              jvmOnly: Boolean,
       maybeScope: Option[String] = None,
       exclusions: List[ExclusionRule] = Nil) = Seq(
         libraryDependencies += {
-          val mainModule = libs(key)._2 %%% libs(key)._3 % vers(libs(key)._1)
+
+          val mainModule = if(jvmOnly)
+            libs(key)._2 %% libs(key)._3 % vers(libs(key)._1)
+          else
+            libs(key)._2 %%% libs(key)._3 % vers(libs(key)._1)
+
           (maybeScope, exclusions) match {
             case (Some(scope), Nil) => mainModule % scope
             case (None, ex) => mainModule excludeAll (ex: _*)
@@ -139,24 +145,31 @@ trait CatalystsBase {
 
   /** Using the supplied Versions map, adds the list of libraries to a module.*/
   def addLibs(versions: Versions, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_))
+    libs flatMap (versions.asLibraryDependencies(_, false))
+
+  def addJVMLibs(versions: Versions, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, true))
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a compile dependency.*/
-  def addCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", libs:_*)
+  def addCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", false, libs:_*)
+
+  def addJVMCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", true, libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a test dependency.*/
-  def addTestLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "test", libs:_*)
+  def addTestLibs(versions: Versions, jvmOnly: Boolean, libs: String*) = addLibsScoped(versions, "test", false, libs:_*)
+
+  def addJVMTestLibs(versions: Versions, jvmOnly: Boolean, libs: String*) = addLibsScoped(versions, "test", true, libs:_*)
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
-  def addLibsScoped(versions: Versions, scope: String, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, Some(scope)))
+  def addLibsScoped(versions: Versions, scope: String, jvmOnly: Boolean, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, jvmOnly, Some(scope)))
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
-  def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, exclusions = exclusions))
+  def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], jvmOnly: Boolean, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, jvmOnly, exclusions = exclusions))
 
-  def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, Some(scope), exclusions))
+  def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], jvmOnly: Boolean, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, jvmOnly, Some(scope), exclusions))
 
   /** Using the supplied Versions map, adds the list of compiler plugins to a module.*/
   def addCompilerPlugins(v: Versions, plugins: String*) =
