@@ -39,6 +39,8 @@ lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
   .settings(addLibs(vAll, "cats-core"))
   .settings(addJVMLibs(vAll, "newtype"))
+  .settings(addJVMTestLibs(vAll, "scalacheck-shapeless_1.13"))
+  .settings(addTestLibs(vAll, "scalatest"))
   .settings(simulacrumSettings(vAll, false))
 
 

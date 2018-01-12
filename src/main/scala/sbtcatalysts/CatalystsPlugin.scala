@@ -156,9 +156,9 @@ trait CatalystsBase {
   def addJVMCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", true, libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a test dependency.*/
-  def addTestLibs(versions: Versions, jvmOnly: Boolean, libs: String*) = addLibsScoped(versions, "test", false, libs:_*)
+  def addTestLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "test", false, libs:_*)
 
-  def addJVMTestLibs(versions: Versions, jvmOnly: Boolean, libs: String*) = addLibsScoped(versions, "test", true, libs:_*)
+  def addJVMTestLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "test", true, libs:_*)
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
   def addLibsScoped(versions: Versions, scope: String, jvmOnly: Boolean, libs: String*) =
