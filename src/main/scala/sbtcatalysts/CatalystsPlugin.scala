@@ -427,7 +427,7 @@ trait CatalystsBase {
       ivyConfigurations += CompileTime,
       unmanagedClasspath in Compile ++= update.value.select(configurationFilter(CompileTime.name))
     ) else Seq(libraryDependencies ++= Seq(
-      "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum"))
+      "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % Provided )
     )
   }
 
