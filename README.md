@@ -53,8 +53,6 @@ addCommandAlias("gitSnapshots", ";set version in ThisBuild := git.gitDescribedVe
  * Project settings
  */
 val gh = GitHubSettings(org = "InTheNow", proj = "catalysts", publishOrg = "org.typelevel", license = apache)
-val devs = Seq(Dev("Alistair Johnson", "inthenow"))
-
 val vAll = Versions(versions, libraries, scalacPlugins)
 
 /**
@@ -102,7 +100,8 @@ lazy val docs = project.configure(mkDocConfig(gh, rootSettings, commonJvmSetting
 lazy val buildSettings = sharedBuildSettings(gh, vAll)
 
 lazy val commonSettings = sharedCommonSettings ++ Seq(
-  parallelExecution in Test := false
+  parallelExecution in Test := false,
+  developers := List(Developer("Kailuo Wang", "@kailuowang", "kailuo.wang@gmail.com", new java.net.URL("http://kailuowang.com")))
 ) ++ scalacAllSettings ++ unidocCommonSettings
 
 lazy val commonJsSettings = Seq(scalaJSStage in Global := FastOptStage)
