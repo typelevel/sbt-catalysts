@@ -53,7 +53,7 @@ addCommandAlias("gitSnapshots", ";set version in ThisBuild := git.gitDescribedVe
  * Project settings
  */
 val gh = GitHubSettings(org = "InTheNow", proj = "catalysts", publishOrg = "org.typelevel", license = apache)
-
+val vAll = Versions(versions, libraries, scalacPlugins)
 
 /**
  * Root - This is the root project that aggregates the catalystsJVM and catalystsJS sub projects
