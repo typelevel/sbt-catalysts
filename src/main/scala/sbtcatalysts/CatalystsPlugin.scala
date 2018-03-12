@@ -368,7 +368,14 @@ trait CatalystsBase {
 
   /** Common unidoc settings, adding the "-Ymacro-no-expand" scalac option.*/
   lazy val unidocCommonSettings = Seq(
-    scalacOptions in (ScalaUnidoc, unidoc) += "-Ymacro-no-expand"
+    scalacOptions in (ScalaUnidoc, unidoc) +=  {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, n)) if n >= 12 =>
+          "-Ymacro-expand:none"
+        case _ =>
+          "-Ymacro-no-expand"
+      }
+    },
   )
 
   /** Add the "unused import" warning to scala 2.11+, but not for the console.*/
