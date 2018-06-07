@@ -31,7 +31,7 @@ object Dependencies {
     "refined"        -> "0.8.7",
     "scalacheck"     -> "1.13.5",
     "scalatest"      -> "3.0.5",
-    "scalac"         -> "2.12.5",
+    "scalac"         -> "2.12.6",
     "scalac_2.13"    -> "2.13.0-M3",
     "scalac_2.12"    -> "2.12.6",
     "scalac_2.11"    -> "2.11.12",
