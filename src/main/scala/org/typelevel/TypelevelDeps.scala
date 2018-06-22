@@ -18,7 +18,7 @@ object Dependencies {
     "cats"           -> "1.1.0",
     "cats-effect"    -> "1.0.0-RC2",
     "cats-mtl"       -> "0.3.0",
-    "kittens"        -> "1.0.0-RC3",
+    "kittens"        -> "1.0.0",
     "mouse"          -> "0.16",
     "dogs"           -> "0.6.10",
     "discipline"     -> "0.9.0",
@@ -38,6 +38,7 @@ object Dependencies {
     "scalac_2.10"    -> "2.10.7",
     "shapeless"      -> "2.3.3",
     "simulacrum"     -> "0.12.0",
+    "scodec"         -> "1.10.3",
     "specs2"         -> "3.9.2"
   )
 
@@ -88,6 +89,11 @@ object Dependencies {
     "refined-scodec"        -> ("refined"         , "eu.timepit"                   , "refined-scodec"),
     "scalatest"             -> ("scalatest"       , "org.scalatest"                , "scalatest"),
     "scalacheck"            -> ("scalacheck"      , "org.scalacheck"               , "scalacheck"),
+    "scodec-core"           -> ("scodec"          , "org.scodec"                   , "scodec-core"),
+    "scodec-protocols"      -> ("scodec"          , "org.scodec"                   , "scodec-protocols"),
+    "scodec-stream"         -> ("scodec"          , "org.scodec"                   , "scodec-stream"),
+    "scodec-spire"          -> ("scodec"          , "org.scodec"                   , "scodec-spire"),
+    "scodec-bits"           -> ("scodec"          , "org.scodec"                   , "scodec-bits"),    
     "shapeless"             -> ("shapeless"       , "com.chuusai"                  , "shapeless"),
     "simulacrum"            -> ("simulacrum"      , "com.github.mpilquist"         , "simulacrum"),
     "specs2-core"           -> ("specs2"          , "org.specs2"                   , "specs2-core"),
