@@ -6,6 +6,7 @@ description := "SBT plugin for Catalysts"
 
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.10"
 
+
 addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"             % "0.4.1")
 addSbtPlugin("com.github.gseitz"   %  "sbt-release"            % "1.0.7")
 addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"            % "0.7.1")
@@ -42,7 +43,9 @@ bintrayRepository := "sbt-plugins"
 
 bintrayOrganization := Some("typelevel")
 
-resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns)
+resolvers ++= Seq(
+  Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns),
+  Resolver.sonatypeRepo("releases"))
 
 scriptedSettings
 
