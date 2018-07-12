@@ -22,6 +22,7 @@ import org.scalajs.sbtplugin.ScalaJSPlugin
 import ScalaJSPlugin.autoImport._
 import microsites.MicrositesPlugin.autoImport._
 import scoverage.ScoverageKeys
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
 
 /**
