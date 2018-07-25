@@ -21,10 +21,10 @@ object Dependencies {
     "kittens"        -> "1.0.0",
     "mouse"          -> "0.16",
     "dogs"           -> "0.6.10",
-    "discipline"     -> "0.9.0",
+    "discipline"     -> "0.10.0",
     "export-hook"    -> "1.2.0",
     "kind-projector" -> "0.9.6",
-    "machinist"      -> "0.6.4",
+    "machinist"      -> "0.6.5",
     "macro-compat"   -> "1.1.1",
     "monocle"        -> "1.5.0-cats",
     "paradise"       -> "2.1.0",
@@ -32,7 +32,7 @@ object Dependencies {
     "scalacheck"     -> "1.13.5",
     "scalatest"      -> "3.0.5",
     "scalac"         -> "2.12.6",
-    "scalac_2.13"    -> "2.13.0-M3",
+    "scalac_2.13"    -> "2.13.0-M4",
     "scalac_2.12"    -> "2.12.6",
     "scalac_2.11"    -> "2.11.12",
     "scalac_2.10"    -> "2.10.7",
@@ -120,6 +120,6 @@ object Dependencies {
    * @return All settings required for the macro-compat library
    */
   def macroCompatSettings(v: Versions): Seq[Setting[_]] =
-    addCompileLibs(v, "macro-compat") ++ addCompilerPlugins(v, "paradise") ++
+    addCompileLibs(v, "macro-compat") ++ paradiseSettings(v) ++ // addCompilerPlugins(v, "paradise") ++
       scalaMacroDependencies(v)
 }
