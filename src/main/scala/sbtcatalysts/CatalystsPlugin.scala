@@ -265,6 +265,12 @@ trait CatalystsBase {
     }
   )
 
+  def priorTo2_13(scalaVersion: String): Boolean =
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((2, minor)) if minor < 13 => true
+    case _ => false
+  }
+
   /** Common scalac options useful to most (if not all) projects.*/
   lazy val scalacCommonOptions = Seq(
     "-deprecation",
@@ -406,7 +412,13 @@ trait CatalystsBase {
   def sharedScoverageSettings(min: Int = 80) = Seq(
     ScoverageKeys.coverageMinimum := min,
     ScoverageKeys.coverageFailOnMinimum := false,
-    ScoverageKeys.coverageHighlighting := scalaBinaryVersion.value != "2.10"
+    ScoverageKeys.coverageHighlighting := scalaBinaryVersion.value != "2.10",
+    ScoverageKeys.coverageEnabled := {
+      if(priorTo2_13(scalaVersion.value))
+        ScoverageKeys.coverageEnabled.value
+      else
+        false
+    }
     // ScoverageKeys.coverageExcludedPackages := "catalysts\\.bench\\..*"
   )
 
