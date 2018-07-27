@@ -193,6 +193,8 @@ trait CatalystsBase {
     moduleName := "root"
   )
 
+  def scalaPartV = Def setting (CrossVersion partialVersion scalaVersion.value)
+
   /** Adds the settings required to add scala versioned shared directory.
    *
    * In a scala.js shared project, the shared sources are by default in a
@@ -206,8 +208,10 @@ trait CatalystsBase {
   lazy val crossVersionSharedSources: Seq[Setting[_]] =
     Seq(Compile, Test).map { sc =>
       (unmanagedSourceDirectories in sc) ++= {
-        (unmanagedSourceDirectories in sc ).value.map {
-          dir:File => new File(dir.getPath + "-" + scalaBinaryVersion.value)
+        (unmanagedSourceDirectories in sc).value.map { dir =>
+          scalaPartV.value match {
+            case Some((x, y)) => new File(s"${dir.getPath}-$x.$y")
+          }
         }
       }
     }
@@ -230,7 +234,41 @@ trait CatalystsBase {
              )
          }
        }
+    ) ++ paradiseSettings(v)
+  }
+
+  def paradiseSettings(v: Versions): Seq[Setting[_]] = {
+    val version = v.vers("paradise")
+    Seq(
+       libraryDependencies ++= {
+         CrossVersion.partialVersion(scalaVersion.value) match {
+           // if scala 2.11+ is used, quasiquotes are merged into scala-reflect
+           case Some((2, scalaMajor)) if scalaMajor >= 13 => Seq()
+           // in Scala 2.10, quasiquotes are provided by macro paradise
+           case _ =>
+             Seq(
+               compilerPlugin("org.scalamacros" %% "paradise" % version cross CrossVersion.full)
+             )
+         }
+       }
     )
+  }
+
+  lazy val macroAnnotationsSettings = Seq(
+    scalacOptions += {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, n)) if n >= 13 =>
+          "-Ymacro-annotations"
+        case _ =>
+          ""
+      }
+    }
+  )
+
+  def priorTo2_13(scalaVersion: String): Boolean =
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((2, minor)) if minor < 13 => true
+    case _ => false
   }
 
   /** Common scalac options useful to most (if not all) projects.*/
@@ -253,6 +291,7 @@ trait CatalystsBase {
   lazy val scalacStrictOptions = Seq(
     "-Xfatal-warnings",
     "-Yno-adapted-args",
+    //"-Ymacro-annotations",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard",
@@ -261,6 +300,16 @@ trait CatalystsBase {
 
   /** Combines all scalac options.*/
   lazy val scalacAllOptions: Seq[String] = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
+
+  def scalacAllOptionsFor(scalaVersion: String): Seq[String] = scalacAllOptions.filter(_ != {
+      CrossVersion.partialVersion(scalaVersion) match {
+        case Some((2, n)) if n >= 13 =>
+          "-Yno-adapted-args"
+        case _ =>
+          ""
+      }
+                                                                                         }
+    )
 
   /** all scalac options as a settings including the partialUnification and xlint **/
   lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
@@ -363,7 +412,13 @@ trait CatalystsBase {
   def sharedScoverageSettings(min: Int = 80) = Seq(
     ScoverageKeys.coverageMinimum := min,
     ScoverageKeys.coverageFailOnMinimum := false,
-    ScoverageKeys.coverageHighlighting := scalaBinaryVersion.value != "2.10"
+    ScoverageKeys.coverageHighlighting := scalaBinaryVersion.value != "2.10",
+    ScoverageKeys.coverageEnabled := {
+      if(priorTo2_13(scalaVersion.value))
+        ScoverageKeys.coverageEnabled.value
+      else
+        false
+    }
     // ScoverageKeys.coverageExcludedPackages := "catalysts\\.bench\\..*"
   )
 
