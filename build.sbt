@@ -25,28 +25,27 @@ licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html
 
 scalaVersion := "2.12.6"
 
-//sbtVersion in Global := "1.1.6"
+sbtVersion in Global := "1.1.6"
 
 //scalaCompilerBridgeSource := {
 //  val sv = appConfiguration.value.provider.id.version
 //  ("org.scala-sbt" % "compiler-interface" % sv % "component").sources
 //}
 
-//crossSbtVersions := List("0.13.16", "1.1.0")
+crossSbtVersions := List("0.13.16", "1.1.0")
 
 scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@github.com:inthenow/sbt-catalysts.git"))
 
 publishMavenStyle := false
 bintrayRepository := "sbt-plugins"
 
-
 bintrayOrganization := Some("typelevel")
 
-//resolvers ++= Seq(
-//  Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns),
-//  Resolver.sonatypeRepo("releases"))
+resolvers ++= Seq(
+  Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns),
+  Resolver.sonatypeRepo("releases"))
 
-//scriptedSettings
+scriptedSettings
 
 scriptedBufferLog := false
 
