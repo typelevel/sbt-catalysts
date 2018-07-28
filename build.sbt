@@ -45,8 +45,6 @@ resolvers ++= Seq(
   Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns),
   Resolver.sonatypeRepo("releases"))
 
-scriptedSettings
-
 scriptedBufferLog := false
 
 scriptedLaunchOpts ++= Seq(
