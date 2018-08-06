@@ -15,7 +15,7 @@ object Dependencies {
   val versions = Map[String, String](
     "algebra"        -> "1.0.0",
     "catalysts"      -> "0.6",
-    "cats"           -> "1.1.0",
+    "cats"           -> "1.2.0",
     "cats-effect"    -> "1.0.0-RC2",
     "cats-mtl"       -> "0.3.0",
     "kittens"        -> "1.0.0",
