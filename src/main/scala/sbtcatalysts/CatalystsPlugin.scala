@@ -358,7 +358,7 @@ trait CatalystsBase {
   def sharedBuildSettings(gh: GitHubSettings, v: Versions) = Seq(
     organization := gh.publishOrg,
     scalaVersion := v.vers("scalac"),
-    crossScalaVersions := Seq(v.vers("scalac_2.10"), v.vers("scalac_2.11"), scalaVersion.value)
+    crossScalaVersions := Seq(v.vers("scalac_2.11"), scalaVersion.value)
   )
 
   /**
