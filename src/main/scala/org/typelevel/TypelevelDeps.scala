@@ -18,7 +18,7 @@ object Dependencies {
     "cats"           -> "1.3.1",
     "cats-effect"    -> "1.0.0",
     "cats-mtl"       -> "0.3.0",
-    "kittens"        -> "1.1.1",
+    "kittens"        -> "1.2.0",
     "mouse"          -> "0.16",
     "dogs"           -> "0.6.10",
     "discipline"     -> "0.10.0",
