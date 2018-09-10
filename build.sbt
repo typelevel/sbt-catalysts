@@ -15,7 +15,7 @@ addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                % "0.2.27")
 addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"  % "1.0.0")
 addSbtPlugin("org.scoverage"       %  "sbt-scoverage"          % "1.6.0-M3")
 addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                % "0.9.3")
-addSbtPlugin("org.scala-js"        %  "sbt-scalajs"            % "0.6.24")
+addSbtPlugin("org.scala-js"        %  "sbt-scalajs"            % "0.6.25")
 addSbtPlugin("com.47deg"           %  "sbt-microsites"         % "0.7.21")
 addSbtPlugin("io.get-coursier"     %  "sbt-coursier"           % "1.0.3")
 
