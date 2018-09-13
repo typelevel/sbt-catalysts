@@ -1,4 +1,5 @@
 import org.typelevel.Dependencies._
+import sbtcrossproject.CrossPlugin.autoImport.CrossType
 
 val apache2 = "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.html")
 val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.kailuowang", license = apache2)
