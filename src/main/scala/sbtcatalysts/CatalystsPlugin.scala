@@ -9,7 +9,6 @@ import com.typesafe.sbt.site.SitePlugin.autoImport._
 import com.typesafe.sbt.SbtGit._
 import com.typesafe.sbt.sbtghpages.GhpagesPlugin
 import com.typesafe.sbt.sbtghpages.GhpagesPlugin.autoImport._
-
 import tut.TutPlugin
 import tut.TutPlugin.autoImport._
 import pl.project13.scala.sbt.SbtJmh._
@@ -19,12 +18,14 @@ import sbtunidoc.BaseUnidocPlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseTransformations._
 import org.scalajs.sbtplugin.ScalaJSPlugin
-import ScalaJSPlugin.autoImport._
+import ScalaJSPlugin.autoImport.{CrossType => DeprecatedCT, _}
 import microsites.MicrositesPlugin.autoImport._
 import scoverage.ScoverageKeys
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
-import org.scalajs.sbtplugin.cross.{CrossProject, CrossType}
-
+import sbtcrossproject.{CrossProject, JVMPlatform}
+import sbtcrossproject.CrossPlugin.autoImport._
+import scalajscrossproject.JSPlatform
+import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
 /**
  * Plugin that automatically brings into scope all predefined val's and method
  * definitions.
@@ -540,7 +541,7 @@ trait CatalystsBase {
 
     val cpId = id.stripSuffix("M")
 
-    CrossProject(cpId, new File(cpId), crossType)
+    CrossProject(cpId, new File(cpId))(JSPlatform, JVMPlatform).crossType(crossType)
      .settings(moduleName := s"$proj-$id")
     .configureCross(projConfig)
   }
