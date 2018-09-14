@@ -21,7 +21,7 @@ object Dependencies {
     "kittens"        -> "1.2.0",
     "mouse"          -> "0.16",
     "dogs"           -> "0.6.10",
-    "discipline"     -> "0.10.0",
+    "discipline"     -> "0.9.0",
     "export-hook"    -> "1.2.0",
     "kind-projector" -> "0.9.7",
     "machinist"      -> "0.6.5",
