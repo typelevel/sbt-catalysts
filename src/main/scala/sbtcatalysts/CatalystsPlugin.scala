@@ -441,8 +441,11 @@ trait CatalystsBase {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, 10)) =>
           Seq()
-        case Some((2, n)) if n >= 11 && n < 13 =>
+        case Some((2, 11)) =>
           Seq("-Ywarn-unused-import")
+        case Some((2, n)) if n >= 12 =>
+          Seq("-Ywarn-unused:imports")
+
       }
     },
     scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
