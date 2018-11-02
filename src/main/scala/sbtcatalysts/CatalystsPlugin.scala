@@ -373,8 +373,6 @@ trait CatalystsBase {
     licenses += gh.license,
     scmInfo :=  Some(ScmInfo(url(gh.home), "scm:git:" + gh.repo)),
     apiURL := Some(url(gh.api)),
-    releaseCrossBuild := true,
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := Function.const(false),
@@ -397,12 +395,12 @@ trait CatalystsBase {
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
       inquireVersions,
-      runClean,
-      runTest,
+      releaseStepCommandAndRemaining("+clean"),
+      releaseStepCommandAndRemaining("+test"),
       setReleaseVersion,
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
+      releaseStepCommandAndRemaining("+publishSigned"),
       setNextVersion,
       commitNextVersion,
       releaseStepCommand("sonatypeReleaseAll"),
@@ -595,6 +593,7 @@ trait CatalystsBase {
     _.in(file("."))
     .settings(rootSettings)
     .settings(projSettings)
+    .settings(crossScalaVersions := Nil)
     .settings(console := (console in (projJVM, Compile)).value)
 
   /**
