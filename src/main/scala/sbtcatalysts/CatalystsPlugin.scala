@@ -1,6 +1,6 @@
 package sbtcatalysts
 
-import sbt._
+import sbt.{Def, _}
 import Keys._
 import com.typesafe.sbt.pgp.PgpKeys
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
@@ -108,15 +108,21 @@ trait CatalystsBase {
     def vPlugs = (vers, plugs)
 
     def asLibraryDependencies(key: String,
-                              jvmOnly: Boolean,
-      maybeScope: Option[String] = None,
-      exclusions: List[ExclusionRule] = Nil) = Seq(
+                              ls: LibrarySupport,
+                              maybeScope: Option[String] = None,
+                              exclusions: List[ExclusionRule] = Nil) = Seq(
         libraryDependencies += {
 
-          val mainModule = if(jvmOnly)
-            libs(key)._2 %% libs(key)._3 % vers(libs(key)._1)
-          else
-            libs(key)._2 %%% libs(key)._3 % vers(libs(key)._1)
+          val (libOrg, libName, libVer) = (libs(key)._2, libs(key)._3, vers(libs(key)._1))
+
+          val mainModule = ls match {
+            case LibrarySupport.Java =>
+              libOrg % libName % libVer
+            case LibrarySupport.ScalaJVM =>
+              libOrg %% libName % libVer
+            case LibrarySupport.ScalaJS =>
+              libOrg %%% libName % libVer
+          }
 
           (maybeScope, exclusions) match {
             case (Some(scope), Nil) => mainModule % scope
@@ -146,32 +152,42 @@ trait CatalystsBase {
   }
 
   /** Using the supplied Versions map, adds the list of libraries to a module.*/
-  def addLibs(versions: Versions, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, false))
+  def addLibs(versions: Versions, librarySupport: LibrarySupport, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] =
+    libs flatMap (versions.asLibraryDependencies(_, librarySupport))
+
+
+  /** Using the supplied Versions map, adds the list of libraries to a module.*/
+  def addLibs(versions: Versions, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] = addLibs(versions, LibrarySupport.ScalaJS, libs:_*)
+
 
   def addJVMLibs(versions: Versions, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, true))
+    addLibs(versions, LibrarySupport.ScalaJVM, libs:_*)
+
+  def addJavaLibs(versions: Versions, libs: String*) =
+    addLibs(versions, LibrarySupport.Java, libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a compile dependency.*/
-  def addCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", false, libs:_*)
+  def addCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", LibrarySupport.ScalaJS, libs:_*)
 
-  def addJVMCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", true, libs:_*)
+  def addJVMCompileLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "compile", LibrarySupport.ScalaJVM, libs:_*)
+
+  def addTestLibs(versions: Versions, librarySupport: LibrarySupport, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] = addLibsScoped(versions, "test", librarySupport, libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a test dependency.*/
-  def addTestLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "test", false, libs:_*)
+  def addTestLibs(versions: Versions, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] = addTestLibs(versions, LibrarySupport.ScalaJS, libs:_*)
 
-  def addJVMTestLibs(versions: Versions, libs: String*) = addLibsScoped(versions, "test", true, libs:_*)
-
-  /** Using versions map, adds the list of libraries to a module using the given dependency.*/
-  def addLibsScoped(versions: Versions, scope: String, jvmOnly: Boolean, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, jvmOnly, Some(scope)))
+  def addJVMTestLibs(versions: Versions, libs: String*) = addTestLibs(versions, LibrarySupport.ScalaJVM, libs:_*)
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
-  def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], jvmOnly: Boolean, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, jvmOnly, exclusions = exclusions))
+  def addLibsScoped(versions: Versions, scope: String, librarySupport: LibrarySupport, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, librarySupport, Some(scope)))
 
-  def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], jvmOnly: Boolean, libs: String*) =
-    libs flatMap (versions.asLibraryDependencies(_, jvmOnly, Some(scope), exclusions))
+  /** Using versions map, adds the list of libraries to a module using the given dependency.*/
+  def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], librarySupport: LibrarySupport, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, librarySupport, exclusions = exclusions))
+
+  def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], librarySupport: LibrarySupport, libs: String*) =
+    libs flatMap (versions.asLibraryDependencies(_, librarySupport, Some(scope), exclusions))
 
   /** Using the supplied Versions map, adds the list of compiler plugins to a module.*/
   def addCompilerPlugins(v: Versions, plugins: String*) =
@@ -194,7 +210,11 @@ trait CatalystsBase {
     moduleName := "root"
   )
 
-  def scalaPartV = Def setting (CrossVersion partialVersion scalaVersion.value)
+  lazy val scalaPartialVersion = Def setting (CrossVersion.partialVersion(scalaVersion.value).getOrElse(throw new Exception("Unexpected ScalaVersion value" + scalaVersion.value)))
+
+  lazy val scalaVersionMajor =  Def setting (scalaPartialVersion.value._1)
+  lazy val scalaVersionMinor = Def setting (scalaPartialVersion.value._2)
+
 
   /** Adds the settings required to add scala versioned shared directory.
    *
@@ -210,9 +230,8 @@ trait CatalystsBase {
     Seq(Compile, Test).map { sc =>
       (unmanagedSourceDirectories in sc) ++= {
         (unmanagedSourceDirectories in sc).value.map { dir =>
-          scalaPartV.value match {
-            case Some((x, y)) => new File(s"${dir.getPath}-$x.$y")
-          }
+          new File(s"${dir.getPath}-${scalaVersionMajor.value}.${scalaVersionMinor}")
+
         }
       }
     }
@@ -657,6 +676,13 @@ trait CatalystsBase {
        git.remoteRepo := gh.repo,
        includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
 
+}
+
+sealed trait LibrarySupport extends Serializable with Product
+object LibrarySupport {
+  case object ScalaJS extends LibrarySupport
+  case object ScalaJVM extends LibrarySupport
+  case object Java extends LibrarySupport
 }
 
 object CatalystsKeys extends BaseCatalystsKeys
