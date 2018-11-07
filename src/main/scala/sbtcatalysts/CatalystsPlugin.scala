@@ -1,7 +1,7 @@
 package sbtcatalysts
 
 import sbt.{Def, _}
-import Keys._
+import Keys.{name, _}
 import com.typesafe.sbt.pgp.PgpKeys
 import com.typesafe.sbt.pgp.PgpKeys.publishSigned
 import com.typesafe.sbt.SbtSite.SiteKeys._
@@ -26,6 +26,7 @@ import sbtcrossproject.{CrossProject, JVMPlatform}
 import sbtcrossproject.CrossPlugin.autoImport._
 import scalajscrossproject.JSPlatform
 import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
+import CatalystsBase._
 /**
  * Plugin that automatically brings into scope all predefined val's and method
  * definitions.
@@ -92,9 +93,6 @@ trait CatalystsBase {
 
   import CatalystsKeys._
 
-  type VersionsType = Map[String, String]
-  type LibrariesType = Map[String, (String, String, String)]
-  type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
 
   def singleModuleLib(name: String, org: String): (String, (String, String, String)) =
     name -> (name, org, name)
@@ -103,7 +101,23 @@ trait CatalystsBase {
     modules.map(module => module -> (name, org, module)).toMap
 
   /** Container for the version, library and scala plugin Maps.*/
-  case class Versions(vers: VersionsType, libs: LibrariesType, plugs: ScalacPluginType) {
+  case class Versions(vers: VersionsType = Map(), libs: LibrariesType = Map(), plugs: ScalacPluginType = Map()) {
+
+    def add(name: String, version: String, org: String): Versions =
+      copy(vers + (name -> version), libs + (name -> (name, org, name)))
+
+
+    def add(name: String, version: String, org: String, modules: String*): Versions =
+      copy(vers + (name -> version), libs ++ modules.map(module => module -> (name, org, module)).toMap)
+
+    def add(name: String, version: String): Versions =
+      copy(vers = vers + (name -> version))
+
+    def addScalacPlugin(name: String, version: String, org: String, crossVersion: CrossVersion) =
+      copy(plugs = plugs + (name -> (name, org, name, crossVersion)), vers = vers + (name -> version))
+
+    def +(other: Versions) = copy(vers ++ other.vers, libs ++ other.libs, plugs ++ other.plugs)
+
     def vLibs  = (vers, libs)
     def vPlugs = (vers, plugs)
 
@@ -675,6 +689,13 @@ trait CatalystsBase {
        ),
        git.remoteRepo := gh.repo,
        includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
+
+}
+
+object CatalystsBase {
+  type VersionsType = Map[String, String]
+  type LibrariesType = Map[String, (String, String, String)]
+  type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
 
 }
 

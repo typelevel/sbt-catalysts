@@ -4,6 +4,37 @@ package typelevel
 import sbt._
 import sbtcatalysts.CatalystsPlugin.autoImport._
 
+
+object `package` {
+  val typeLevelOrg = "org.typelevel"
+  val libraries = Versions()
+    .add(name = "algebra",          version = "1.0.0",  org = typeLevelOrg, "algebra", "algebra-laws")
+    .add(name = "catalysts",        version = "0.7",    org = typeLevelOrg, "catalysts-checklite", "catalysts-lawkit", "catalysts-macros", "catalysts-platform", "catalysts-scalatest", "catalysts-specbase", "catalysts-speclite", "catalysts-specs2", "catalysts-testkit")
+    .add(name = "cats",             version = "1.4.0",  org = typeLevelOrg, "cats-core", "cats-kernel", "cats-free", "cats-laws", "cats-macros", "cats-testkit", "alleycats")
+    .add(name = "cats-effect",      version = "1.0.0",  org = typeLevelOrg)
+    .add(name = "cats-mtl",         version = "0.3.0",  org = typeLevelOrg, "cats-mtl-core", "cats-mtl-laws")
+    .add(name = "cats-collection",  version = "0.3.0",  org = typeLevelOrg)
+    .add(name = "kittens",          version = "1.2.0",  org = typeLevelOrg)
+    .add(name = "mouse",            version = "0.16",   org = typeLevelOrg)
+    .add(name = "discipline",       version = "0.9.0",  org = typeLevelOrg)
+    .add(name = "machinist",        version = "0.6.5",  org = typeLevelOrg)
+    .add(name = "machmacro-compat", version = "1.1.1",  org = typeLevelOrg)
+    .add(name = "monocle",          version = "v1.5.1-cats", org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
+    .add(name = "refined",          version = "0.8.7",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
+    .add(name = "scalacheck",       version = "1.13.5", org = "org.scalacheck")
+    .add(name = "scalatest",        version = "3.0.5",  org = "org.scalatest")
+    .add(name = "scodec",           version = "1.10.3", org = "org.scodec", "scodec-core", "scodec-protocols", "scodec-stream", "scodec-spire", "scodec-bits")
+    .add(name = "specs2",           version = "3.9.2",  org = "org.specs2", "specs2-core", "specs2-scalacheck")
+    .add(name = "scalac"   ,        version = "2.12.6")
+    .add(name = "scalac_2.13",      version = "2.13.0-M5")
+    .add(name = "scalac_2.12",      version = "2.12.6")
+    .add(name = "scalac_2.11",      version = "2.11.12")
+    .add(name = "scalac_2.10",      version = "2.10.7")
+    .addScalacPlugin(name = "kind-projector", version = "0.9.7",  org = "org.spire-math", crossVersion = CrossVersion.binary )
+    .addScalacPlugin(name = "paradise",       version = "0.13.0", org = "org.scalamacros", crossVersion = CrossVersion.full )
+}
+
+
 /** Default Typelevel dependencies.*/
 object Dependencies {
 
@@ -12,35 +43,7 @@ object Dependencies {
    *
    * Format: Package -> version
    */
-  val versions = Map[String, String](
-    "algebra"        -> "1.0.0",
-    "catalysts"      -> "0.7",
-    "cats"           -> "1.4.0",
-    "cats-effect"    -> "1.0.0",
-    "cats-mtl"       -> "0.3.0",
-    "kittens"        -> "1.2.0",
-    "mouse"          -> "0.16",
-    "dogs"           -> "0.6.10",
-    "discipline"     -> "0.9.0",
-    "export-hook"    -> "1.2.0",
-    "kind-projector" -> "0.9.7",
-    "machinist"      -> "0.6.5",
-    "macro-compat"   -> "1.1.1",
-    "monocle"        -> "1.5.1-cats",
-    "paradise"       -> "2.1.0",
-    "refined"        -> "0.8.7",
-    "scalacheck"     -> "1.13.5",
-    "scalatest"      -> "3.0.5",
-    "scalac"         -> "2.12.6",
-    "scalac_2.13"    -> "2.13.0-M5",
-    "scalac_2.12"    -> "2.12.6",
-    "scalac_2.11"    -> "2.11.12",
-    "scalac_2.10"    -> "2.10.7",
-    "shapeless"      -> "2.3.3",
-    "simulacrum"     -> "0.13.0",
-    "scodec"         -> "1.10.3",
-    "specs2"         -> "3.9.2"
-  )
+  val versions = typelevel.libraries.vers
 
   /**
    * Library definitions and links to their versions.
@@ -48,57 +51,7 @@ object Dependencies {
    * Note that one version may apply to more than one library.
    * Format: Library name -> version key, org, library
    */
-  val libraries = Map[String, (String, String, String)](
-    "algebra"               -> ("algebra"         , "org.typelevel"                , "algebra"),
-    "algebra-laws"          -> ("algebra"         , "org.typelevel"                , "algebra-laws"),
-    "catalysts"             -> ("catalysts"       , "org.typelevel"                , "catalysts"),
-    "catalysts-checklite"   -> ("catalysts"       , "org.typelevel"                , "catalysts-checklite"),
-    "catalysts-lawkit"      -> ("catalysts"       , "org.typelevel"                , "catalysts-lawkit"),
-    "catalysts-macros"      -> ("catalysts"       , "org.typelevel"                , "catalysts-macros"),
-    "catalysts-platform"    -> ("catalysts"       , "org.typelevel"                , "catalysts-platform"),
-    "catalysts-scalatest"   -> ("catalysts"       , "org.typelevel"                , "catalysts-scalatest"),
-    "catalysts-specbase"    -> ("catalysts"       , "org.typelevel"                , "catalysts-specbase"),
-    "catalysts-speclite"    -> ("catalysts"       , "org.typelevel"                , "catalysts-speclite"),
-    "catalysts-specs2"      -> ("catalysts"       , "org.typelevel"                , "catalysts-specs2"),
-    "catalysts-testkit"     -> ("catalysts"       , "org.typelevel"                , "catalysts-testkit"),
-    "cats-core"             -> ("cats"            , "org.typelevel"                , "cats-core"),
-    "cats-kernel"           -> ("cats"            , "org.typelevel"                , "cats-kernel"),
-    "cats-free"             -> ("cats"            , "org.typelevel"                , "cats-free"),
-    "cats-laws"             -> ("cats"            , "org.typelevel"                , "cats-laws"),
-    "cats-macros"           -> ("cats"            , "org.typelevel"                , "cats-macros"),
-    "cats-testkit"          -> ("cats"            , "org.typelevel"                , "cats-testkit"),
-    "alleycats"             -> ("cats"            , "org.typelevel"                , "alleycats"),
-    "cats-effect"           -> ("cats-effect"     , "org.typelevel"                , "cats-effect"),
-    "cats-mtl-core"         -> ("cats-mtl"        , "org.typelevel"                , "cats-mtl-core"),
-    "cats-mtl-laws"         -> ("cats-mtl"        , "org.typelevel"                , "cats-mtl-laws"),
-    "kittens"               -> ("kittens"         , "org.typelevel"                , "kittens"),
-    "mouse"                 -> ("mouse"           , "org.typelevel"                , "mouse"),
-    "dogs"                  -> ("dogs"            , "org.typelevel"                , "dogs-core"),
-    "discipline"            -> ("discipline"      , "org.typelevel"                , "discipline"),
-    "export-hook"           -> ("export-hook"     , "org.typelevel"                , "export-hook"),
-    "machinist"             -> ("machinist"       , "org.typelevel"                , "machinist"),
-    "macro-compat"          -> ("macro-compat"    , "org.typelevel"                , "macro-compat"),
-    "monocle-core"          -> ("monocle"         , "com.github.julien-truffaut"   , "monocle-core"),
-    "monocle-generic"       -> ("monocle"         , "com.github.julien-truffaut"   , "monocle-generic"),
-    "monocle-macro"         -> ("monocle"         , "com.github.julien-truffaut"   , "monocle-macro"),
-    "monocle-state"         -> ("monocle"         , "com.github.julien-truffaut"   , "monocle-state"),
-    "monocle-law"           -> ("monocle"         , "com.github.julien-truffaut"   , "monocle-law"),
-    "refined"               -> ("refined"         , "eu.timepit"                   , "refined"),
-    "refined-scalacheck"    -> ("refined"         , "eu.timepit"                   , "refined-scalacheck"),
-    "refined-scalaz"        -> ("refined"         , "eu.timepit"                   , "refined-scalaz"),
-    "refined-scodec"        -> ("refined"         , "eu.timepit"                   , "refined-scodec"),
-    "scalatest"             -> ("scalatest"       , "org.scalatest"                , "scalatest"),
-    "scalacheck"            -> ("scalacheck"      , "org.scalacheck"               , "scalacheck"),
-    "scodec-core"           -> ("scodec"          , "org.scodec"                   , "scodec-core"),
-    "scodec-protocols"      -> ("scodec"          , "org.scodec"                   , "scodec-protocols"),
-    "scodec-stream"         -> ("scodec"          , "org.scodec"                   , "scodec-stream"),
-    "scodec-spire"          -> ("scodec"          , "org.scodec"                   , "scodec-spire"),
-    "scodec-bits"           -> ("scodec"          , "org.scodec"                   , "scodec-bits"),
-    "shapeless"             -> ("shapeless"       , "com.chuusai"                  , "shapeless"),
-    "simulacrum"            -> ("simulacrum"      , "com.github.mpilquist"         , "simulacrum"),
-    "specs2-core"           -> ("specs2"          , "org.specs2"                   , "specs2-core"),
-    "specs2-scalacheck"     -> ("specs2"          , "org.specs2"                   , "specs2-scalacheck")
-  )
+  val libraries = typelevel.libraries.libs
 
   /**
    * Compiler plugins definitions and links to their versions
@@ -107,10 +60,7 @@ object Dependencies {
    *
    * Format: Library name -> version key, org, librar, crossVersion
    */
-  val scalacPlugins = Map[String, (String, String, String, CrossVersion)](
-    "kind-projector"    -> ("kind-projector"  , "org.spire-math"      , "kind-projector" , CrossVersion.binary),
-    "paradise"          -> ("paradise"        , "org.scalamacros"     , "paradise"       , CrossVersion.full)
-  )
+  val scalacPlugins = typelevel.libraries.plugs
 
   // Some helper methods to combine libraries
   /**
