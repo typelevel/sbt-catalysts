@@ -10,7 +10,7 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.5.2")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.11.0")
 ```
 
 This will automatically:
@@ -21,19 +21,67 @@ This will automatically:
 
 The current list of dependencies and versions can be found here:
 
- - [Typelevel dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala#L15)
+ - [Typelevel dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
 
-## G8 Template
 
-The easiest way to create a new project using sbt-catalyst is through its g8 template.
-```bash
-sbt new typelevel/sbt-catalysts.g8
+
+## Overview
+
+It is very important to realise that using the plugin *does not actually change the
+the build in any way, but merely provides the methods to help create a build.sbt.** (except the plugins) 
+The design goal was thus to facilitate setting up a build rather than providing an build template.  
+
+Compared to a plugin that "does everything", the advantage of this approach is that it is far
+easier to use other functionality where appropriate and also to "see" what the build is
+is actually doing, as the methods are (mainly) just **pure SBT methods**. 
+
+sbt-catalyst provides a helper library to manage library dependencies. 
+The norm would be:
+
+In a small project, define the library dependencies explicitly:
+
+```scala
+libraryDependencies += "org.typelevel" %% "alleycats" %  "0.1.0"
 ```
-Or you can follow the example below, which is slightly different from the g8 template.
 
-## Quick Example
+If another sub-project also has this dependency, it's common to move the definition to a val, and
+often the version too. It the library is used in another module for test only, another val is 
+required:
 
-In this example build file, we define a project that:
+```scala
+val alleycatsV = "0.1.0"
+val alleycatsDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV)
+val alleycatsTestDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV % "test")
+```
+
+Whilst this works fine for individual projects, it's not ideal when a group of loosely coupled want
+to share a common set (or sets) of dependencies, that they can also modify locally if required.
+In this sense, we need "cascading configuration dependency files" and this is what this plugin also
+provides. It's also a lot of repeated settings when you have multiple modules
+
+sbt-catalyst provides a "Versions" class to help manage library dependencies. In the following 
+example, `org.typelevel.libraries` is a built-in `Versions` that included over [two dozens of typelevel libraries](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala).  
+Then you can easily add your own libraries in a concise way or override versions. 
+```scala
+val libs = org.typelevel.libraries
+  .add   (name = "cats" ,    version = "1.4.0") //override versions
+  .addJVM(name = "newtype" , version = "0.1.0", org= "io.estatico") //add a JVM only lib
+  .addJava(name= "commons-maths3" , version = "3.6.1", org= "org.apache.commons") //add a java only lib
+  .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
+  .add   (name = "http4s" , version = "0.18.0-M8", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client")
+```
+Then later when defining your module, you can use the `dependencies` method to add, well, dependencies. 
+```scala
+.settings(
+    libs.dependencies("cats-core", "cats-collections", "newtype", "http4s-blaze-client", "commons-maths3"),
+    libs.testDependencies("scalacheck-shapeless_1.13", "scalatest"))
+```
+
+
+## Example of cross building project using sbt-catalyst
+
+In this example build file, we used most of the methods provided by sbt-catalyst. In real project, you can pick whatever that works for you.   
+We define a project that:
 - Has a root project configured as an umbrella project for JVM/JS builds for multiple scala versions
 - Has two sub-projects(modules) that cross compile to JVM and JS
 - Use the standard typelevel set of dependencies and versions
@@ -45,7 +93,7 @@ In this example build file, we define a project that:
 - Generates scaladoc documentation and a GithubPages web site
 
 ```scala
-import org.typelevel.Dependencies._
+
 
 addCommandAlias("gitSnapshots", ";set version in ThisBuild := git.gitDescribedVersion.value.get + \"-SNAPSHOT\"")
 
@@ -53,7 +101,7 @@ addCommandAlias("gitSnapshots", ";set version in ThisBuild := git.gitDescribedVe
  * Project settings
  */
 val gh = GitHubSettings(org = "InTheNow", proj = "catalysts", publishOrg = "org.typelevel", license = apache)
-val vAll = Versions(versions, libraries, scalacPlugins)
+val libs = org.typelevel.libraries.add("cats", "1.3.0") //override cats version
 
 /**
  * Root - This is the root project that aggregates the catalystsJVM and catalystsJS sub projects
@@ -89,8 +137,10 @@ lazy val platformJVM = platformM.jvm
 lazy val platformJS  = platformM.js
 lazy val platformM   = module("platform", CrossType.Dummy)
   .dependsOn(macrosM)
-  .settings(addLibs(vAll, "specs2-core","specs2-scalacheck" ):_*)
-  .settings(addTestLibs(vAll, "scalatest"):_*)
+  .settings(
+    libs.dependencies("specs2-core","specs2-scalacheck"),
+    libs.testDependencies("scalatest")
+  )
 
 /** Docs - Generates and publishes the scaladoc API documents and the project web site.*/
 lazy val docs = project.configure(mkDocConfig(gh, rootSettings, commonJvmSettings,
@@ -113,64 +163,10 @@ lazy val publishSettings = sharedPublishSettings(gh, devs) ++ credentialSettings
 lazy val scoverageSettings = sharedScoverageSettings(60)
 ```
 
-## Overview
-
-It is very important to realise that using the plugin does not actually change the
-the build in any way, but merely provides the methods to help create a build.sbt. 
-The design goal was thus to facilitate using SBT, rather than replace it.  
-
-Compared to a plugin that "does everything", the advantage of this approach is that it is far
-easier to use other functionality where appropriate and also to "see" what the build is
-is actually doing, as the methods are (mainly) just pure SBT methods. 
-
-
-
-Where we do deviate from "pure" SBT is how we define library dependencies. The norm would be:
-
-In a small project, define the library dependencies explicitly:
-
-```scala
-libraryDependencies += "org.typelevel" %% "alleycats" %  "0.1.0"
-```
-
-If another sub-project also has this dependency, it's common to move the definition to a val, and
-often the version too. It the library is used in another module for test only, another val is 
-required:
-
-```scala
-val alleycatsV = "0.1.0"
-val alleycatsDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV)
-val alleycatsTestDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV % "test")
-```
-
-Whilst this works fine for individual projects, it's not ideal when a group of loosely coupled want
-to share a common set (or sets) of dependencies, that they can also modify locally if required.
-In this sense, we need "cascading configuration dependency files" and this is what this plugin also
-provides.
-
-"org.typelevel.depenendcies" provides two Maps, one for library versions the the for individual libraries
-with their organisation, name and version. Being standard scala Maps, other dependency Maps can be added
-with new or updated dependencies. The same applies for scala plugins. To use, we create the three Maps and
-add to a combined container and then add the required dependencies to a module: eg
-
-```scala
-val vers = typelevel.versions ++ catalysts.versions + ("discipline" -> "0.3")
-val libs = typelevel.libraries ++ catalysts.libraries
-val addins = typelevel.scalacPlugins ++ catalysts.scalacPlugins
-val vAll = Versions(vers, libs, addins)
-....
-.settings(addLibs(vAll, "specs2-core","specs2-scalacheck" ):_*)
-.settings(addTestLibs(vAll, "scalatest" ):_*)
-```
-
-## Detailed Setup
-
-To follow...
 
 ## Projects using sbt-catalysts
 
-+ [alleycats][alleycats]
-+ [mainecoon][mainecoon]
++ [mainecoon][cats-tagless]
 + [catalysts][catalysts]
 
 ### Maintainers

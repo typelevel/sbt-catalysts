@@ -34,10 +34,15 @@ object `package` {
     .add(name = "scalac_2.10",      version = "2.10.7")
     .addScalacPlugin(name = "kind-projector", version = "0.9.7",  org = "org.spire-math", crossVersion = CrossVersion.binary )
     .addScalacPlugin(name = "paradise",       version = "0.13.0", org = "org.scalamacros", crossVersion = CrossVersion.full )
+
+  def macroCompatSettings(v: Versions): Seq[Setting[_]] =
+    addCompileLibs(v, "macro-compat") ++ paradiseSettings(v) ++ // addCompilerPlugins(v, "paradise") ++
+      scalaMacroDependencies(v)
 }
 
 
 /** Default Typelevel dependencies.*/
+@deprecated("use org.typelevel.libraries instead", "0.10.0")
 object Dependencies {
 
   /**
@@ -71,7 +76,5 @@ object Dependencies {
    * @param v Versions map to use
    * @return All settings required for the macro-compat library
    */
-  def macroCompatSettings(v: Versions): Seq[Setting[_]] =
-    addCompileLibs(v, "macro-compat") ++ paradiseSettings(v) ++ // addCompilerPlugins(v, "paradise") ++
-      scalaMacroDependencies(v)
+  def macroCompatSettings(v: Versions): Seq[Setting[_]] = org.typelevel.macroCompatSettings(v)
 }
