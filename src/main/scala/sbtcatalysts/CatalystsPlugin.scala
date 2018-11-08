@@ -161,9 +161,9 @@ trait CatalystsBase {
       }
     }
 
-    def libDep(moduleName: String,
-               maybeScope: Option[String] = None,
-               exclusions: List[ExclusionRule] = Nil): Setting[Seq[ModuleID]] =
+    def dependency(moduleName: String,
+                   maybeScope: Option[String] = None,
+                   exclusions: List[ExclusionRule] = Nil): Setting[Seq[ModuleID]] =
         libraryDependencies += {
           val m = moduleID(moduleName).value
           (maybeScope, exclusions) match {
@@ -174,11 +174,11 @@ trait CatalystsBase {
           }
         }
 
-    def testLibDeps(moduleNames: String*): Seq[Setting[Seq[ModuleID]]] =
-      moduleNames.map(libDep(_, Some("test")))
+    def testDependencies(moduleNames: String*): Seq[Setting[Seq[ModuleID]]] =
+      moduleNames.map(dependency(_, Some("test")))
 
-    def libDeps(moduleNames: String*): Seq[Setting[Seq[ModuleID]]] =
-      moduleNames.map(libDep(_))
+    def dependencies(moduleNames: String*): Seq[Setting[Seq[ModuleID]]] =
+      moduleNames.map(dependency(_))
   }
 
   // Licences
@@ -200,7 +200,7 @@ trait CatalystsBase {
 
   /** Using the supplied Versions map, adds the list of libraries to a module.*/
   def addLibs(versions: Versions, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] =
-    versions.libDeps(libs:_*)
+    versions.dependencies(libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a compile dependency.*/
   def addCompileLibs(versions: Versions, libs: String*) =
@@ -208,18 +208,18 @@ trait CatalystsBase {
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a test dependency.*/
   def addTestLibs(versions: Versions, moduleNames: String*): Seq[Def.Setting[Seq[ModuleID]]] =
-    versions.testLibDeps(moduleNames:_*)
+    versions.testDependencies(moduleNames:_*)
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
   def addLibsScoped(versions: Versions, scope: String, moduleNames: String*) =
-    moduleNames map (versions.libDep(_, Some(scope)))
+    moduleNames map (versions.dependency(_, Some(scope)))
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
   def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], libs: String*) =
-    libs map (versions.libDep(_, exclusions = exclusions))
+    libs map (versions.dependency(_, exclusions = exclusions))
 
   def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], libs: String*) =
-    libs map (versions.libDep(_, Some(scope), exclusions))
+    libs map (versions.dependency(_, Some(scope), exclusions))
 
   /** Using the supplied Versions map, adds the list of compiler plugins to a module.*/
   def addCompilerPlugins(v: Versions, plugins: String*) =
