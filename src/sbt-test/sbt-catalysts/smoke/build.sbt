@@ -1,11 +1,10 @@
-import org.typelevel.libraries
 import sbtcrossproject.CrossPlugin.autoImport.CrossType
 
 val apache2 = "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.html")
 val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.kailuowang", license = apache2)
 
 
-val libs = libraries
+val libs = org.typelevel.libraries
   .addJVM(name = "newtype" , version = "0.1.0", org= "io.estatico")
   .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
   .add(   name = "http4s" , version = "0.18.0-M8", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client")

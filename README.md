@@ -63,9 +63,7 @@ sbt-catalyst provides a "Versions" class to help manage library dependencies. In
 example, `org.typelevel.libraries` is a built-in `Versions` that included over [two dozens of typelevel libraries](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala).  
 Then you can easily add your own libraries in a concise way or override versions. 
 ```scala
-import org.typelevel.libraries
-
-val libs = libraries
+val libs = org.typelevel.libraries
   .add   (name = "cats" ,    version = "1.4.0") //override versions
   .addJVM(name = "newtype" , version = "0.1.0", org= "io.estatico") //add a JVM only lib
   .addJava(name= "commons-maths3" , version = "3.6.1", org= "org.apache.commons") //add a java only lib
