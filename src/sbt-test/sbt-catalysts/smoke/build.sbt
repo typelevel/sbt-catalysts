@@ -1,21 +1,16 @@
-import org.typelevel.Dependencies._
+import org.typelevel.libraries
 import sbtcrossproject.CrossPlugin.autoImport.CrossType
 
 val apache2 = "Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.html")
 val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.kailuowang", license = apache2)
 
-lazy val myLibraries = Map(
-  singleModuleLib("newtype" , "io.estatico"),
-  singleModuleLib("scalacheck-shapeless_1.13" , "com.github.alexarchambault")
-) ++ multiModuleLib("http4s", "org.http4s", "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client")
 
-lazy val myVersions = Map(
-  "newtype" -> "0.1.0",
-  "http4s" -> "0.18.0-M8",
-  "scalacheck-shapeless_1.13" -> "1.1.6",
-)
+val vAll = libraries
+  .addJVM(name = "newtype" , version = "0.1.0", org= "io.estatico")
+  .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
+  .add(   name = "http4s" , version = "0.18.0-M8", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client")
 
-val vAll = Versions(versions ++ myVersions, libraries ++ myLibraries, scalacPlugins)
+
 
 
 lazy val rootSettings = buildSettings ++ commonSettings ++ publishSettings ++ scoverageSettings
@@ -38,10 +33,8 @@ lazy val core    = prj(coreM)
 lazy val coreJVM = coreM.jvm
 lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
-  .settings(addLibs(vAll, "cats-core"))
-  .settings(addJVMLibs(vAll, "newtype"))
-  .settings(addJVMTestLibs(vAll, "scalacheck-shapeless_1.13"))
-  .settings(addTestLibs(vAll, "scalatest"))
+  .settings(vAll.libDeps("cats-core", "newtype"))
+  .settings(vAll.testLibDeps("scalacheck-shapeless_1.13", "scalatest"))
   .settings(simulacrumSettings(vAll, false))
 
 
