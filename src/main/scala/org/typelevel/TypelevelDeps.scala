@@ -19,7 +19,7 @@ object `package` {
     .add(name = "discipline",       version = "0.9.0",  org = typeLevelOrg)
     .add(name = "machinist",        version = "0.6.5",  org = typeLevelOrg)
     .add(name = "machmacro-compat", version = "1.1.1",  org = typeLevelOrg)
-    .add(name = "monocle",          version = "v1.5.1-cats", org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
+    .add(name = "monocle",          version = "1.5.1-cats", org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
     .add(name = "refined",          version = "0.8.7",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
     .add(name = "scalacheck",       version = "1.13.5", org = "org.scalacheck")
     .add(name = "scalatest",        version = "3.0.5",  org = "org.scalatest")
