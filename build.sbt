@@ -1,11 +1,10 @@
 
-sbtPlugin := true
 organization := "org.typelevel"
 name := "sbt-catalysts"
 description := "SBT plugin for Catalysts"
 
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.10"
-
+enablePlugins(SbtPlugin)
 addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"               % "0.4.1")
 addSbtPlugin("com.github.gseitz"   %  "sbt-release"              % "1.0.7")
 addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.7.1")
@@ -24,16 +23,7 @@ scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
-scalaVersion := "2.12.6"
-
-//sbtVersion in Global := "1.1.6"
-
-//scalaCompilerBridgeSource := {
-//  val sv = appConfiguration.value.provider.id.version
-//  ("org.scala-sbt" % "compiler-interface" % sv % "component").sources
-//}
-
-//crossSbtVersions := List("0.13.16", "1.1.0")
+scalaVersion := "2.12.7"
 
 scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@github.com:inthenow/sbt-catalysts.git"))
 
@@ -43,15 +33,9 @@ bintrayRepository := "sbt-plugins"
 
 bintrayOrganization := Some("typelevel")
 
-//resolvers ++= Seq(
-//  Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns),
-//  Resolver.sonatypeRepo("releases"))
-
-//scriptedSettings
-
 scriptedBufferLog := false
 
-scriptedLaunchOpts ++= Seq(
+scriptedLaunchOpts :=  Seq(
   "-Xmx1024M",
   "-XX:MaxPermSize=256M",
   "-Dplugin.version=" + version.value
