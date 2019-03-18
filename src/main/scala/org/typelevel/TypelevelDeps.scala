@@ -33,7 +33,7 @@ object `package` {
     .add(name = "scalac_2.11",      version = "2.11.12")
     .add(name = "scalac_2.10",      version = "2.10.7")
     .addScalacPlugin(name = "kind-projector", version = "0.9.7",  org = "org.spire-math", crossVersion = CrossVersion.binary )
-    .addScalacPlugin(name = "paradise",       version = "0.13.0", org = "org.scalamacros", crossVersion = CrossVersion.full )
+    .addScalacPlugin(name = "paradise",       version = "2.1.0", org = "org.scalamacros", crossVersion = CrossVersion.full )
 
   def macroCompatSettings(v: Versions): Seq[Setting[_]] =
     addCompileLibs(v, "macro-compat") ++ paradiseSettings(v) ++ // addCompilerPlugins(v, "paradise") ++
