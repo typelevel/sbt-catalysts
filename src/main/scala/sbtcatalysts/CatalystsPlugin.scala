@@ -365,8 +365,9 @@ trait CatalystsBase {
 
   /** all scalac options as a settings including the partialUnification and xlint **/
   lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
-    scalacOptions ++= scalacAllOptions
+    scalacOptions ++= scalacAllOptionsFor(scalaVersion.value)
   ) ++ partialUnificationSettings ++ xlintSettings ++ warnUnusedImport
+
 
   /**
    * Settings common to all projects.
@@ -522,8 +523,8 @@ trait CatalystsBase {
   lazy val partialUnificationSettings = Seq(
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 10)) => Nil  //Xling:unused warn against unused implicit evidence
-        case _ => Seq("-Ypartial-unification")
+        case Some((2, 11 | 12)) => Seq("-Ypartial-unification")
+        case _ => Nil  //Xling:unused warn against unused implicit evidence
       }
     }
   )
@@ -534,9 +535,7 @@ trait CatalystsBase {
    * add simulacrum settings,
    * @param compileTimeOnly make the dependency compile time only but may affect IntelliJ IDEA's simularcrum support (might be fixed post v2017.3)
    */
-  def simulacrumSettings(v: Versions, compileTimeOnly: Boolean = true) = Seq(
-    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
-  ) ++ {
+  def simulacrumSettings(v: Versions, compileTimeOnly: Boolean = true) = paradiseSettings(v) ++ macroAnnotationsSettings ++ {
     if(compileTimeOnly) Seq(
       libraryDependencies ++= Seq(
         "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % CompileTime),
