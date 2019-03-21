@@ -523,7 +523,7 @@ trait CatalystsBase {
   lazy val partialUnificationSettings = Seq(
     scalacOptions ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, n)) if Set(11L, 12L).contains(n) => Seq("-Ypartial-unification")
+        case Some((2, 11 | 12)) => Seq("-Ypartial-unification")
         case _ => Nil  //Xling:unused warn against unused implicit evidence
       }
     }
