@@ -25,7 +25,7 @@ object `package` {
     .add(name = "scalatest",        version = "3.0.5",  org = "org.scalatest")
     .add(name = "scodec",           version = "1.10.3", org = "org.scodec", "scodec-core", "scodec-protocols", "scodec-stream", "scodec-spire", "scodec-bits")
     .add(name = "shapeless",        version = "2.3.3",  org = "com.chuusai")
-    .add(name = "simulacrum",       version = "0.14.0", org = "com.github.mpilquist")
+    .add(name = "simulacrum",       version = "0.15.0", org = "com.github.mpilquist")
     .add(name = "specs2",           version = "3.9.2",  org = "org.specs2", "specs2-core", "specs2-scalacheck")
     .add(name = "scalac"   ,        version = "2.12.7")
     .add(name = "scalac_2.13",      version = "2.13.0-M5")
