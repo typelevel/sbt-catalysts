@@ -166,7 +166,7 @@ lazy val scoverageSettings = sharedScoverageSettings(60)
 
 ## Projects using sbt-catalysts
 
-+ [mainecoon][cats-tagless]
++ [cats-tagless][cats-tagless]
 + [catalysts][catalysts]
 
 ### Maintainers
@@ -230,4 +230,4 @@ limitations under the License.
 [apache]: https://www.apache.org/licenses/LICENSE-2.0
 [alleycats]: https://github.com/non/alleycats
 [catalysts]: https://github.com/typelevel/catalysts
-[mainecoon]: https://github.com/kailuowang/mainecoon
+[cats-tagless]: https://github.com/typelevel/cats-tagless
