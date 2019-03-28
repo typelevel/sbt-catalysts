@@ -5,7 +5,7 @@ description := "SBT plugin for Catalysts"
 
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.26"
 enablePlugins(SbtPlugin)
-addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"               % "0.4.1")
+addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"               % "0.4.2")
 addSbtPlugin("com.github.gseitz"   %  "sbt-release"              % "1.0.11")
 addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.7.1")
 addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"             % "2.0")
