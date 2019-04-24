@@ -552,7 +552,7 @@ trait CatalystsBase {
     micrositeName := gh.proj,
     micrositeDescription := siteDescription,
     micrositeBaseUrl := gh.proj,
-    micrositeGithubOwner := dev.id,
+    micrositeGithubOwner := gh.org,
     micrositeGithubRepo := gh.proj,
     micrositeHighlightTheme := "atom-one-light",
     micrositeAuthor := dev.name
