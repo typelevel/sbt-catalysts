@@ -552,7 +552,7 @@ trait CatalystsBase {
     micrositeName := gh.proj,
     micrositeDescription := siteDescription,
     micrositeBaseUrl := gh.proj,
-    micrositeGithubOwner := dev.id,
+    micrositeGithubOwner := gh.org,
     micrositeGithubRepo := gh.proj,
     micrositeHighlightTheme := "atom-one-light",
     micrositeAuthor := dev.name
@@ -698,7 +698,7 @@ trait CatalystsBase {
        docsMappingsAPIDir := "api",
        addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir),
        ghpagesNoJekyll := false,
-       scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-dead-code"),
+       scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports", "-Ywarn-dead-code"),
        scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
          "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
          "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
