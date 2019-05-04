@@ -346,23 +346,22 @@ trait CatalystsBase {
     //"-Ymacro-annotations",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard",
-    "-Xfuture"
+    "-Ywarn-value-discard"
   )
+ 
+ lazy val scalacStrictOptions2_12 = Seq(
+   "-Yno-adapted-args",
+   "-Xfuture"
+ )
 
   /** Combines all scalac options.*/
   lazy val scalacAllOptions: Seq[String] = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
 
-  def scalacAllOptionsFor(scalaVersion: String): Seq[String] = scalacAllOptions.filter(_ != {
-      CrossVersion.partialVersion(scalaVersion) match {
-        case Some((2, n)) if n >= 13 =>
-          "-Yno-adapted-args"
-        case _ =>
-          ""
-      }
-                                                                                         }
-    )
-
+  def scalacAllOptionsFor(scalaVersion: String): Seq[String] = scalacAllOptions ++ 
+    if(priorTo2_13(scalaVersion))
+      scalacStrictOptions2_12
+    else Nil
+ 
   /** all scalac options as a settings including the partialUnification and xlint **/
   lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= scalacAllOptionsFor(scalaVersion.value)
