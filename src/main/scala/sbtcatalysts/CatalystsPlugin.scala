@@ -342,8 +342,6 @@ trait CatalystsBase {
   /** Scalac strict compilation options.*/
   lazy val scalacStrictOptions = Seq(
     "-Xfatal-warnings",
-    "-Yno-adapted-args",
-    //"-Ymacro-annotations",
     "-Ywarn-dead-code",
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
