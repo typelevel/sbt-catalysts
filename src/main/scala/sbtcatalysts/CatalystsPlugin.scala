@@ -440,20 +440,31 @@ trait CatalystsBase {
    * Adds a Sonatype release step to the default release steps
    */
   lazy val sharedReleaseProcess = Seq(
-    releaseProcess := Seq[ReleaseStep](
-      checkSnapshotDependencies,
-      inquireVersions,
-      releaseStepCommandAndRemaining("+clean"),
-      releaseStepCommandAndRemaining("+test"),
-      setReleaseVersion,
-      commitReleaseVersion,
-      tagRelease,
-      releaseStepCommandAndRemaining("+publishSigned"),
-      setNextVersion,
-      commitNextVersion,
-      releaseStepCommand("sonatypeReleaseAll"),
-      pushChanges)
+    releaseProcess := sharedReleaseSteps
   )
+
+  lazy val sharedReleaseSteps = Seq[ReleaseStep](
+    checkSnapshotDependencies,
+    inquireVersions,
+    releaseStepCommandAndRemaining("+clean"),
+    releaseStepCommandAndRemaining("+test"),
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    releaseStepCommandAndRemaining("+publishSigned"),
+    setNextVersion,
+    commitNextVersion,
+    releaseStepCommand("sonatypeReleaseAll"),
+    pushChanges)
+
+  def insertReleaseStep(step: ReleaseStep, before: ReleaseStep, steps: Seq[ReleaseStep] = sharedReleaseSteps): Seq[ReleaseStep] = {
+    val i = steps.toList.indexOf(before)
+    if(i < 0) throw new RuntimeException("Cannot find before step in steps")
+    else {
+      val (before, after) = steps.splitAt(i)
+      (before :+ step) ++ after
+    }
+  }
 
   /** Common coverage settings, with minimum coverage defaulting to 80.*/
   def sharedScoverageSettings(min: Int = 80) = Seq(
