@@ -303,7 +303,7 @@ trait CatalystsBase {
              )
          }
        }
-    )
+    ) ++ macroAnnotationsSettings
   }
 
   lazy val macroAnnotationsSettings = Seq(
