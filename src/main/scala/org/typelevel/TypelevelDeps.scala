@@ -17,7 +17,7 @@ object `package` {
     .add(name = "cats-collection",  version = "0.7.0",  org = typeLevelOrg)
     .add(name = "kittens",          version = "1.2.1",  org = typeLevelOrg)
     .add(name = "mouse",            version = "0.16",   org = typeLevelOrg)
-    .add(name = "discipline",       version = "0.12.0-M1",  org = typeLevelOrg, "discipline-core", "discipline-scalatest")
+    .add(name = "discipline",       version = "0.12.0-M3",  org = typeLevelOrg, "discipline-core", "discipline-scalatest")
     .add(name = "machinist",        version = "0.6.7",  org = typeLevelOrg)
     .add(name = "macro-compat", version = "1.1.1",  org = typeLevelOrg)
     .add(name = "monocle",          version = "1.5.1-cats", org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
