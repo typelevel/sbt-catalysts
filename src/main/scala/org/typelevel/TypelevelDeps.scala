@@ -23,7 +23,7 @@ object `package` {
     .add(name = "monocle",          version = "1.5.1-cats", org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
     .add(name = "refined",          version = "0.8.7",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
     .add(name = "scalacheck",       version = "1.14.0", org = "org.scalacheck")
-    .add(name = "scalatest",        version = "3.1.0-SNAP12",  org = "org.scalatest")
+    .add(name = "scalatest",        version = "3.1.0-SNAP13",  org = "org.scalatest")
     .add(name = "scodec",           version = "1.10.3", org = "org.scodec", "scodec-core", "scodec-protocols", "scodec-stream", "scodec-spire", "scodec-bits")
     .add(name = "shapeless",        version = "2.3.3",  org = "com.chuusai")
     .add(name = "simulacrum",       version = "0.19.0", org = "com.github.mpilquist")
