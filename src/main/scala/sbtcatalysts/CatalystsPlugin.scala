@@ -294,9 +294,9 @@ trait CatalystsBase {
     Seq(
        libraryDependencies ++= {
          CrossVersion.partialVersion(scalaVersion.value) match {
-           // if scala 2.11+ is used, quasiquotes are merged into scala-reflect
+           // if scala 2.13+ is used, quasiquotes are merged into scala-reflect
            case Some((2, scalaMajor)) if scalaMajor >= 13 => Seq()
-           // in Scala 2.10, quasiquotes are provided by macro paradise
+           // otherwise quasiquotes are provided by macro paradise
            case _ =>
              Seq(
                compilerPlugin("org.scalamacros" %% "paradise" % version cross CrossVersion.full)
