@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: automatic merge scala steward update on travis success
+  - name: automatic merge scala-steward PR on travis green
     conditions:
       - status-success=continuous-integration/travis-ci/pr
       - author=scala-steward
