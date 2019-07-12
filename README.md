@@ -10,19 +10,14 @@ similar cross platform projects.
 To use it, just add it to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.typelevel" % "sbt-catalysts" % "0.11.0")
+addSbtPlugin("org.typelevel" % "sbt-catalysts" % LATEST_VERSION)
 ```
 
 This will automatically:
 
 - Include other plugins - see [the build file for the current list](https://github.com/typelevel/sbt-catalysts/blob/master/build.sbt#L13-L25)
-- Provide versions and library settings used by typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
-- Include some functionality to help keep your build file sane - see the quick example below
-
-The current list of dependencies and versions can be found here:
-
- - [Typelevel dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala)
-
+- Provide versions and library settings used by Typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/package.scala), which is automatically updated by the awesome @scala-steward. 
+- Include some functionality to help keep your build file sane, especially if you are cross building against multiple Scala versions and Scala.JS - see the quick example below
 
 
 ## Overview
@@ -41,7 +36,7 @@ The norm would be:
 In a small project, define the library dependencies explicitly:
 
 ```scala
-libraryDependencies += "org.typelevel" %% "alleycats" %  "0.1.0"
+libraryDependencies += "org.typelevel" %% "alleycats-core" %  "0.1.0"
 ```
 
 If another sub-project also has this dependency, it's common to move the definition to a val, and
@@ -50,8 +45,8 @@ required:
 
 ```scala
 val alleycatsV = "0.1.0"
-val alleycatsDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV)
-val alleycatsTestDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV % "test")
+val alleycatsDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats-core" % alleycatsV)
+val alleycatsTestDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats-laws" % alleycatsV % "test")
 ```
 
 Whilst this works fine for individual projects, it's not ideal when a group of loosely coupled want
@@ -59,12 +54,12 @@ to share a common set (or sets) of dependencies, that they can also modify local
 In this sense, we need "cascading configuration dependency files" and this is what this plugin also
 provides. It's also a lot of repeated settings when you have multiple modules
 
-sbt-catalyst provides a "Versions" class to help manage library dependencies. In the following 
-example, `org.typelevel.libraries` is a built-in `Versions` that included over [two dozens of typelevel libraries](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/TypelevelDeps.scala).  
+sbt-catalyst provides a "Libraries" class to help manage library dependencies. In the following 
+example, `org.typelevel.libraries` is a built-in `Versions` that included over [two dozens of typelevel libraries](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/package.scala).  
 Then you can easily add your own libraries in a concise way or override versions. 
 ```scala
 val libs = org.typelevel.libraries
-  .add   (name = "cats" ,    version = "1.4.0") //override versions
+  .add   (name = "cats" ,    version = "2.0.0-M4") //override versions
   .addJVM(name = "newtype" , version = "0.1.0", org= "io.estatico") //add a JVM only lib
   .addJava(name= "commons-maths3" , version = "3.6.1", org= "org.apache.commons") //add a java only lib
   .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
@@ -168,6 +163,7 @@ lazy val scoverageSettings = sharedScoverageSettings(60)
 
 + [cats-tagless][cats-tagless]
 + [catalysts][catalysts]
++ [henkan][henkan]
 
 ### Maintainers
 
@@ -194,15 +190,13 @@ relax this to a single sign-off.
 
 Discussion around sbt-catalysts is currently happening in the
 gitter channel, issue and PR pages.
-You can get an overview of who is working on what
-via [Waffle.io](https://waffle.io/typelevel/sbt-catalysts).
 
 Feel free to open an issue if you notice a bug, have an idea for a
 feature, or have a question about the code. Pull requests are also
 gladly accepted.
 
 People are expected to follow the
-[Typelevel Code of Conduct](http://typelevel.org/conduct.html) when
+[Scala Code of Conduct](https://typelevel.org/code-of-conduct.html) when
 discussing Catalysts on the Github page, Gitter channel, or other
 venues.
 
@@ -228,6 +222,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 [apache]: https://www.apache.org/licenses/LICENSE-2.0
-[alleycats]: https://github.com/non/alleycats
 [catalysts]: https://github.com/typelevel/catalysts
 [cats-tagless]: https://github.com/typelevel/cats-tagless
+[henkan]: https://github.com/kailuowang/henkan
