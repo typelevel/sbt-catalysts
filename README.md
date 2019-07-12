@@ -16,7 +16,7 @@ addSbtPlugin("org.typelevel" % "sbt-catalysts" % LATEST_VERSION)
 This will automatically:
 
 - Include other plugins - see [the build file for the current list](https://github.com/typelevel/sbt-catalysts/blob/master/build.sbt#L13-L25)
-- Provide versions and library settings used by Typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/package.scala), which is automatically updated by the awesome @scala-steward. 
+- Provide versions and library settings used by Typelevel and related projects - see [Dependencies](https://github.com/typelevel/sbt-catalysts/blob/master/src/main/scala/org/typelevel/package.scala), which is automatically updated by the awesome [scala-steward](https://github.com/fthomas/scala-steward/). 
 - Include some functionality to help keep your build file sane, especially if you are cross building against multiple Scala versions and Scala.JS - see the quick example below
 
 
