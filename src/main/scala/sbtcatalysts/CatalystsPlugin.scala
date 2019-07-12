@@ -26,7 +26,10 @@ import sbtcrossproject.{CrossProject, JVMPlatform}
 import sbtcrossproject.CrossPlugin.autoImport._
 import scalajscrossproject.JSPlatform
 import scalajscrossproject.ScalaJSCrossPlugin.autoImport._
-import CatalystsBase._
+import org.typelevel.sbtcatalysts.Libraries._
+import org.typelevel.sbtcatalysts.Libraries
+
+import sbtcatalysts.CatalystsPlugin.autoImport.{addCompileLibs, paradiseSettings, scalaMacroDependencies}
 /**
  * Plugin that automatically brings into scope all predefined val's and method
  * definitions.
@@ -88,6 +91,7 @@ object CatalystsPlugin extends AutoPlugin {
   }
 }
 
+
 /** Contains all methods to simplify a common build file.*/
 trait CatalystsBase {
 
@@ -100,86 +104,7 @@ trait CatalystsBase {
   def multiModuleLib(name: String, org: String, modules: String*): LibrariesType =
     modules.map(module => module -> (name, org, module)).toMap
 
-  /** Container for the version, library and scala plugin Maps.*/
-  case class Versions(vers: VersionsType = Map(),
-                      libs: LibrariesType = Map(),
-                      plugs: ScalacPluginType = Map(),
-                      libsSprt: Map[String, LibrarySupport] = Map()) {
 
-    def add(name: String, librarySupport: LibrarySupport): Versions =
-      copy(libsSprt = libsSprt + (name -> librarySupport))
-
-    def add(name: String, version: String, org: String): Versions =
-      add(name, version, LibrarySupport.ScalaJS, org)
-
-    def addJVM(name: String, version: String, org: String): Versions =
-      add(name, version, LibrarySupport.ScalaJVM, org)
-
-    def addJava(name: String, version: String, org: String): Versions =
-      add(name, version, LibrarySupport.Java, org)
-
-    def add(name: String, version: String): Versions =
-      copy(vers = vers + (name -> version))
-
-    def add(name: String, version: String, librarySupport: LibrarySupport, org: String): Versions =
-      add(name, version)
-        .copy(libs = libs + (name -> (name, org, name)))
-        .add(name, librarySupport)
-
-    def add(name: String, version: String, org: String, modules: String*): Versions =
-      add(name, version, org, LibrarySupport.ScalaJS, modules:_*)
-
-    def addJVM(name: String, version: String, org: String, modules: String*): Versions =
-      add(name, version, org, LibrarySupport.ScalaJVM, modules:_*)
-
-    def addJava(name: String, version: String, org: String, modules: String*): Versions =
-      add(name, version, org, LibrarySupport.ScalaJVM, modules:_*)
-
-    def add(name: String, version: String, org: String, librarySupport: LibrarySupport, modules: String*): Versions =
-      add(name, version)
-        .add(name, librarySupport)
-        .copy(libs = libs ++ modules.map(module => module -> (name, org, module)).toMap)
-
-    def addScalacPlugin(name: String, version: String, org: String, crossVersion: CrossVersion) =
-      copy(plugs = plugs + (name -> (name, org, name, crossVersion)), vers = vers + (name -> version))
-
-    def +(other: Versions) = copy(vers ++ other.vers, libs ++ other.libs, plugs ++ other.plugs)
-
-    def moduleID(key: String) = Def.setting {
-
-      val (libKey, libOrg, libModuleName) = libs(key)
-
-      val (libVer, libSpt) = (vers(libKey), libsSprt(libKey))
-
-      libSpt match {
-        case LibrarySupport.Java =>
-          libOrg % libModuleName % libVer
-        case LibrarySupport.ScalaJVM =>
-          libOrg %% libModuleName % libVer
-        case LibrarySupport.ScalaJS =>
-          libOrg %%% libModuleName % libVer
-      }
-    }
-
-    def dependency(moduleName: String,
-                   maybeScope: Option[String] = None,
-                   exclusions: List[ExclusionRule] = Nil): Setting[Seq[ModuleID]] =
-        libraryDependencies += {
-          val m = moduleID(moduleName).value
-          (maybeScope, exclusions) match {
-            case (Some(scope), Nil) => m % scope
-            case (None, ex) => m excludeAll (ex: _*)
-            case (Some(scope), ex) => m % scope excludeAll (ex: _*)
-            case _ => m
-          }
-        }
-
-    def testDependencies(moduleNames: String*): Seq[Setting[Seq[ModuleID]]] =
-      moduleNames.map(dependency(_, Some("test")))
-
-    def dependencies(moduleNames: String*): Seq[Setting[Seq[ModuleID]]] =
-      moduleNames.map(dependency(_))
-  }
 
   // Licences
   /** Apache 2.0 Licence.*/
@@ -199,30 +124,30 @@ trait CatalystsBase {
   }
 
   /** Using the supplied Versions map, adds the list of libraries to a module.*/
-  def addLibs(versions: Versions, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] =
+  def addLibs(versions: Libraries, libs: String*): Seq[Def.Setting[Seq[ModuleID]]] =
     versions.dependencies(libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a compile dependency.*/
-  def addCompileLibs(versions: Versions, libs: String*) =
+  def addCompileLibs(versions: Libraries, libs: String*) =
     addLibsScoped(versions, "compile", libs:_*)
 
   /** Using the supplied Versions map, adds the list of libraries to a module as a test dependency.*/
-  def addTestLibs(versions: Versions, moduleNames: String*): Seq[Def.Setting[Seq[ModuleID]]] =
+  def addTestLibs(versions: Libraries, moduleNames: String*): Seq[Def.Setting[Seq[ModuleID]]] =
     versions.testDependencies(moduleNames:_*)
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
-  def addLibsScoped(versions: Versions, scope: String, moduleNames: String*) =
+  def addLibsScoped(versions: Libraries, scope: String, moduleNames: String*) =
     moduleNames map (versions.dependency(_, Some(scope)))
 
   /** Using versions map, adds the list of libraries to a module using the given dependency.*/
-  def addLibsExcluding(versions: Versions, exclusions: List[ExclusionRule], libs: String*) =
+  def addLibsExcluding(versions: Libraries, exclusions: List[ExclusionRule], libs: String*) =
     libs map (versions.dependency(_, exclusions = exclusions))
 
-  def addLibsExcluding(versions: Versions, scope: String, exclusions: List[ExclusionRule], libs: String*) =
+  def addLibsExcluding(versions: Libraries, scope: String, exclusions: List[ExclusionRule], libs: String*) =
     libs map (versions.dependency(_, Some(scope), exclusions))
 
   /** Using the supplied Versions map, adds the list of compiler plugins to a module.*/
-  def addCompilerPlugins(v: Versions, plugins: String*) =
+  def addCompilerPlugins(v: Libraries, plugins: String*) =
     plugins.flatMap(s => Seq(libraryDependencies += compilerPlugin(
       v.plugs(s)._2 %% v.plugs(s)._3 % v.vers(v.plugs(s)._1) cross v.plugs(s)._4)))
 
@@ -269,7 +194,7 @@ trait CatalystsBase {
     }
 
   /** Using the supplied Versions map, adds the dependencies for scala macros.*/
-  def scalaMacroDependencies(v: Versions): Seq[Setting[_]] = {
+  def scalaMacroDependencies(v: Libraries): Seq[Setting[_]] = {
     val version = v.vers("paradise")
     Seq(
        libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
@@ -289,7 +214,7 @@ trait CatalystsBase {
     ) ++ paradiseSettings(v)
   }
 
-  def paradiseSettings(v: Versions): Seq[Setting[_]] = {
+  def paradiseSettings(v: Libraries): Seq[Setting[_]] = {
     val version = v.vers("paradise")
     Seq(
        libraryDependencies ++= {
@@ -316,6 +241,11 @@ trait CatalystsBase {
       }
     }
   )
+
+
+  def macroCompatSettings(v: Libraries): Seq[Setting[_]] =
+    addCompileLibs(v, "macro-compat") ++ paradiseSettings(v) ++
+      scalaMacroDependencies(v)
 
   def priorTo2_13(scalaVersion: String): Boolean =
   CrossVersion.partialVersion(scalaVersion) match {
@@ -346,7 +276,7 @@ trait CatalystsBase {
     "-Ywarn-numeric-widen",
     "-Ywarn-value-discard"
   )
- 
+
  lazy val scalacStrictOptions2_12 = Seq(
    "-Yno-adapted-args",
    "-Xfuture"
@@ -358,7 +288,7 @@ trait CatalystsBase {
   def scalacAllOptionsFor(scalaVersion: String): Seq[String] = scalacAllOptions ++ {
     if(priorTo2_13(scalaVersion)) scalacStrictOptions2_12 else Nil
   }
- 
+
   /** all scalac options as a settings including the partialUnification and xlint **/
   lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= scalacAllOptionsFor(scalaVersion.value)
@@ -404,7 +334,7 @@ trait CatalystsBase {
    * Uses the github settings and versions map to set the organisation,
    * scala version and cross versions
    */
-  def sharedBuildSettings(gh: GitHubSettings, v: Versions) = Seq(
+  def sharedBuildSettings(gh: GitHubSettings, v: Libraries) = Seq(
     organization := gh.publishOrg,
     scalaVersion := v.vers("scalac"),
     crossScalaVersions := Seq(v.vers("scalac_2.11"), scalaVersion.value)
@@ -542,7 +472,7 @@ trait CatalystsBase {
    * add simulacrum settings,
    * @param compileTimeOnly make the dependency compile time only but may affect IntelliJ IDEA's simularcrum support (might be fixed post v2017.3)
    */
-  def simulacrumSettings(v: Versions, compileTimeOnly: Boolean = true) = paradiseSettings(v) ++ macroAnnotationsSettings ++ {
+  def simulacrumSettings(v: Libraries, compileTimeOnly: Boolean = true) = paradiseSettings(v) ++ macroAnnotationsSettings ++ {
     if(compileTimeOnly) Seq(
       libraryDependencies ++= Seq(
         "com.github.mpilquist" %%% "simulacrum" % v.vers("simulacrum") % CompileTime),
@@ -642,8 +572,8 @@ trait CatalystsBase {
 
   /**
    * Helper method that sets the root project's settings
-   * 
-   * In addition to setting the root settings, also adds the rootJVM settings to be used in 
+   *
+   * In addition to setting the root settings, also adds the rootJVM settings to be used in
    * in root console.
    */
   def mkRootConfig(projSettings: Seq[sbt.Setting[_]] , projJVM:Project): Project ⇒ Project =
@@ -655,8 +585,8 @@ trait CatalystsBase {
 
   /**
    * Creates the rootJVM project.
-   * 
-   * Creates the rootJVM project in ".rootJVM" with the default settings and 
+   *
+   * Creates the rootJVM project in ".rootJVM" with the default settings and
    * JVM specific default settings.
    */
   def mkRootJvmConfig(s: String, projSettings: Seq[sbt.Setting[_]],
@@ -669,8 +599,8 @@ trait CatalystsBase {
 
   /**
    * Creates the rootJS project.
-   * 
-   * Creates the rootJS project in ".rootJS" with the default settings and 
+   *
+   * Creates the rootJS project in ".rootJS" with the default settings and
    * JS specific default settings.
    */
   def mkRootJsConfig(s: String, projSettings: Seq[sbt.Setting[_]],
@@ -684,7 +614,7 @@ trait CatalystsBase {
   import scala.language.postfixOps
   /**
    * Creates a configuration for a document project for scaladoc and a GitHubPages site
-   * 
+   *
    * Creates the basic settings for a document project based on the supplied GitHub settings,
    * project and JVM settings. The documentation is created for the supplied list of projects.
    */
@@ -714,20 +644,6 @@ trait CatalystsBase {
        git.remoteRepo := gh.repo,
        includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
 
-}
-
-object CatalystsBase {
-  type VersionsType = Map[String, String]
-  type LibrariesType = Map[String, (String, String, String)]
-  type ScalacPluginType = Map[String, (String, String, String, CrossVersion)]
-
-}
-
-sealed trait LibrarySupport extends Serializable with Product
-object LibrarySupport {
-  case object ScalaJS extends LibrarySupport
-  case object ScalaJVM extends LibrarySupport
-  case object Java extends LibrarySupport
 }
 
 object CatalystsKeys extends BaseCatalystsKeys

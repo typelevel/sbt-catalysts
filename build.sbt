@@ -24,7 +24,7 @@ scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
-scalaVersion := "2.12.7"
+scalaVersion := "2.12.8"
 
 scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@github.com:inthenow/sbt-catalysts.git"))
 
@@ -41,3 +41,6 @@ scriptedLaunchOpts :=  Seq(
   "-XX:MaxPermSize=256M",
   "-Dplugin.version=" + version.value
 )
+
+//self referencing so that dependencies can be monitored by Scala Steward
+org.typelevel.libraries.testDependencies(org.typelevel.libraries.libs.keys.toSeq:_*)

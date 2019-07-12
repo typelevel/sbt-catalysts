@@ -5,9 +5,8 @@ val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.ka
 
 
 val libs = org.typelevel.libraries
-  .addJVM(name = "newtype" , version = "0.1.0", org= "io.estatico")
+  .addJVM(name = "newtype" , version = "0.4.0", org= "io.estatico")
   .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
-  .add(   name = "http4s" , version = "0.18.0-M8", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client")
 
 
 
@@ -38,13 +37,10 @@ lazy val coreM   = module("core", CrossType.Pure)
     simulacrumSettings(libs, false)
   )
 
-
-
 lazy val buildSettings = sharedBuildSettings(gh, libs)
 
 lazy val commonSettings = sharedCommonSettings ++ scalacAllSettings ++ Seq(
   developers := List(Developer("Kailuo Wang", "@kailuowang", "kailuo.wang@gmail.com", new java.net.URL("http://kailuowang.com"))),
-
   parallelExecution in Test := false,
   crossScalaVersions := Seq(libs.vers("scalac_2.11"), scalaVersion.value),
   scalacOptions in Test ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code")))
