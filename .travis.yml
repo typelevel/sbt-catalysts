@@ -10,4 +10,4 @@ cache:
   - $HOME/.sbt/boot/
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION clean compile scripted
+  - sbt ++$TRAVIS_SCALA_VERSION clean test:compile scripted
