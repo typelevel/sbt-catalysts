@@ -22,7 +22,7 @@ object `package` {
     .add(name = "mouse",            version = "0.22",   org = typeLevelOrg)
     .add(name = "machinist",        version = "0.6.8",  org = typeLevelOrg)
     .add(name = "macro-compat",     version = "1.1.1",  org = typeLevelOrg)
-    .add(name = "monocle",          version = "1.6.0",  org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
+    .add(name = "monocle",          version = "1.5.1-cats",  org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
     .add(name = "newtype",          version = "0.4.3",  org = "io.estatico")
     .add(name = "refined",          version = "0.9.8",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
     .add(name = "scalacheck",       version = "1.14.0", org = "org.scalacheck")
