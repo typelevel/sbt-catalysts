@@ -3,7 +3,7 @@ organization := "org.typelevel"
 name := "sbt-catalysts"
 description := "SBT plugin for Catalysts"
 
-libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.27"
+libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.28"
 enablePlugins(SbtPlugin)
 addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"               % "0.4.2")
 addSbtPlugin("com.github.gseitz"   %  "sbt-release"              % "1.0.11")
