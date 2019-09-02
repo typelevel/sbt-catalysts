@@ -16,7 +16,7 @@ addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.6.0")
 addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                  % "1.0.0")
 addSbtPlugin("org.portable-scala"  %  "sbt-scalajs-crossproject" % "0.6.1")
 addSbtPlugin("org.scala-js"        %  "sbt-scalajs"              % "0.6.28")
-addSbtPlugin("com.47deg"           %  "sbt-microsites"           % "0.9.3")
+addSbtPlugin("com.47deg"           %  "sbt-microsites"           % "0.9.4")
 addSbtPlugin("org.tpolecat"        % "tut-plugin"                % "0.6.12")
 addSbtPlugin("io.get-coursier"     %  "sbt-coursier"             % "1.0.3")
 
