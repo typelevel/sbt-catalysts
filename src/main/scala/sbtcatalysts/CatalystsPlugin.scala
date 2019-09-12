@@ -376,9 +376,9 @@ trait CatalystsBase {
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("+publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommand("sonatypeBundleRelease"),
     pushChanges)
 
   def insertReleaseStep(step: ReleaseStep, before: ReleaseStep, steps: Seq[ReleaseStep] = sharedReleaseSteps): Seq[ReleaseStep] = {
