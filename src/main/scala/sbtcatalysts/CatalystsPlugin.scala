@@ -1,5 +1,6 @@
 package sbtcatalysts
 
+import xerial.sbt.Sonatype.autoImport._
 import sbt.{Def, _}
 import Keys.{name, _}
 import com.typesafe.sbt.pgp.PgpKeys
@@ -376,9 +377,9 @@ trait CatalystsBase {
     commitReleaseVersion,
     tagRelease,
     releaseStepCommandAndRemaining("+publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
     setNextVersion,
     commitNextVersion,
-    releaseStepCommand("sonatypeBundleRelease"),
     pushChanges)
 
   def insertReleaseStep(step: ReleaseStep, before: ReleaseStep, steps: Seq[ReleaseStep] = sharedReleaseSteps): Seq[ReleaseStep] = {
