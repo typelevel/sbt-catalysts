@@ -1,5 +1,6 @@
 package sbtcatalysts
 
+import xerial.sbt.Sonatype.autoImport._
 import sbt.{Def, _}
 import Keys.{name, _}
 import com.typesafe.sbt.pgp.PgpKeys
