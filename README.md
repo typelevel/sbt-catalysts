@@ -1,6 +1,7 @@
 # sbt-catalysts
 
 [![Join the chat at https://gitter.im/typelevel/sbt-catalysts](https://badges.gitter.im/typelevel/sbt-catalysts.svg)](https://gitter.im/typelevel/sbt-catalysts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/typelevel/sbt-catalysts.svg?branch=master)](https://travis-ci.org/typelevel/sbt-catalysts)
 
 Sbt plugin that provides a common build infrastructure and library dependencies for typelevel-like and 
 similar cross platform projects. 
