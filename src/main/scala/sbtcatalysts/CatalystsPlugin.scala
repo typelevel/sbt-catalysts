@@ -303,7 +303,7 @@ trait CatalystsBase {
    */
   lazy val sharedCommonSettings = Seq(
     resolvers ++= Seq(
-      Resolver.sonatypeRepo("releases")
+      Resolver.sonatypeRepo("public")
     ),
     updateOptions := updateOptions.value.withCachedResolution(true),
     travisBuild := scala.sys.env.get("TRAVIS").isDefined
