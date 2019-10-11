@@ -26,7 +26,7 @@ object `package` {
     .add(name = "newtype",          version = "0.4.3",  org = "io.estatico")
     .add(name = "refined",          version = "0.9.10",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
     .add(name = "scalacheck",       version = "1.14.2", org = "org.scalacheck")
-    .add(name = "scalatest",        version = "3.1.0-SNAP13",  org = "org.scalatest")
+    .add(name = "scalatest",        version = "3.1.0-RC3",  org = "org.scalatest")
     .add(name = "scodec",           version = "1.11.4", org = "org.scodec", "scodec-core")
     .add(name = "shapeless",        version = "2.3.3",  org = "com.chuusai")
     .add(name = "simulacrum",       version = "1.0.0", org = "org.typelevel")
