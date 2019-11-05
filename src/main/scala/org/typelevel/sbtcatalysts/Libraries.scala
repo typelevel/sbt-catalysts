@@ -48,6 +48,12 @@ case class Libraries(vers: VersionsType = Map(),
       .add(name, librarySupport)
       .copy(libs = libs ++ modules.map(module => module -> (name, org, module)).toMap)
 
+  def addModule(name: String,  modules: String*): Libraries = {
+    val org = libs.collectFirst { case (_, (n, org, _)) if name == n => org }.getOrElse(throw new Exception(name + " is not found in the libs"))
+    copy(libs = libs ++ modules.map(module => module -> (name, org, module)).toMap)
+  }
+
+
   def addScalacPlugin(name: String, version: String, org: String, crossVersion: CrossVersion) =
     copy(plugs = plugs + (name -> (name, org, name, crossVersion)), vers = vers + (name -> version))
 
