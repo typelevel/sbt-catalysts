@@ -19,7 +19,7 @@ object `package` {
     .add(name = "fs2" ,             version = "2.1.0",  org = "co.fs2", modules = "fs2-core", "fs2-io", "fs2-reactive-streams")
     .add(name = "http4s" ,          version = "0.20.15", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client", "http4s-play-json", "http4s-circe")
     .add(name = "kittens",          version = "2.0.0",  org = typeLevelOrg)
-    .add(name = "mouse",            version = "0.23",   org = typeLevelOrg)
+    .add(name = "mouse",            version = "0.24",   org = typeLevelOrg)
     .add(name = "machinist",        version = "0.6.8",  org = typeLevelOrg)
     .add(name = "macro-compat",     version = "1.1.1",  org = typeLevelOrg)
     .add(name = "monocle",          version = "1.5.1-cats",  org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
