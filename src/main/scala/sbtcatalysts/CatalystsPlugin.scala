@@ -634,8 +634,7 @@ trait CatalystsBase {
          "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
          "-diagrams"
        ),
-       git.remoteRepo := gh.repo,
-       includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md")
+       git.remoteRepo := gh.repo
 
 }
 
