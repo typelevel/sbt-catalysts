@@ -635,6 +635,7 @@ trait CatalystsBase {
          "-diagrams"
        ),
        git.remoteRepo := gh.repo
+     )
 
 }
 
