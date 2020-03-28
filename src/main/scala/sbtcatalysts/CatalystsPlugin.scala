@@ -3,8 +3,8 @@ package sbtcatalysts
 import xerial.sbt.Sonatype.autoImport._
 import sbt.{Def, _}
 import Keys.{name, _}
-import com.typesafe.sbt.pgp.PgpKeys
-import com.typesafe.sbt.pgp.PgpKeys.publishSigned
+import com.jsuereth.sbtpgp.PgpKeys
+import com.jsuereth.sbtpgp.PgpKeys.publishSigned
 import com.typesafe.sbt.SbtSite.SiteKeys._
 import com.typesafe.sbt.site.SitePlugin.autoImport._
 import com.typesafe.sbt.SbtGit._
