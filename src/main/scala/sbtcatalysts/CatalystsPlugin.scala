@@ -19,7 +19,7 @@ import sbtunidoc.BaseUnidocPlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseTransformations._
 import org.scalajs.sbtplugin.ScalaJSPlugin
-import ScalaJSPlugin.autoImport.{CrossType => DeprecatedCT, _}
+import ScalaJSPlugin.autoImport._
 import microsites.MicrositesPlugin.autoImport._
 import scoverage.ScoverageKeys
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
@@ -34,38 +34,38 @@ import sbtcatalysts.CatalystsPlugin.autoImport.{addCompileLibs, paradiseSettings
 /**
  * Plugin that automatically brings into scope all predefined val's and method
  * definitions.
- * 
+ *
  * It is very important to realise that using the plugin does not actually change the
  * the build in any way, but merely provides the methods to help create a build.sbt.
- * 
+ *
  * Compared to a plugin that "does everything", the advantage of this approach is that it is far
  * easier to use other functionality where appropriate and also to "see" what the build is
  * is actually doing, as the methods are (mainly) just pure SBT methods.
- * 
+ *
  * Where we do deviate from "pure" SBT is how we define library dependencies. The norm would be:
- * 
+ *
  * In a small project, define the library dependencies explicitly:
- * 
+ *
  *    libraryDependencies += "org.typelevel" %% "alleycats" %  "0.1.0"
- * 
+ *
  * If another sub-project also has this dependency, it's common to move the definition to a val, and
- * often the version too. If the library is used in another module for test only, another val is 
+ * often the version too. If the library is used in another module for test only, another val is
  * required:
- * 
+ *
  *      val alleycatsV = "0.1.0"
  *      val alleycatsDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV)
  *      val alleycatsTestDeps = Seq(libraryDependencies += "org.typelevel" %% "alleycats" % alleycatsV % "test")
- * 
+ *
  * Whilst this works fine for individual projects, it's not ideal when a group of loosely coupled want
  * to share a common set (or sets) of dependencies, that they can also modify locally if required.
  * In this sense, we need "cascading configuration dependency files" and this is what this plugin also
  * provides.
- * 
+ *
  * "org.typelevel.dependencies" provides two Maps, one for library versions the the for individual libraries
  * with their organisation, name and version. Being standard scala Maps, other dependency Maps can be added
  * with new or updated dependencies. The same applies for scala plugins. To use, we create the three Maps and
  * add to a combined container and then add the required dependencies to a module: eg
- * 
+ *
  *     val vers = typelevel.versions ++ catalysts.versions + ("discipline" -> "0.3")
  *     val libs = typelevel.libraries ++ catalysts.libraries
  *     val addins = typelevel.scalacPlugins ++ catalysts.scalacPlugins
@@ -317,9 +317,7 @@ trait CatalystsBase {
   lazy val sharedJsSettings = Seq(
     scalaJSStage in Global := FastOptStage,
     parallelExecution := false,
-    jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
-    // batch mode decreases the amount of memory needed to compile scala.js code
-    scalaJSOptimizerOptions := scalaJSOptimizerOptions.value.withBatchMode(travisBuild.value)
+    jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
   )
 
   /**
