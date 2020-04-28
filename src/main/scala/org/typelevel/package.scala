@@ -31,13 +31,13 @@ object `package` {
     .add(name = "shapeless",        version = "2.3.3",  org = "com.chuusai")
     .add(name = "simulacrum",       version = "1.0.0", org = "org.typelevel")
     .add(name = "specs2",           version = "4.9.4",  org = "org.specs2", "specs2-core", "specs2-scalacheck", "specs2-mock")
-    .add(name = "scalac"   ,        version = "2.12.10")
-    .add(name = "scalac_2.13",      version = "2.13.0")
-    .add(name = "scalac_2.12",      version = "2.12.10")
+    .add(name = "scalac"   ,        version = "2.12.11")
+    .add(name = "scalac_2.13",      version = "2.13.2")
+    .add(name = "scalac_2.12",      version = "2.12.11")
     .add(name = "scalac_2.11",      version = "2.11.12")
     .add(name = "scalac_2.10",      version = "2.10.7")
     .addScalacPlugin(name = "kind-projector", version = "0.10.3",  org = typeLevelOrg, crossVersion = CrossVersion.binary )
-    .addScalacPlugin(name = "paradise",       version = "2.1.0", org = "org.scalamacros", crossVersion = CrossVersion.full )
+    .addScalacPlugin(name = "paradise",       version = "2.1.1", org = "org.scalamacros", crossVersion = CrossVersion.full )
 
 }
 
