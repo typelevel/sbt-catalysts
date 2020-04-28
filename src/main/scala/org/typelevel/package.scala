@@ -37,7 +37,7 @@ object `package` {
     .add(name = "scalac_2.11",      version = "2.11.12")
     .add(name = "scalac_2.10",      version = "2.10.7")
     .addScalacPlugin(name = "kind-projector", version = "0.10.3",  org = typeLevelOrg, crossVersion = CrossVersion.binary )
-    .addScalacPlugin(name = "paradise",       version = "2.1.0", org = "org.scalamacros", crossVersion = CrossVersion.full )
+    .addScalacPlugin(name = "paradise",       version = "2.1.1", org = "org.scalamacros", crossVersion = CrossVersion.full )
 
 }
 
