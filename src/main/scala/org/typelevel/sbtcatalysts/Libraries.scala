@@ -41,7 +41,7 @@ case class Libraries(vers: VersionsType = Map(),
     add(name, version, org, LibrarySupport.ScalaJVM, modules:_*)
 
   def addJava(name: String, version: String, org: String, modules: String*): Libraries =
-    add(name, version, org, LibrarySupport.ScalaJVM, modules:_*)
+    add(name, version, org, LibrarySupport.Java, modules:_*)
 
   def add(name: String, version: String, org: String, librarySupport: LibrarySupport, modules: String*): Libraries =
     add(name, version)
