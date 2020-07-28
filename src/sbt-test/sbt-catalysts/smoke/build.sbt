@@ -34,7 +34,7 @@ lazy val coreM   = module("core", CrossType.Pure)
   .settings(
     libs.dependencies("cats-core", "newtype"),
     libs.testDependencies("scalacheck-shapeless_1.13", "scalatest"),
-    simulacrumSettings(libs, false)
+    simulacrumSettings(libs)
   )
 
 lazy val buildSettings = sharedBuildSettings(gh, libs)

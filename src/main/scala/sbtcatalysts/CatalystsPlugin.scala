@@ -463,15 +463,9 @@ trait CatalystsBase {
 
   /**
    * add simulacrum settings,
-   * @param compileTimeOnly make the dependency compile time only but may affect IntelliJ IDEA's simularcrum support (might be fixed post v2017.3)
    */
-  def simulacrumSettings(v: Libraries, compileTimeOnly: Boolean = true) = paradiseSettings(v) ++ macroAnnotationsSettings ++ {
-    if(compileTimeOnly)
-      org.typelevel.libraries.dependency("simulacrum", Some(CompileTime.name)) ++ Seq(
-       ivyConfigurations += CompileTime,
-       unmanagedClasspath in Compile ++= update.value.select(configurationFilter(CompileTime.name))
-    ) else
-      org.typelevel.libraries.dependency("simulacrum", Some(Provided.name))
+  def simulacrumSettings(v: Libraries) = paradiseSettings(v) ++ macroAnnotationsSettings ++ {
+    org.typelevel.libraries.dependency("simulacrum", Some(Provided.name))
   }
 
 
