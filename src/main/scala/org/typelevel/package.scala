@@ -9,7 +9,7 @@ object `package` {
   val typeLevelOrg = "org.typelevel"
   val libraries = Libraries()
     .add(name = "algebra",          version = "2.0.1",  org = typeLevelOrg, "algebra", "algebra-laws")
-    .add(name = "discipline-core",  version = "1.0.2", org = typeLevelOrg)
+    .add(name = "discipline-core",  version = "1.0.3", org = typeLevelOrg)
     .add(name = "catalysts",        version = "0.8",    org = typeLevelOrg, "catalysts-checklite", "catalysts-lawkit", "catalysts-macros", "catalysts-platform", "catalysts-scalatest", "catalysts-specbase", "catalysts-speclite", "catalysts-specs2", "catalysts-testkit")
     .add(name = "cats",             version = "2.1.1",org = typeLevelOrg, "cats-core", "cats-kernel", "cats-free", "cats-laws", "cats-macros", "cats-testkit", "alleycats-core")
     .add(name = "cats-effect",      version = "2.1.4",org = typeLevelOrg, "cats-effect", "cats-effect-laws")
