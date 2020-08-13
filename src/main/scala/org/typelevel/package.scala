@@ -30,7 +30,7 @@ object `package` {
     .add(name = "scodec",           version = "1.11.7", org = "org.scodec", "scodec-core")
     .add(name = "shapeless",        version = "2.3.3",  org = "com.chuusai")
     .add(name = "simulacrum",       version = "1.0.0", org = "org.typelevel")
-    .add(name = "specs2",           version = "4.10.2",  org = "org.specs2", "specs2-core", "specs2-scalacheck", "specs2-mock")
+    .add(name = "specs2",           version = "4.10.3",  org = "org.specs2", "specs2-core", "specs2-scalacheck", "specs2-mock")
     .add(name = "scalac"   ,        version = "2.12.11")
     .add(name = "scalac_2.13",      version = "2.13.3")
     .add(name = "scalac_2.12",      version = "2.12.12")
