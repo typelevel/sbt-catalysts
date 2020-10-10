@@ -1,5 +1,5 @@
 # check if the file gets created
 > project coreJVM
 > compile
-> project smoke
-> publishLocal
+> rootJS/publishLocal
+> rootJVM/publishLocal
