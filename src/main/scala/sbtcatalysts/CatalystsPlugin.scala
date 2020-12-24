@@ -10,8 +10,6 @@ import com.typesafe.sbt.site.SitePlugin.autoImport._
 import com.typesafe.sbt.SbtGit._
 import com.typesafe.sbt.sbtghpages.GhpagesPlugin
 import com.typesafe.sbt.sbtghpages.GhpagesPlugin.autoImport._
-import tut.TutPlugin
-import tut.TutPlugin.autoImport._
 import pl.project13.scala.sbt.SbtJmh._
 import sbtunidoc.ScalaUnidocPlugin
 import sbtunidoc.ScalaUnidocPlugin.autoImport._
@@ -611,7 +609,6 @@ trait CatalystsBase {
     .settings(jvmSettings)
     .dependsOn(deps.map( ClasspathDependency(_, Some("compile;test->test"))):_*)
     .enablePlugins(GhpagesPlugin)
-    .enablePlugins(TutPlugin)
     .enablePlugins(ScalaUnidocPlugin)
     .settings(
        organization  := gh.organisation,
@@ -620,7 +617,6 @@ trait CatalystsBase {
        docsMappingsAPIDir := "api",
        addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir),
        ghpagesNoJekyll := false,
-       scalacOptions in Tut --= Seq("-Ywarn-unused-import", "-Ywarn-unused:imports", "-Ywarn-dead-code"),
        scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
          "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
          "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
