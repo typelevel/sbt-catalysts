@@ -24,7 +24,7 @@ object `package` {
     .add(name = "macro-compat",     version = "1.1.1",  org = typeLevelOrg)
     .add(name = "monocle",          version = "2.1.0",  org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
     .add(name = "newtype",          version = "0.4.4",  org = "io.estatico")
-    .add(name = "refined",          version = "0.9.19",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
+    .add(name = "refined",          version = "0.9.20",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
     .add(name = "scalacheck",       version = "1.15.2", org = "org.scalacheck")
     .add(name = "scalatest",        version = "3.2.3",  org = "org.scalatest")
     .add(name = "scodec",           version = "1.11.7", org = "org.scodec", "scodec-core")
