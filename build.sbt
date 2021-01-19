@@ -7,7 +7,7 @@ libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.30"
 enablePlugins(SbtPlugin)
 addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"               % "0.4.3")
 addSbtPlugin("com.github.gseitz"   %  "sbt-release"              % "1.0.13")
-addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.8")
+addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.9")
 addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"             % "3.9.5")
 addSbtPlugin("com.jsuereth"        %  "sbt-pgp"                  % "2.1.1")
 addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.0")
