@@ -13,7 +13,7 @@ object `package` {
     .add(name = "catalysts",        version = "0.8",    org = typeLevelOrg, "catalysts-checklite", "catalysts-lawkit", "catalysts-macros", "catalysts-platform", "catalysts-scalatest", "catalysts-specbase", "catalysts-speclite", "catalysts-specs2", "catalysts-testkit")
     .add(name = "cats",             version = "2.4.1",org = typeLevelOrg, "cats-core", "cats-kernel", "cats-free", "cats-laws", "cats-testkit", "alleycats-core")
     .add(name = "cats-effect",      version = "2.3.1",org = typeLevelOrg, "cats-effect", "cats-effect-laws")
-    .add(name = "cats-mtl",         version = "1.1.1",  org = typeLevelOrg, "cats-mtl", "cats-mtl-laws")
+    .add(name = "cats-mtl",         version = "1.1.2",  org = typeLevelOrg, "cats-mtl", "cats-mtl-laws")
     .add(name = "cats-tagless",     version = "0.12",    org = typeLevelOrg, "cats-tagless-core", "cats-tagless-laws", "cats-tagless-macros")
     .add(name = "cats-collections", version = "0.9.1",  org = typeLevelOrg, "cats-collections-core")
     .add(name = "fs2" ,             version = "2.5.0",  org = "co.fs2", modules = "fs2-core", "fs2-io", "fs2-reactive-streams")
