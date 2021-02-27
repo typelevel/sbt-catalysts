@@ -22,7 +22,7 @@ scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
-scalaVersion := "2.12.12"
+scalaVersion := "2.12.13"
 
 scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@github.com:inthenow/sbt-catalysts.git"))
 
