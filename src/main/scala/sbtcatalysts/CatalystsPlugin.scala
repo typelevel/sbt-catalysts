@@ -252,48 +252,6 @@ trait CatalystsBase {
     case _ => false
   }
 
-  /** Common scalac options useful to most (if not all) projects.*/
-  lazy val scalacCommonOptions = Seq(
-    "-deprecation",
-    "-encoding", "UTF-8",
-    "-feature",
-    "-unchecked"
-  )
-
-  /** Scalac options for additional language options.*/
-  lazy val scalacLanguageOptions = Seq(
-    "-language:existentials",
-    "-language:higherKinds",
-    "-language:implicitConversions",
-    "-language:experimental.macros"
-  )
-
-  /** Scalac strict compilation options.*/
-  lazy val scalacStrictOptions = Seq(
-    "-Xfatal-warnings",
-    "-Ywarn-dead-code",
-    "-Ywarn-numeric-widen",
-    "-Ywarn-value-discard"
-  )
-
- lazy val scalacStrictOptions2_12 = Seq(
-   "-Yno-adapted-args",
-   "-Xfuture"
- )
-
-  /** Combines all scalac options.*/
-  lazy val scalacAllOptions: Seq[String] = scalacCommonOptions ++ scalacLanguageOptions ++ scalacStrictOptions
-
-  def scalacAllOptionsFor(scalaVersion: String): Seq[String] = scalacAllOptions ++ {
-    if(priorTo2_13(scalaVersion)) scalacStrictOptions2_12 else Nil
-  }
-
-  /** all scalac options as a settings including the partialUnification and xlint **/
-  lazy val scalacAllSettings: Seq[Setting[_]] = Seq(
-    scalacOptions ++= scalacAllOptionsFor(scalaVersion.value)
-  ) ++ partialUnificationSettings ++ xlintSettings ++ warnUnusedImport
-
-
   /**
    * Settings common to all projects.
    *
@@ -413,22 +371,6 @@ trait CatalystsBase {
     },
   )
 
-  /** Add the "unused import" warning to scala 2.11+, but not for the console.*/
-  lazy val warnUnusedImport = Seq(
-    scalacOptions ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 10)) =>
-          Seq()
-        case Some((2, 11)) =>
-          Seq("-Ywarn-unused-import")
-        case Some((2, n)) if n >= 12 =>
-          Seq("-Ywarn-unused:imports")
-
-      }
-    },
-    scalacOptions in (Compile, console) -= "-Ywarn-unused-import",
-    scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
-  )
 
   /** Adds the credential settings required for sonatype releases.*/
   lazy val credentialSettings = Seq(
@@ -437,24 +379,6 @@ trait CatalystsBase {
       username <- Option(System.getenv().get("SONATYPE_USERNAME"))
       password <- Option(System.getenv().get("SONATYPE_PASSWORD"))
     } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
-  )
-
-  lazy val xlintSettings = Seq(
-    scalacOptions += {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 12)) => "-Xlint:-unused,_"  //Xlint:unused warn against unused implicit evidence
-        case _ => "-Xlint"
-      }
-    }
-  )
-
-  lazy val partialUnificationSettings = Seq(
-    scalacOptions ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 11 | 12)) => Seq("-Ypartial-unification")
-        case _ => Nil  //Xling:unused warn against unused implicit evidence
-      }
-    }
   )
 
   lazy val CompileTime = config("compile-time").hide
