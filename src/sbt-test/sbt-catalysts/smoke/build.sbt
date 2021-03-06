@@ -39,7 +39,7 @@ lazy val coreM   = module("core", CrossType.Pure)
 
 lazy val buildSettings = sharedBuildSettings(gh, libs)
 
-lazy val commonSettings = sharedCommonSettings ++ scalacAllSettings ++ Seq(
+lazy val commonSettings = sharedCommonSettings ++ Seq(
   developers := List(Developer("Kailuo Wang", "@kailuowang", "kailuo.wang@gmail.com", new java.net.URL("http://kailuowang.com"))),
   parallelExecution in Test := false,
   crossScalaVersions := Seq(libs.vers("scalac_2.11"), scalaVersion.value),
