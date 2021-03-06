@@ -81,7 +81,6 @@ We define a project that:
 - Has a root project configured as an umbrella project for JVM/JS builds for multiple scala versions
 - Has two sub-projects(modules) that cross compile to JVM and JS
 - Use the standard typelevel set of dependencies and versions
-- Provides best-practice scalac options
 - Publishes regular snapshots as well as git-versioned immutable snapshots
 - Sets the root project's console settings to include the required dependencies
 - Includes Scoverage test coverage metrics
@@ -148,7 +147,7 @@ lazy val buildSettings = sharedBuildSettings(gh, vAll)
 lazy val commonSettings = sharedCommonSettings ++ Seq(
   parallelExecution in Test := false,
   developers := List(Developer("Kailuo Wang", "@kailuowang", "kailuo.wang@gmail.com", new java.net.URL("http://kailuowang.com")))
-) ++ scalacAllSettings ++ unidocCommonSettings
+) ++ unidocCommonSettings
 
 lazy val commonJsSettings = Seq(scalaJSStage in Global := FastOptStage)
 
