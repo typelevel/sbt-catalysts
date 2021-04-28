@@ -1,6 +1,7 @@
 # sbt-catalysts
 
 [![Continuous Integration](https://github.com/typelevel/sbt-catalysts/actions/workflows/ci.yml/badge.svg)](https://github.com/typelevel/sbt-catalysts/actions/workflows/ci.yml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.typelevel/sbt-catalyst_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.typelevel/sbt-catalyst_2.12)
 
 Sbt plugin that provides a common build infrastructure and library dependencies for typelevel-like and 
 similar cross platform projects. 
