@@ -39,7 +39,8 @@ inThisBuild(List(
       "kailuo.wang@gmail.com",
       url("https://kailuowang.com")
     )
-  )
+  ),
+  versionScheme := Some("semver-spec")
 ))
 scriptedBufferLog := false
 
