@@ -1,37 +1,46 @@
 
-organization := "org.typelevel"
 name := "sbt-catalysts"
 description := "SBT plugin for Catalysts"
 
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.30"
 enablePlugins(SbtPlugin)
 addSbtPlugin("com.eed3si9n"        %  "sbt-unidoc"               % "0.4.3")
+
 addSbtPlugin("com.github.sbt"      %  "sbt-release"              % "1.0.15")
-addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.9")
-addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"             % "3.9.7")
 addSbtPlugin("com.github.sbt"      %  "sbt-pgp"                  % "2.1.2")
+addSbtPlugin("org.xerial.sbt"      %  "sbt-sonatype"             % "3.9.7")
+addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                  % "1.0.0")
+
+addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.9")
+
 addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.0")
 addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"    % "1.0.0")
 addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.6.1")
-addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                  % "1.0.0")
+
 addSbtPlugin("org.portable-scala"  %  "sbt-scalajs-crossproject" % "1.0.0")
 addSbtPlugin("org.scala-js"        %  "sbt-scalajs"              % "1.5.1")
 addSbtPlugin("com.47deg"           %  "sbt-microsites"           % "1.3.4")
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat"        % "0.1.17")
-scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
-licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
+scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
 scalaVersion := "2.12.13"
 
-scmInfo := Some(ScmInfo(url("https://github.com/inthenow/sbt-catalysts"), "git@github.com:inthenow/sbt-catalysts.git"))
+scmInfo := Some(ScmInfo(url("https://github.com/typelevel/sbt-catalysts"), "git@github.com:typelevel/sbt-catalysts.git"))
 
-publishMavenStyle := false
-bintrayRepository := "sbt-plugins"
-
-
-bintrayOrganization := Some("typelevel")
-
+inThisBuild(List(
+  organization := "org.typelevel",
+  homepage := Some(url("https://github.com/typelevel/sbt-catalysts")),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "kailuowang",
+      "Kailuo Wang",
+      "kailuo.wang@gmail.com",
+      url("https://kailuowang.com")
+    )
+  )
+))
 scriptedBufferLog := false
 
 scriptedLaunchOpts :=  Seq(
