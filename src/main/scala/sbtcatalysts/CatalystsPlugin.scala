@@ -543,7 +543,7 @@ trait CatalystsBase {
        ghpagesNoJekyll := false,
        ScalaUnidoc / unidoc / scalacOptions ++= Seq(
          "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
-         "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
+         "-sourcepath", (LocalRootProject / baseDirectory).value.getAbsolutePath,
          "-diagrams"
        ),
        git.remoteRepo := gh.repo
