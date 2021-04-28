@@ -154,7 +154,7 @@ trait CatalystsBase {
   // Common and shared setting
   /** Settings to make the module not published*/
   lazy val noPublishSettings = Seq(
-    skip in publish := true
+    publish / skip := true
   )
 
   /**
@@ -184,8 +184,8 @@ trait CatalystsBase {
    */
   lazy val crossVersionSharedSources: Seq[Setting[_]] =
     Seq(Compile, Test).map { sc =>
-      (unmanagedSourceDirectories in sc) ++= {
-        (unmanagedSourceDirectories in sc).value.map { dir =>
+      (sc / unmanagedSourceDirectories) ++= {
+        (sc / unmanagedSourceDirectories).value.map { dir =>
           new File(s"${dir.getPath}-${scalaVersionMajor.value}.${scalaVersionMinor}")
 
         }
@@ -271,7 +271,7 @@ trait CatalystsBase {
    * Forces the use of node.js in tests and batchmode under travis
    */
   lazy val sharedJsSettings = Seq(
-    scalaJSStage in Global := FastOptStage,
+    Global / scalaJSStage := FastOptStage,
     parallelExecution := false,
     jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
   )
@@ -307,7 +307,7 @@ trait CatalystsBase {
     scmInfo :=  Some(ScmInfo(url(gh.home), "scm:git:" + gh.repo)),
     apiURL := Some(url(gh.api)),
     publishMavenStyle := true,
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     pomIncludeRepository := Function.const(false),
     publishTo := sonatypePublishToBundle.value,
     autoAPIMappings := true
@@ -361,7 +361,7 @@ trait CatalystsBase {
 
   /** Common unidoc settings, adding the "-Ymacro-no-expand" scalac option.*/
   lazy val unidocCommonSettings = Seq(
-    scalacOptions in (ScalaUnidoc, unidoc) +=  {
+    ScalaUnidoc / unidoc / scalacOptions +=  {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, n)) if n >= 12 =>
           "-Ymacro-expand:none"
@@ -488,7 +488,7 @@ trait CatalystsBase {
     .settings(rootSettings)
     .settings(projSettings)
     .settings(crossScalaVersions := Nil)
-    .settings(console := (console in (projJVM, Compile)).value)
+    .settings(console := (projJVM / Compile / console).value)
 
   /**
    * Creates the rootJVM project.
@@ -537,11 +537,11 @@ trait CatalystsBase {
     .settings(
        organization  := gh.organisation,
        autoAPIMappings := true,
-       unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(deps.map(_.project)  :_*),
+       ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(deps.map(_.project)  :_*),
        docsMappingsAPIDir := "api",
-       addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docsMappingsAPIDir),
+       addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, docsMappingsAPIDir),
        ghpagesNoJekyll := false,
-       scalacOptions in (ScalaUnidoc, unidoc) ++= Seq(
+       ScalaUnidoc / unidoc / scalacOptions ++= Seq(
          "-doc-source-url", scmInfo.value.get.browseUrl + "/tree/master€{FILE_PATH}.scala",
          "-sourcepath", baseDirectory.in(LocalRootProject).value.getAbsolutePath,
          "-diagrams"
