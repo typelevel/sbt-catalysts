@@ -1,6 +1,3 @@
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.6.1")
-
-addSbtPlugin("com.github.sbt"        % "sbt-release"             % "1.0.15")
-
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
 
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.3")
