@@ -13,7 +13,7 @@ addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                  % "1.0.0")
 
 addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.9")
 
-addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.0")
+addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.1")
 addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"    % "1.0.0")
 addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.8.0")
 
