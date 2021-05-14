@@ -16,7 +16,7 @@ object `package` {
     .add(name = "cats-mtl",         version = "1.2.1",  org = typeLevelOrg, "cats-mtl", "cats-mtl-laws")
     .add(name = "cats-tagless",     version = "0.14.0",    org = typeLevelOrg, "cats-tagless-core", "cats-tagless-laws", "cats-tagless-macros")
     .add(name = "cats-collections", version = "0.9.2",  org = typeLevelOrg, "cats-collections-core")
-    .add(name = "fs2" ,             version = "2.5.5",  org = "co.fs2", modules = "fs2-core", "fs2-io", "fs2-reactive-streams")
+    .add(name = "fs2" ,             version = "2.5.6",  org = "co.fs2", modules = "fs2-core", "fs2-io", "fs2-reactive-streams")
     .add(name = "http4s" ,          version = "0.21.22", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client", "http4s-play-json", "http4s-circe", "http4s-twirl", "http4s-core")
     .add(name = "http4s" ,          version = "0.21.22", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client", "http4s-play-json", "http4s-circe")
     .add(name = "kittens",          version = "2.3.1",  org = typeLevelOrg)
