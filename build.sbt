@@ -24,7 +24,7 @@ addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat"        % "0.1.17")
 
 scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
-scalaVersion := "2.12.13"
+scalaVersion := "2.13.6"
 
 scmInfo := Some(ScmInfo(url("https://github.com/typelevel/sbt-catalysts"), "git@github.com:typelevel/sbt-catalysts.git"))
 
