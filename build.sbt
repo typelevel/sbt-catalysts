@@ -13,18 +13,18 @@ addSbtPlugin("com.typesafe.sbt"    %  "sbt-git"                  % "1.0.1")
 
 addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.9")
 
-addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.2")
+addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.3")
 addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"    % "1.0.0")
-addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.8.1")
+addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.8.2")
 
 addSbtPlugin("org.portable-scala"  %  "sbt-scalajs-crossproject" % "1.0.0")
 addSbtPlugin("org.scala-js"        %  "sbt-scalajs"              % "1.5.1")
 addSbtPlugin("com.47deg"           %  "sbt-microsites"           % "1.3.4")
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat"        % "0.1.18")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat"        % "0.1.20")
 
 scalacOptions ++= Seq(Opts.compile.deprecation, "-feature")
 
-scalaVersion := "2.13.6"
+scalaVersion := "2.12.14"
 
 scmInfo := Some(ScmInfo(url("https://github.com/typelevel/sbt-catalysts"), "git@github.com:typelevel/sbt-catalysts.git"))
 
