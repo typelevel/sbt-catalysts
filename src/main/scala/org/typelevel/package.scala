@@ -8,7 +8,7 @@ import sbtcatalysts.Libraries
 object `package` {
   val typeLevelOrg = "org.typelevel"
   val libraries = Libraries()
-    .add(name = "algebra",          version = "2.2.2",  org = typeLevelOrg, "algebra", "algebra-laws")
+    .add(name = "algebra",          version = "2.2.3",  org = typeLevelOrg, "algebra", "algebra-laws")
     .add(name = "discipline-core",  version = "1.1.5", org = typeLevelOrg)
     .add(name = "catalysts",        version = "0.8",    org = typeLevelOrg, "catalysts-checklite", "catalysts-lawkit", "catalysts-macros", "catalysts-platform", "catalysts-scalatest", "catalysts-specbase", "catalysts-speclite", "catalysts-specs2", "catalysts-testkit")
     .add(name = "cats",             version = "2.6.1",org = typeLevelOrg, "cats-core", "cats-kernel", "cats-free", "cats-laws", "cats-testkit", "alleycats-core")
@@ -20,7 +20,7 @@ object `package` {
     .add(name = "http4s" ,          version = "0.21.24", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client", "http4s-play-json", "http4s-circe", "http4s-twirl", "http4s-core")
     .add(name = "http4s" ,          version = "0.21.24", org = "org.http4s", modules = "http4s-dsl", "http4s-blaze-server", "http4s-blaze-client", "http4s-play-json", "http4s-circe")
     .add(name = "kittens",          version = "2.3.2",  org = typeLevelOrg)
-    .add(name = "mouse",            version = "1.0.2",   org = typeLevelOrg)
+    .add(name = "mouse",            version = "1.0.3",   org = typeLevelOrg)
     .add(name = "machinist",        version = "0.6.8",  org = typeLevelOrg)
     .add(name = "macro-compat",     version = "1.1.1",  org = typeLevelOrg)
     .add(name = "monocle",          version = "2.1.0",  org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
