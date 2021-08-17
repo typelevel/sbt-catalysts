@@ -5,7 +5,6 @@ val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.ka
 
 
 val libs = org.typelevel.libraries
-  .addJVM(name = "newtype" , version = "0.4.0", org= "io.estatico")
   .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
 
 
@@ -32,7 +31,7 @@ lazy val coreJVM = coreM.jvm
 lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
   .settings(
-    libs.dependencies("cats-core", "newtype"),
+    libs.dependencies(org.typelevel.libraries.libs.keys.toSeq:_*),  //testing all dependency
     libs.testDependencies("scalacheck-shapeless_1.13", "scalatest"),
     simulacrumSettings(libs)
   )
@@ -41,13 +40,13 @@ lazy val buildSettings = sharedBuildSettings(gh, libs)
 
 lazy val commonSettings = sharedCommonSettings ++ Seq(
   developers := List(Developer("Kailuo Wang", "@kailuowang", "kailuo.wang@gmail.com", new java.net.URL("http://kailuowang.com"))),
-  parallelExecution in Test := false,
+  Test / parallelExecution := false,
   crossScalaVersions := Seq(libs.vers("scalac_2.11"), scalaVersion.value),
-  scalacOptions in Test ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code")))
+  Test / scalacOptions  ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code")))
 )  ++ unidocCommonSettings ++
   addCompilerPlugins(libs, "kind-projector")
 
-lazy val commonJsSettings = Seq(scalaJSStage in Global := FastOptStage)
+lazy val commonJsSettings = Seq(Global / scalaJSStage  := FastOptStage)
 
 lazy val commonJvmSettings = Seq()
 
