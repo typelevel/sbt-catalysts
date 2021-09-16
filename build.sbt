@@ -15,7 +15,7 @@ addSbtPlugin("com.github.tkawachi" %  "sbt-doctest"              % "0.9.9")
 
 addSbtPlugin("pl.project13.scala"  %  "sbt-jmh"                  % "0.4.3")
 addSbtPlugin("org.scalastyle"      %% "scalastyle-sbt-plugin"    % "1.0.0")
-addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.8.2")
+addSbtPlugin("org.scoverage"       %  "sbt-scoverage"            % "1.9.0")
 
 addSbtPlugin("org.portable-scala"  %  "sbt-scalajs-crossproject" % "1.1.0")
 addSbtPlugin("org.scala-js"        %  "sbt-scalajs"              % "1.7.0")
