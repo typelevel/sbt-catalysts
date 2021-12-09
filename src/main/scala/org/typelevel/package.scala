@@ -32,7 +32,7 @@ object `package` {
     .addJVM( name = "pureconfig",      version = "0.16.0", org = "com.github.pureconfig", "pureconfig-cats-effect", "pureconfig-generic")
     .add(name = "refined",          version = "0.9.27",  org = "eu.timepit", "refined", "refined-scalacheck", "refined-scodec")
     .add(name = "scalacheck",       version = "1.15.4", org = "org.scalacheck")
-    .add(name = "scalatest",        version = "3.2.9",  org = "org.scalatest")
+    .add(name = "scalatest",        version = "3.2.10",  org = "org.scalatest")
     .add(name = "scodec",           version = "1.11.8", org = "org.scodec", "scodec-core")
     .add(name = "shapeless",        version = "2.3.7",  org = "com.chuusai")
     .add(name = "simulacrum",       version = "1.0.1", org = "org.typelevel")
