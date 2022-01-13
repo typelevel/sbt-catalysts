@@ -2,7 +2,7 @@
 name := "sbt-catalysts"
 description := "SBT plugin for Catalysts"
 
-libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.32"
+libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.7.33"
 enablePlugins(SbtPlugin)
 addSbtPlugin("com.github.sbt"        %  "sbt-unidoc"               % "0.5.0")
 
