@@ -5,7 +5,6 @@ val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.ka
 
 
 val libs = org.typelevel.libraries
-  .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
 
 
 
@@ -32,7 +31,7 @@ lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
   .settings(
     libs.dependencies(org.typelevel.libraries.libs.keys.toSeq:_*),  //testing all dependency
-    libs.testDependencies("scalacheck-shapeless_1.13", "scalatest"),
+    libs.testDependencies("scalatest"),
     simulacrumSettings(libs)
   )
 
