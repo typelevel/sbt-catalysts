@@ -32,6 +32,7 @@ lazy val coreM   = module("core", CrossType.Pure)
   .settings(
     libs.dependencies(org.typelevel.libraries.libs.keys.toSeq:_*),  //testing all dependency
     libs.testDependencies("scalatest"),
+    dependencyOverrides += "org.scala-lang.modules" % "scala-xml" % "1.3.0",
     simulacrumSettings(libs)
   )
 
@@ -42,6 +43,7 @@ lazy val commonSettings = sharedCommonSettings ++ Seq(
   Test / parallelExecution := false,
   crossScalaVersions := Seq(libs.vers("scalac_2.11"), scalaVersion.value),
   Test / scalacOptions  ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code")))
+
 )  ++ unidocCommonSettings ++
   addCompilerPlugins(libs, "kind-projector")
 
