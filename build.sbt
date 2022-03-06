@@ -50,5 +50,8 @@ scriptedLaunchOpts :=  Seq(
   "-Dplugin.version=" + version.value
 )
 
+excludeDependencies ++= Seq(
+  ExclusionRule("org.scala-lang.modules", "scala-xml")
+)
 //self referencing so that dependencies can be monitored by Scala Steward
 org.typelevel.libraries.testDependencies(org.typelevel.libraries.libs.keys.toSeq:_*)
