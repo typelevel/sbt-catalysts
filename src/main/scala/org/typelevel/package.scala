@@ -26,7 +26,6 @@ object `package` {
     .add(name = "kittens",          version = "2.3.2",  org = typeLevelOrg)
     .add(name = "mouse",            version = "1.0.10",   org = typeLevelOrg)
     .addJVM(name = "machinist",     version = "0.6.8",  org = typeLevelOrg)
-    .addJVM(name = "macro-compat",  version = "1.1.1",  org = typeLevelOrg)
     .add(name = "monocle",          version = "2.1.0",  org = "com.github.julien-truffaut", "monocle-core", "monocle-generic", "monocle-macro", "monocle-state", "monocle-law")
     .add(name = "newtype",          version = "0.4.4",  org = "io.estatico")
     .addJVM( name = "pureconfig",      version = "0.17.1", org = "com.github.pureconfig", "pureconfig-cats-effect", "pureconfig-generic")
