@@ -30,10 +30,7 @@ lazy val coreJVM = coreM.jvm
 lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
   .settings(
-    excludeDependencies ++= Seq(
-      ExclusionRule("org.scala-lang.modules", "scala-xml")
-    ),
-    libs.dependencies(org.typelevel.libraries.libs.keys.toSeq:_*),  //testing all dependency
+    libs.dependencies(org.typelevel.libraries.libs.keys.toSeq.filterNot(_ == "scalatest"):_*),  //testing all dependency
     libs.testDependencies("scalatest"),
     simulacrumSettings(libs)
   )
