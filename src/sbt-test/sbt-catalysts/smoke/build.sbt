@@ -5,7 +5,6 @@ val gh = GitHubSettings(org = "kailuowang", proj = "Sheep", publishOrg = "com.ka
 
 
 val libs = org.typelevel.libraries
-  .addJVM(name = "scalacheck-shapeless_1.13" , version = "1.1.6", org= "com.github.alexarchambault")
 
 
 
@@ -31,8 +30,8 @@ lazy val coreJVM = coreM.jvm
 lazy val coreJS  = coreM.js
 lazy val coreM   = module("core", CrossType.Pure)
   .settings(
-    libs.dependencies(org.typelevel.libraries.libs.keys.toSeq:_*),  //testing all dependency
-    libs.testDependencies("scalacheck-shapeless_1.13", "scalatest"),
+    libs.dependencies(org.typelevel.libraries.libs.keys.toSeq.filterNot(_ == "scalatest"):_*),  //testing all dependency
+    libs.testDependencies("scalatest"),
     simulacrumSettings(libs)
   )
 
@@ -43,6 +42,7 @@ lazy val commonSettings = sharedCommonSettings ++ Seq(
   Test / parallelExecution := false,
   crossScalaVersions := Seq(libs.vers("scalac_2.11"), scalaVersion.value),
   Test / scalacOptions  ~= (_.filterNot(Set("-Ywarn-unused-import", "-Ywarn-dead-code")))
+
 )  ++ unidocCommonSettings ++
   addCompilerPlugins(libs, "kind-projector")
 
